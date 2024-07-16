@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import './App.css'
 import './Animations.css'
+
 import { BrowserRouter , Route, Routes, Link} from 'react-router-dom'
 import { routes } from './routerConfig';
 
@@ -41,9 +42,9 @@ function App() {
           </button>
 
         </div>
-        <aside className='aside' style={State ? { left: '-300px' } : { left: '0px' }}>
+        <aside className='aside_21' style={State ? { left: '-300px' } : { left: '0px' }}>
           <div className='content_aside'>
-            <ul className='lista'>
+            <ul className='lista_Aside'>
               <li><Link className='link_Aside' to='/Home'><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-home">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
@@ -55,7 +56,7 @@ function App() {
                 <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>Lista de usuarios registrados</Link></li>
-              <li><Link className='link_Aside' to='/createUser'><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users">
+              <li><Link  className='link_Aside' to='/createUser'><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
                 <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
@@ -72,7 +73,7 @@ function App() {
           <Route path='/Home' element={<Home></Home>} />
           </Routes> */}
      
-      <Routes>
+      <Routes >
          {
            routes.map((route ,index) => (
              <Route key={index} path={route.path} element={route.component} />
