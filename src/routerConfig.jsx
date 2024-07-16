@@ -1,4 +1,6 @@
-import { Home, ListUsers } from "./Pages";
+import { useParams } from "react-router-dom";
+import { Create_User, Home, ListUsers, UpdateUser} from "./Pages";
+let id ;
 
 export  const routes = [
     {
@@ -8,6 +10,13 @@ export  const routes = [
     {
         path: '/listUsers',
         component: <ListUsers></ListUsers>
+    },
+    {
+        path: '/listUsers/Create',
+        component: <Create_User></Create_User>
+    },{
+        path: "/listUsers/UpdateUser/:id",
+        component: <UpdateUser></UpdateUser>
     }
-
+   
 ]
