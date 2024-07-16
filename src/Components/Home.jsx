@@ -23,13 +23,13 @@ const Home = () => {
           <div  className='content_Card_2'>
 
             <Card_Home titulo={"Titulo_1"} hora={"22:00"} color={"#FFE8A3"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
-            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"#14AE5C"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"green"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"red"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"Blue"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"black"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"grey"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"purple"}></Card_Home>
+            <Card_Home titulo={"Titulo_2"} hora={"13:00"} color={"Yellow"}></Card_Home>
   
 
           
