@@ -174,7 +174,7 @@
   
 }
 
-.search__input:hover, .search__input:focus {
+.search_input:hover, .search_input:focus {
   box-shadow: 0 0 1em #00000013;
 }
 
@@ -188,7 +188,7 @@
   color: #c5c5c5;
 }
 
-.search__input:focus + .search__button {
+.search_input:focus + .search_button {
   background-color: #ffffff;
 }
 
@@ -216,6 +216,7 @@ display: flex;
 flex-direction: column ;
 padding-left:25px;
 padding-right:25px ;
+height: 40%;
 }
 
 .Data{
@@ -268,7 +269,7 @@ padding-right:25px ;
   flex-direction: column;
   background-color: #f3f3f3;
   width: 95%;
-  height: 95%;
+  height: 85vh;
 
   color: rgb(0, 0, 0);
 
@@ -319,7 +320,8 @@ padding-right:25px ;
   grid-template-columns:auto  auto auto auto;
   column-gap: 1px; 
   row-gap: 35px;
-  max-height:370px;  
+ 
+height: 82%;
   overflow-y: auto; 
  background: none;
 }
