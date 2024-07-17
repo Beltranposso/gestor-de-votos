@@ -7,6 +7,7 @@
   font-style: normal;
   text-decoration: none;
   font-size: 16px;
+  overflow: hidden  
 }
 
 .content {
@@ -216,6 +217,14 @@ display: flex;
 flex-direction: column ;
 padding-left:25px;
 padding-right:25px ;
+height: 75%;
+overflow-y: auto;
+  /* Desplazamiento horizontal */
+  scroll-snap-type: none;
+  /* Eje x y desplazamiento obligatorio */
+  scroll-behavior: smooth;
+  /* Desplazamiento suave */
+  -webkit-overflow-scrolling: touch;
 }
 
 .Data{
@@ -268,7 +277,7 @@ padding-right:25px ;
   flex-direction: column;
   background-color: #f3f3f3;
   width: 95%;
-  height: 95%;
+  height: 85vh;
 
   color: rgb(0, 0, 0);
 
@@ -319,7 +328,8 @@ padding-right:25px ;
   grid-template-columns:auto  auto auto auto;
   column-gap: 1px; 
   row-gap: 35px;
-  max-height:370px;  
+ 
+height: 82%;
   overflow-y: auto; 
  background: none;
 }
