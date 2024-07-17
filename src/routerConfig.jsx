@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { Create_User, Home, ListUsers, UpdateUser} from "./Pages";
-let id ;
+import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla} from "./Pages";
+
 
 export  const routes = [
     {
@@ -17,6 +17,10 @@ export  const routes = [
     },{
         path: "/listUsers/UpdateUser/:id",
         component: <UpdateUser></UpdateUser>
+    },{
+       path: "/Creacion",
+       component: <CreacionPlantilla></CreacionPlantilla>
+
     }
    
 ]
