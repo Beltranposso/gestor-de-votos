@@ -1,0 +1,189 @@
+/* Contenedor principal */
+.Content_CreacionPlantilla {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-right: 20px;
+    background-color:  #ffffff;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+  }
+  .content_2{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+   
+     width: 60%;
+     height: 70%;
+     gap:40px;
+  }
+  
+  /* Estilos del título de la encuesta */
+  .survey-title {
+    display: block;
+    width: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 3px;
+    border: none;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1px;
+    background: none;
+    color: black;
+  }
+  
+  /* Estilos de la pregunta */
+  .Pregunta {
+    display: block;
+    width: 40%;
+    font-size: 24px;
+    margin-bottom: 40px;
+    border: none;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1px;
+    color: black;
+    background: none;
+    min-height: 60px;
+  }
+  
+  .options {
+    margin-top: 10px;
+  }
+  
+  .option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .option input[type="text"] {
+    display: block;
+    width: 20%;
+    font-size: 14px;
+    margin-bottom: 23px;
+    border: none;
+    border-bottom: 1.6px solid #000;
+    padding-bottom: 5px;
+    color: black;
+    background: none;
+  }
+  
+  .option input[type="radio"] {
+    margin: 0;
+  }
+  
+  .add-option {
+    display: flex;
+    align-items: center;
+    justify-content:space-between ;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-option input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 10%;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  
+  .remove-question {
+    background: none;
+    border: none;
+    margin-right: 40px;
+    
+  }
+  
+  .question-type {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .question-type select {
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Botón finalizar */
+  .finish-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 550px;
+    /* Posicionamiento */
+  
+   
+   
+}
+  
+  .finish-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Botón agregar pregunta */
+  .add-question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-question:hover {
+    background-color: #f0f0f0;
+  }
+
+  .ContenedorSetPreguntas{
+    padding-left: 20px;
+    max-width: 800px;
+    background-color:  #E6E6E6;
+     width: 100%;
+     height: 70%;
+     border-radius: 15px;
+  }
+
+  .setTitle{
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+background-color:#E6E6E6;
+height: 100px;
+border-radius: 15px;
+
+  }
+  
+  .Controls{
+    display: flex;
+    flex-direction:  column;
+    align-items: center;
+    justify-content: space-around;
+    width: 80px;
+    height: 200px;
+    border-radius: 6px;
+    background-color: #e5e5e5;
+  }
+
+  .buttun_eddit{
+    background: none;
+    border: none;
+  }
