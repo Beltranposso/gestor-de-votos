@@ -117,14 +117,14 @@ const CreacionPlantilla = () => {
                 <div>
                     <button 
                         className={`buttun_eddit ${showFontPicker ? 'selected' : ''}`} 
-                        onClick={() => setShowFontPicker(!showFontPicker)}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width={38} height={38} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-font">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 4v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-16" />
-                            <path d="M10 3v18" />
-                            <path d="M14 3v18" />
-                        </svg>
+                        onClick={() => setShowFontPicker(!showFontPicker)} >
+                       <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-letter-case">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M17.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0" />
+  <path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5" />
+  <path d="M3 13h7" />
+  <path d="M21 12v7" />
+</svg>
                     </button>
                     {showFontPicker && (
                         <div className="dropdown-container">
@@ -184,6 +184,7 @@ const CreacionPlantilla = () => {
                                 {question.options.map((option, optIndex) => (
                                     <div key={optIndex} className="option">
                                         <input 
+                                        className='option_radio'
                                             type="radio" 
                                             name={`question-${question.id}`} 
                                             checked={question.selectedOption === option}
@@ -197,14 +198,14 @@ const CreacionPlantilla = () => {
                                             onChange={e => handleOptionChange(question.id, optIndex, e.target.value)}
                                         />
                                         <button className="remove-option" onClick={() => removeOption(question.id, optIndex)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-trash">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M6 7l12 0" />
-                                                <path d="M9 7v12" />
-                                                <path d="M15 7v12" />
-                                                <path d="M4 7v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-12" />
-                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                            </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-trash">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 7l16 0" />
+                                        <path d="M10 11l0 6" />
+                                        <path d="M14 11l0 6" />
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                    </svg>
                                         </button>
                                     </div>
                                 ))}
@@ -215,11 +216,11 @@ const CreacionPlantilla = () => {
                         </div>
                     ))}
                 </div>
-            </div>
             <div className='Contenedor_Pregunta'>
                 <button className="add-question" onClick={addQuestion}>
                     Agregar otra pregunta +
                 </button>
+            </div>
             </div>
             <button className='finish-button'>Finalizar</button>
         </div>
