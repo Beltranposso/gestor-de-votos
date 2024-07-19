@@ -3,7 +3,7 @@ import './App.css';
 import './Animations.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import { routes } from './routerConfig';
-import logo from './assets/img/Control-360.png'; // Importa la imagen
+import logo from './assets/img/Control-360.png'; 
 
 function App() {
   const [State, Setstate] = useState(true);
@@ -26,7 +26,7 @@ function App() {
               </svg>
             </button>
 
-            <Link to="/Home"> {/* Enlaza la imagen a la ruta /Home */}
+            <Link to="/Home"> 
               <img src={logo} alt="Control 360 Logo" className="header-logo" />
             </Link>
           </div>
