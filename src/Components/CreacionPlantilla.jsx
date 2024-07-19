@@ -1,7 +1,20 @@
 import React from 'react';
 import '../Plantilla.css';
 
+
+
+
+
 const CreacionPlantilla = () => {
+
+
+
+    const URI = 'http://localhost:8000/';
+
+
+
+
+
     return (
         <div className='Content_CreacionPlantilla'>
             <div className='Controls'>
@@ -45,7 +58,7 @@ const CreacionPlantilla = () => {
 
                 
                 <div className='setTitle'>
-
+            
             <input 
                 type="text" 
                 className="survey-title" 
