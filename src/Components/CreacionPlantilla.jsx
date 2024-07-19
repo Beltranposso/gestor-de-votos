@@ -1,12 +1,106 @@
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import '../Plantilla.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
-
+const URI = 'http://localhost:8000/card/';
 
 const CreacionPlantilla = () => {
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const [showFontPicker, setShowFontPicker] = useState(false);
+    const [color, setColor] = useState('#fff');
+    const [font, setFont] = useState('Arial');
+    const [questions, setQuestions] = useState([
+        { id: Date.now(), text: '', options: ['Opción_1', 'Opción_2'], selectedOption: null }
+    ]);
+
+
+    const handleRadioChange = (questionId, option) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.id === questionId ? { ...q, selectedOption: option } : q
+            )
+        );
+    };
+
+    const handleColorChange = (newColor) => {
+        setColor(newColor.hex);
+        setShowColorPicker(false);
+    };
+
+    const handleFontChange = (font) => {
+        setFont(font);
+        setShowFontPicker(false);
+    };
+
+    const addQuestion = () => {
+        setQuestions(prevQuestions => [
+            ...prevQuestions,
+            { id: Date.now(), text: '', options: ['Opción_1', 'Opción_2'], selectedOption: null }
+        ]);
+    };
+
+    const handleQuestionChange = (questionId, text) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.id === questionId ? { ...q, text } : q
+            )
+        );
+    };
+
+    const handleOptionChange = (questionId, index, value) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.id === questionId
+                    ? { ...q, options: q.options.map((opt, i) => (i === index ? value : opt)) }
+                    : q
+            )
+        );
+    };
+
+    const addOption = (questionId) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.id === questionId
+                    ? { ...q, options: [...q.options, `Opción_${q.options.length + 1}`] }
+                    : q
+            )
+        );
+    };
+
+    const removeOption = (questionId, index) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.id === questionId
+                    ? { 
+                        ...q, 
+                        options: q.options.filter((_, i) => i !== index).map((opt, i) => `Opción_${i + 1}`)
+                      }
+                    : q
+            )
+        );
+    };
+
+    const removeQuestion = (questionId) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.filter(q => q.id !== questionId)
+        );
+    };
+  /*   
+   const navigate= useNavigate()
+    const [title,setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const Finalizar = async (e) => {
+         e.preventDefault()
+         await axios.post(URI,{Title:title,Content:content})
+         navigate('/Home')
+
+    } */
+
     return (
         <div className='Content_CreacionPlantilla' style={{ backgroundColor: color }}>
             <div className='Controls'>
@@ -30,30 +124,30 @@ const CreacionPlantilla = () => {
                         </div>
                     )}
                 </div>
-                <div>
-                    <button 
-                        className={`buttun_eddit ${showFontPicker ? 'selected' : ''}`} 
-                        onClick={() => setShowFontPicker(!showFontPicker)}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width={38} height={38} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-font">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 4v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-16" />
-                            <path d="M10 3v18" />
-                            <path d="M14 3v18" />
-                        </svg>
-                    </button>
-                    {showFontPicker && (
-                        <div className="dropdown-container">
-                            <ul className="dropdown-list">
-                                <li onClick={() => handleFontChange('Arial')}>Arial</li>
-                                <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
-                                <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
-                                <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
-                                <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
-                            </ul>
-                        </div>
-                    )}
-                </div>
+<div>
+    <button 
+        className={`buttun_eddit ${showFontPicker ? 'selected' : ''}`} 
+        onClick={() => setShowFontPicker(!showFontPicker)}>
+        <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width={38} 
+            height={38} 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth={2} 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="icon icon-tabler icon-tabler-font"
+        >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M5 4v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-16" />
+            <path d="M10 3v18" />
+            <path d="M14 3v18" />
+        </svg>
+    </button>
+</div>
+
                 <div>
                     <button className='buttun_eddit'>
                         <svg xmlns="http://www.w3.org/2000/svg" width={38} height={38} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-eye">
@@ -66,16 +160,19 @@ const CreacionPlantilla = () => {
             </div>
             <div className='content_2'>
                 <div className='setTitle'>
-
-            <input 
-                type="text" 
-                className="survey-title" 
-                placeholder="Título de la encuesta" 
-            />
+                    <input 
+                        type="text" 
+                        className="survey-title" 
+                        placeholder="Título de la encuesta" 
+                        style={{ fontFamily: font }}
+                        />
                 </div>
                 <div className='content_3' style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {questions.map((question, index) => (
-                        <div key={question.id} className="ContenedorSetPreguntas">
+                   
+
+                   
+                        <div   key={question.id} className="ContenedorSetPreguntas">
                             <div className="question-header">
                                 <input 
                                     type="text" 
@@ -84,6 +181,7 @@ const CreacionPlantilla = () => {
                                     style={{ fontFamily: font }}
                                     value={question.text}
                                     onChange={e => handleQuestionChange(question.id, e.target.value)}
+                                  
                                 />
                                 <button className="remove-question" onClick={() => removeQuestion(question.id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-trash">
@@ -96,22 +194,28 @@ const CreacionPlantilla = () => {
                                     </svg>
                                 </button>
                             </div>
+                           
+
+
+
+
                             <div className="options">
                                 {question.options.map((option, optIndex) => (
+                                    
                                     <div key={optIndex} className="option">
                                         <input 
                                             type="radio" 
                                             name={`question-${question.id}`} 
                                             checked={question.selectedOption === option}
                                             onChange={() => handleRadioChange(question.id, option)}
-                                        />
+                                            />
                                         <input 
                                             type="text" 
                                             placeholder={`Opción_${optIndex + 1}`} 
                                             style={{ fontFamily: font }}
                                             value={option}
                                             onChange={e => handleOptionChange(question.id, optIndex, e.target.value)}
-                                        />
+                                            />
                                         <button className="remove-option" onClick={() => removeOption(question.id, optIndex)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-trash">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -129,6 +233,7 @@ const CreacionPlantilla = () => {
                                 </button>
                             </div>
                         </div>
+                       
                     ))}
                 </div>
             </div>
@@ -137,7 +242,18 @@ const CreacionPlantilla = () => {
                     Agregar otra pregunta +
                 </button>
             </div>
-            <button className='finish-button'>Finalizar</button>
+            <button  className='finish-button'>Finalizar</button>
+            {showFontPicker ? (
+                <div className="dropdown-container">
+                    <ul className="dropdown-list">
+                        <li onClick={() => handleFontChange('Arial')}>Arial</li>
+                        <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
+                        <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
+                        <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
+                        <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
+                    </ul>
+                </div>
+            ):""}
         </div>
     );
 };

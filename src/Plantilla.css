@@ -1,300 +1,298 @@
 /* Variables de color */
 :root {
-    --background-color: #ffffff;
-    --text-color: black;
-    --button-color: #007bff;
-    --button-hover-color: #0056b3;
-    --add-option-color: #999;
-    --remove-question-color: #e5e5e5;
-    --input-border-color: #000;
-    --option-input-border-color: #000;
-    --add-option-input-border-color: #ccc;
+  --background-color: #ffffff;
+  --text-color: black;
+  --button-color: #007bff;
+  --button-hover-color: #0056b3;
+  --add-option-color: #999;
+  --remove-question-color: #e5e5e5;
+  --input-border-color: #000;
+  --option-input-border-color: #000;
+  --add-option-input-border-color: #ccc;
 }
 
 /* Estilos generales */
 .Content_CreacionPlantilla {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 20px;
-    background-color: var(--background-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
 }
 
 .content_2 {
-    display: flex;
-    flex-direction: column;
-    max-width: 800px;
-    width: 60%;
-    height: 90%;
-    gap: 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 60%;
+  height: 90%;
+  gap: 30px;
 }
 
 /* Otros estilos */
 .survey-title {
-    display: block;
-    width: 50%;
-    margin-bottom: 3px;
-    border: none;
-    border-bottom: 2px solid var(--input-border-color);
-    padding-bottom: 1px;
-    background: none;
-    color: var(--text-color);
-    outline: none;
+  display: block;
+  width: 50%;
+  margin-bottom: 3px;
+  border: none;
+  border-bottom: 2px solid var(--input-border-color);
+  padding-bottom: 1px;
+  background: none;
+  color: var(--text-color);
+  outline: none;
 }
 
 .Pregunta {
-    display: block;
-    width: 40%;
-    margin-bottom: 10px; /* Ajustar margen inferior para separación */
-    border: none;
-    border-bottom: 2px solid var(--input-border-color);
-    padding-bottom: 0px;
-    color: var(--text-color);
-    background: none;
-    min-height: 60px;
-    outline: none;
+  display: block;
+  width: 40%;
+  margin-bottom: 10px; /* Ajustar margen inferior para separación */
+  border: none;
+  border-bottom: 2px solid var(--input-border-color);
+  padding-bottom: 0px;
+  color: var(--text-color);
+  background: none;
+  min-height: 60px;
+  outline: none;
 }
 
 .option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .option input[type="text"] {
-    display: block;
-    width: 20%;
-    margin-bottom: 10px; /* Ajustar margen inferior para separación */
-    border: none;
-    border-bottom: 1.6px solid var(--option-input-border-color);
-    padding-bottom: 5px;
-    color: var(--text-color);
-    background: none;
-    outline: none;
+  display: block;
+  width: 20%;
+  margin-bottom: 10px; /* Ajustar margen inferior para separación */
+  border: none;
+  border-bottom: 1.6px solid var(--option-input-border-color);
+  padding-bottom: 5px;
+  color: var(--text-color);
+  background: none;
+  outline: none;
 }
 
 .add-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--add-option-color);
-    cursor: pointer;
-    margin-top: 10px; /* Separar del contenido */
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--add-option-color);
+  cursor: pointer;
+  margin-top: 10px; /* Separar del contenido */
+  background: none; /* Sin color de fondo */
+  border: none; /* Sin borde */
 }
 
 .add-option input[type="text"] {
-    border: none;
-    border-bottom: 1px solid var(--add-option-input-border-color);
-    width: 10%;
-    margin-left: 10px;
-    outline: none;
-    color: var(--text-color);
+  border: none;
+  border-bottom: 1px solid var(--add-option-input-border-color);
+  width: 10%;
+  margin-left: 10px;
+  outline: none;
+  color: var(--text-color);
 }
 
 .remove-option {
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
-    margin-right: 10px;
-    cursor: pointer; /* Asegurarse de que sea clickeable */
+  background: none; /* Sin color de fondo */
+  border: none; /* Sin borde */
+  margin-right: 10px;
+  cursor: pointer; /* Asegurarse de que sea clickeable */
 }
 
 .remove-question {
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
-    margin-right: 10px;
-    cursor: pointer; /* Asegurarse de que sea clickeable */
+  background: none; /* Sin color de fondo */
+  border: none; /* Sin borde */
+  margin-right: 10px;
+  cursor: pointer; /* Asegurarse de que sea clickeable */
 }
 
 .finish-button {
-    background-color: var(--button-color);
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    margin-bottom: 550px;
-    /* Posicionamiento */
-  
-   
-   
+  background-color: var(--button-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 35%;
 }
 
 .finish-button:hover {
-    background-color: var(--button-hover-color);
+  background-color: var(--button-hover-color);
 }
 
 .add-question {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px; /* Separar del contenido */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px; /* Separar del contenido */
 }
 
 .add-question:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .ContenedorSetPreguntas {
-    padding-left: 20px;
-    max-width: 800px;
-    background-color: #E6E6E6;
-    width: 100%;
-    height: 70%;
-    border-radius: 15px;
+  padding-left: 20px;
+  max-width: 800px;
+  background-color: #E6E6E6;
+  width: 100%;
+  height: 70%;
+  border-radius: 15px;
 }
 
 .setTitle {
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
-    background-color: #E6E6E6;
-    height: 100px;
-    border-radius: 15px;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  background-color: #E6E6E6;
+  height: 100px;
+  border-radius: 15px;
 }
 
 .Controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 80px;
-    height: 200px;
-    border-radius: 6px;
-    background-color: var(--remove-question-color);
-    margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 80px;
+  height: 200px;
+  border-radius: 6px;
+  background-color: var(--remove-question-color);
+  margin-right: 20px;
 }
 
 .buttun_eddit {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .buttun_eddit svg {
-    width: 24px;
-    height: 24px;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .buttun_eddit:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 .icon.selected {
-    background-color: transparent;
-    outline: none;
-    border: none;
+  background-color: transparent;
+  outline: none;
+  border: none;
 }
 
 .font-picker-popover, .color-picker-popover {
-    position: absolute;
-    z-index: 1000;
+  position: absolute;
+  z-index: 1000;
 }
 
 .font-picker-cover, .color-picker-cover {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 select {
-    padding: 5px;
-    border: 1px solid var(--input-border-color);
-    border-radius: 5px;
+  padding: 5px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
 }
 
 /* Estilo del nuevo botón */
 .new-button {
-    background-color: #4CAF50; /* Color de fondo del botón */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado interno */
-    text-align: center; /* Alineación del texto */
-    text-decoration: none; /* Sin subrayado */
-    display: inline-block; /* Alineación en línea */
-    font-size: 16px; /* Tamaño de fuente */
-    margin: 4px 2px; /* Márgenes */
-    cursor: pointer; /* Cursor de mano */
-    border-radius: 5px; /* Bordes redondeados */
+  background-color: #4CAF50; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Alineación en línea */
+  font-size: 16px; /* Tamaño de fuente */
+  margin: 4px 2px; /* Márgenes */
+  cursor: pointer; /* Cursor de mano */
+  border-radius: 5px; /* Bordes redondeados */
 }
 
 .new-button:hover {
-    background-color: #45a049; /* Color de fondo en hover */
+  background-color: #45a049; /* Color de fondo en hover */
 }
 
 /* Estilo de la lista desplegable */
 .dropdown-container {
-    position: relative; /* Para posicionar el desplegable */
+  position: absolute;
+  left: 100px;
+  top: 350px; /* Para posicionar el desplegable */
 }
 
 .dropdown-list {
-    display: block;
-    position: absolute;
-    top: 100%; /* Alineado al botón */
-    left: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    z-index: 1000;
+display: grid;
+  
+
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+  color: #000;
 }
 
 .dropdown-list li {
-    padding: 10px 20px;
-    cursor: pointer;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .dropdown-list li:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .content_3 {
-    padding-left: 20px;
-    max-width: 1200px;
-    background-color: #E6E6E6;
-    width: 100%;
-    height: 800px;
-    border-radius: 15px;
-    overflow-y: auto;
+  padding-left: 20px;
+  max-width: 1200px;
+  background-color: #E6E6E6;
+  width: 100%;
+  height: 800px;
+  border-radius: 15px;
+  overflow-y: auto;
 }
 
 /* Estilo para separar las preguntas */
 .question-container {
-    border-bottom: 3px solid #ccc; /* Línea divisoria más gruesa */
-    padding: 10px;
-    margin-bottom: 20px; /* Añadir margen para separar preguntas */
-    width: 800px; /* Ancho del contenedor */
-    height: 400px; /* Alto del contenedor */
-    background-color: #ffffff; /* Fondo blanco para cada contenedor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    border-radius: 10px; /* Bordes redondeados */
+  border-bottom: 3px solid #ccc; /* Línea divisoria más gruesa */
+  padding: 10px;
+  margin-bottom: 20px; /* Añadir margen para separar preguntas */
+  width: 800px; /* Ancho del contenedor */
+  height: 400px; /* Alto del contenedor */
+  background-color: #ffffff; /* Fondo blanco para cada contenedor */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  border-radius: 10px; /* Bordes redondeados */
 }
