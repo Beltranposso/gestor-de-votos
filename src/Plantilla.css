@@ -82,9 +82,9 @@
     justify-content: space-between;
     color: var(--add-option-color);
     cursor: pointer;
-    margin-top: 10px; /* Separar del contenido */
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
+    margin-top: 10px;
+    background: none; 
+    border: none; 
 }
 
 .add-option input[type="text"] {
@@ -97,17 +97,17 @@
 }
 
 .remove-option {
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
+    background: none; 
+    border: none; 
     margin-right: 10px;
-    cursor: pointer; /* Asegurarse de que sea clickeable */
+    cursor: pointer; 
 }
 
 .remove-question {
-    background: none; /* Sin color de fondo */
-    border: none; /* Sin borde */
-    margin-right: 10px;
-    cursor: pointer; /* Asegurarse de que sea clickeable */
+    background: none; 
+    border: none; 
+    margin-right: 25px;
+    cursor: pointer; 
 }
 
 .finish-button {
@@ -180,6 +180,7 @@
 }
 
 .buttun_eddit {
+    
     background: none;
     border: none;
     cursor: pointer;
@@ -252,14 +253,16 @@ select {
 
 /* Estilo de la lista desplegable */
 .dropdown-container {
-    position: relative; /* Para posicionar el desplegable */
+ position: absolute;
+   /* Para posicionar el desplegable */
 }
 
 .dropdown-list {
-    display: block;
-    position: absolute;
-    top: 100%; /* Alineado al botón */
-    left: 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%; /* Alineado al botón */
+    left: 90px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -267,7 +270,7 @@ select {
     list-style: none;
     padding: 0;
     margin: 0;
-    z-index: 1000;
+  
 }
 
 .dropdown-list li {
@@ -305,7 +308,7 @@ select {
     opacity: 50%;
 }
 .remove-question{
-    margin-left: 325px;
+    margin-left: 313px;
     opacity: 50%;
 }
 .question-header{

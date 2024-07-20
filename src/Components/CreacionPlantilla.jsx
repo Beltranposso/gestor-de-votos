@@ -132,23 +132,13 @@ const CreacionPlantilla = () => {
                         onClick={() => setShowFontPicker(!showFontPicker)}
                         type="button"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={38}
-                            height={38}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="icon icon-tabler icon-tabler-font"
-                        >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 4v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-16" />
-                            <path d="M10 3v18" />
-                            <path d="M14 3v18" />
-                        </svg>
+                       <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-letter-case">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M17.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0" />
+  <path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5" />
+  <path d="M3 13h7" />
+  <path d="M21 12v7" />
+</svg>
                     </button>
                 </div>
                 <div>
@@ -240,19 +230,19 @@ const CreacionPlantilla = () => {
                         Agregar otra pregunta +
                     </button>
                 </div>
+                {showFontPicker && (
+                    <div className="dropdown-container">
+                        <ul className="dropdown-list">
+                            <li onClick={() => handleFontChange('Arial')}>Arial</li>
+                            <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
+                            <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
+                            <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
+                            <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
+                        </ul>
+                    </div>
+                )}
                 <button type="submit" className='finish-button'>Finalizar</button>
                         
-            {showFontPicker && (
-                <div className="dropdown-container">
-                    <ul className="dropdown-list">
-                        <li onClick={() => handleFontChange('Arial')}>Arial</li>
-                        <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
-                        <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
-                        <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
-                        <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
-                    </ul>
-                </div>
-            )}
         </form>
     );
 };
