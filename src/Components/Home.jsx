@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Card_Home from './Card_votacion';
+import axios from 'axios'
 
 const Home = () => {
   const [cards, setCards] = useState([
-    { titulo: "Titulo_1", hora: "22:00", color: "#FFE8A3" },
-    { titulo: "Titulo_2", hora: "13:00", color: "green" },
-    { titulo: "Titulo_2", hora: "13:00", color: "red" },
-    { titulo: "Titulo_2", hora: "13:00", color: "Blue" },
+  
   ]);
 
-  const addCard = (newCard) => {
-    setCards([...cards, newCard]);
-  };
+  const URI = 'http://localhost:8000/card/';
 
+  
+  const getCard = async () => {
+    const response = await axios.get(URI);
+    setCards(response.data);
+  };
+  useEffect(() => {
+   getCard();
+     
+  }, []);
+
+console.log(cards)
   return (
     <div className="Home">
       <div className="search-bar_Home">
@@ -26,11 +33,13 @@ const Home = () => {
       <div className='Content_Card'>
         <h2 className='fs-3'>Encuestas en curso</h2>
         <div className='content_Card_2'>
-          {cards.map((card, index) => (
-            <Card_Home key={index} titulo={card.titulo} hora={card.hora} color={card.color} />
+          {cards.map((card) => (
+            <Card_Home key={card.id} titulo={card.Title} hora={card.createdAt} color={card.Color} />
+           
           ))}
         </div>
       </div>
+
     </div>
   );
 };

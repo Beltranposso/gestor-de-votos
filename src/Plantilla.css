@@ -1,298 +1,314 @@
-/* Variables de color */
-:root {
-  --background-color: #ffffff;
-  --text-color: black;
-  --button-color: #007bff;
-  --button-hover-color: #0056b3;
-  --add-option-color: #999;
-  --remove-question-color: #e5e5e5;
-  --input-border-color: #000;
-  --option-input-border-color: #000;
-  --add-option-input-border-color: #ccc;
-}
+  /* Variables de color */
+  :root {
+    --background-color: #ffffff;
+    --text-color: black;
+    --button-color: #007bff;
+    --button-hover-color: #0056b3;
+    --add-option-color: #999;
+    --remove-question-color: #e5e5e5;
+    --input-border-color: #000;
+    --option-input-border-color: #000;
+    --add-option-input-border-color: #ccc;
+  }
 
-/* Estilos generales */
-.Content_CreacionPlantilla {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 20px;
-  background-color: var(--background-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 100%;
-}
+  /* Estilos generales */
+  .Content_CreacionPlantilla {
+    display: flex;
+  gap:100px;
+    align-items: center;
+    padding-right: 20px;
+    background-color: var(--background-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+  }
 
-.content_2 {
-  display: flex;
-  flex-direction: column;
-  max-width: 800px;
-  width: 60%;
-  height: 90%;
-  gap: 30px;
-}
+  .content_2 {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    width: 80%;
+    height: 90%;
+    gap: 20px;
 
-/* Otros estilos */
-.survey-title {
-  display: block;
-  width: 50%;
-  margin-bottom: 3px;
-  border: none;
-  border-bottom: 2px solid var(--input-border-color);
-  padding-bottom: 1px;
-  background: none;
-  color: var(--text-color);
-  outline: none;
-}
+  }
 
-.Pregunta {
-  display: block;
-  width: 40%;
-  margin-bottom: 10px; /* Ajustar margen inferior para separación */
-  border: none;
-  border-bottom: 2px solid var(--input-border-color);
-  padding-bottom: 0px;
-  color: var(--text-color);
-  background: none;
-  min-height: 60px;
-  outline: none;
-}
 
-.option {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  /* Otros estilos */
+  .survey-title {
+    display: block;
+    width: 96%;
+    margin-bottom: 3px;
+    border: none;
+    border-bottom: 2px solid var(--input-border-color);
+    padding-bottom: 1px;
+    background: none;
+    color: var(--text-color);
+    outline: none;
+  }
 
-.option input[type="text"] {
-  display: block;
-  width: 20%;
-  margin-bottom: 10px; /* Ajustar margen inferior para separación */
-  border: none;
-  border-bottom: 1.6px solid var(--option-input-border-color);
-  padding-bottom: 5px;
-  color: var(--text-color);
-  background: none;
-  outline: none;
-}
+  .Pregunta {
+    display: block;
+    width: 40%;
+    margin-bottom: 10px; /* Ajustar margen inferior para separación */
+    border: none;
+    border-bottom: 2px solid var(--input-border-color);
+    padding-bottom: 0px;
+    color: var(--text-color);
+    background: none;
+    min-height: 60px;
+    outline: none;
+  }
 
-.add-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--add-option-color);
-  cursor: pointer;
-  margin-top: 10px; /* Separar del contenido */
-  background: none; /* Sin color de fondo */
-  border: none; /* Sin borde */
-}
+  .option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap:25px;
+  }
 
-.add-option input[type="text"] {
-  border: none;
-  border-bottom: 1px solid var(--add-option-input-border-color);
-  width: 10%;
-  margin-left: 10px;
-  outline: none;
-  color: var(--text-color);
-}
+  .option input[type="text"] {
+    display: block;
+    width: 20%;
+    margin-bottom: 10px; /* Ajustar margen inferior para separación */
+    border: none;
+    border-bottom: 1.6px solid var(--option-input-border-color);
+    padding-bottom: 5px;
+    color: var(--text-color);
+    background: none;
+    outline: none;
+  }
 
-.remove-option {
-  background: none; /* Sin color de fondo */
-  border: none; /* Sin borde */
-  margin-right: 10px;
-  cursor: pointer; /* Asegurarse de que sea clickeable */
-}
+  .add-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--add-option-color);
+    cursor: pointer;
+    margin-top: 10px; /* Separar del contenido */
+    background: none; /* Sin color de fondo */
+    border: none; /* Sin borde */
+  }
 
-.remove-question {
-  background: none; /* Sin color de fondo */
-  border: none; /* Sin borde */
-  margin-right: 10px;
-  cursor: pointer; /* Asegurarse de que sea clickeable */
-}
+  .add-option input[type="text"] {
+    border: none;
+    border-bottom: 1px solid var(--add-option-input-border-color);
+    width: 10%;
+    margin-left: 10px;
+    outline: none;
+    color: var(--text-color);
+  }
 
-.finish-button {
-  background-color: var(--button-color);
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  margin-bottom: 35%;
-}
+  .remove-option {
+    background: none; /* Sin color de fondo */
+    border: none; /* Sin borde */
+    margin-right: 10px;
+    cursor: pointer; /* Asegurarse de que sea clickeable */
+  }
 
-.finish-button:hover {
-  background-color: var(--button-hover-color);
-}
+  .remove-question {
+    background: none; /* Sin color de fondo */
+    border: none; /* Sin borde */
+    margin-right: 10px;
+    cursor: pointer; /* Asegurarse de que sea clickeable */
+  }
 
-.add-question {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px; /* Separar del contenido */
-}
+  .finish-button {
+    background-color: var(--button-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 35%;
+  }
 
-.add-question:hover {
-  background-color: #f0f0f0;
-}
+  .finish-button:hover {
+    background-color: var(--button-hover-color);
+  }
 
-.ContenedorSetPreguntas {
-  padding-left: 20px;
-  max-width: 800px;
-  background-color: #E6E6E6;
-  width: 100%;
-  height: 70%;
-  border-radius: 15px;
-}
+  .add-question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* Separar del contenido */
+    
+  }
 
-.setTitle {
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-  background-color: #E6E6E6;
-  height: 100px;
-  border-radius: 15px;
-}
+  .add-question:hover {
+    background-color: #f0f0f0;
+  }
 
-.Controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  width: 80px;
-  height: 200px;
-  border-radius: 6px;
-  background-color: var(--remove-question-color);
-  margin-right: 20px;
-}
-
-.buttun_eddit {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.buttun_eddit svg {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.buttun_eddit:hover {
-  opacity: 0.7;
-}
-
-.icon {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.icon.selected {
-  background-color: transparent;
-  outline: none;
-  border: none;
-}
-
-.font-picker-popover, .color-picker-popover {
-  position: absolute;
-  z-index: 1000;
-}
-
-.font-picker-cover, .color-picker-cover {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-select {
-  padding: 5px;
-  border: 1px solid var(--input-border-color);
-  border-radius: 5px;
-}
-
-/* Estilo del nuevo botón */
-.new-button {
-  background-color: #4CAF50; /* Color de fondo del botón */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  padding: 10px 20px; /* Espaciado interno */
-  text-align: center; /* Alineación del texto */
-  text-decoration: none; /* Sin subrayado */
-  display: inline-block; /* Alineación en línea */
-  font-size: 16px; /* Tamaño de fuente */
-  margin: 4px 2px; /* Márgenes */
-  cursor: pointer; /* Cursor de mano */
-  border-radius: 5px; /* Bordes redondeados */
-}
-
-.new-button:hover {
-  background-color: #45a049; /* Color de fondo en hover */
-}
-
-/* Estilo de la lista desplegable */
-.dropdown-container {
-  position: absolute;
-  left: 100px;
-  top: 350px; /* Para posicionar el desplegable */
-}
-
-.dropdown-list {
-display: grid;
+  .ContenedorSetPreguntas {
+    padding-left: 20px;
+    max-width: 800px;
+    background-color: #E6E6E6;
+    width: 100%;
+    height: 70%;
+    border-radius: 15px;
   
+  }
 
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1000;
-  color: #000;
-}
+  .setTitle {
+    font-size: 30px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #E6E6E6;
+    height: 100px;
+    border-radius: 15px;
+    height: 250px;
+  }
 
-.dropdown-list li {
-  padding: 10px 20px;
-  cursor: pointer;
-}
+  .Controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 80px;
+    height: 200px;
+    border-radius: 6px;
+    background-color: var(--remove-question-color);
+    margin-right: 20px;
+  }
 
-.dropdown-list li:hover {
-  background-color: #f0f0f0;
-}
+  .buttun_eddit {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
 
-.content_3 {
-  padding-left: 20px;
-  max-width: 1200px;
-  background-color: #E6E6E6;
-  width: 100%;
-  height: 800px;
-  border-radius: 15px;
-  overflow-y: auto;
-}
+  .buttun_eddit svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
-/* Estilo para separar las preguntas */
-.question-container {
-  border-bottom: 3px solid #ccc; /* Línea divisoria más gruesa */
-  padding: 10px;
-  margin-bottom: 20px; /* Añadir margen para separar preguntas */
-  width: 800px; /* Ancho del contenedor */
-  height: 400px; /* Alto del contenedor */
-  background-color: #ffffff; /* Fondo blanco para cada contenedor */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  border-radius: 10px; /* Bordes redondeados */
-}
+  .buttun_eddit:hover {
+    opacity: 0.7;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .icon.selected {
+    background-color: transparent;
+    outline: none;
+    border: none;
+  }
+
+  .font-picker-popover, .color-picker-popover {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  .font-picker-cover, .color-picker-cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  select {
+    padding: 5px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+  }
+
+  /* Estilo del nuevo botón */
+  .new-button {
+    background-color: #4CAF50; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Alineación en línea */
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 4px 2px; /* Márgenes */
+    cursor: pointer; /* Cursor de mano */
+    border-radius: 5px; /* Bordes redondeados */
+  }
+
+  .new-button:hover {
+    background-color: #45a049; /* Color de fondo en hover */
+  }
+
+  /* Estilo de la lista desplegable */
+  .dropdown-container {
+    position: absolute;
+    left: 100px;
+    top: 350px; /* Para posicionar el desplegable */
+  }
+
+  .dropdown-list {
+  display: grid;
+    
+
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    color: #000;
+  }
+
+  .dropdown-list li {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .dropdown-list li:hover {
+    background-color: #f0f0f0;
+  }
+
+  .content_3 {
+    padding-left: 20px;
+    max-width: 1200px;
+    background-color: #E6E6E6;
+    width: 100%;
+    height: 800px;
+    border-radius: 15px;
+    overflow-y: auto;
+  }
+
+  /* Estilo para separar las preguntas */
+  .question-container {
+    border-bottom: 3px solid #ccc; /* Línea divisoria más gruesa */
+    padding: 10px;
+    margin-bottom: 20px; /* Añadir margen para separar preguntas */
+    width: 800px; /* Ancho del contenedor */
+    height: 400px; /* Alto del contenedor */
+    background-color: #ffffff; /* Fondo blanco para cada contenedor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border-radius: 10px; /* Bordes redondeados */
+  
+  }
+
+  .ContenedorPregunta{
+    display: flex;
+  }
+
+  .question-header{
+    display: flex;
+  }

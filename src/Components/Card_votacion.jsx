@@ -7,7 +7,7 @@ const Card_Home = ({titulo,hora,color}) => {
              </div>
              <div className="Card_Text">
             <h4 className="fs-5">{titulo}</h4>
-            <h5 className="fs-6">Abierto {hora}  P.m</h5>
+            <h5 className="fs-6">Abierto {hora}</h5>
              </div>
         </div>
     );
