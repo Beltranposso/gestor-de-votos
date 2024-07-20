@@ -33,7 +33,7 @@ function Create_User() {
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
         <Form.Group as={Col} md="4" controlId="validationCustom01">
-          <Form.Label>First name</Form.Label>
+          <Form.Label>Nombre</Form.Label>
           <Form.Control
             required
             type="text"
@@ -44,7 +44,7 @@ function Create_User() {
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="4" controlId="validationCustom02">
-          <Form.Label>Last name</Form.Label>
+          <Form.Label>Apellido</Form.Label>
           <Form.Control
             required
             type="text"
@@ -89,12 +89,12 @@ function Create_User() {
       <Form.Group className="mb-3">
         <Form.Check
           required
-          label="Agree to terms and conditions"
+          label="Aceptar terminos y condiciones"
           feedback="You must agree before submitting."
           feedbackType="invalid"
         />
       </Form.Group>
-      <Button type="submit">Submit form</Button>
+      <Button type="submit">Confirmar</Button>
     </Form>
   );
 }
