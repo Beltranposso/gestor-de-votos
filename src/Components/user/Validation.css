@@ -1,0 +1,80 @@
+.validation{
+    width: 100%;
+    height: 100vh;
+   margin: 0;
+   padding:0;
+   display: flex;
+   flex-direction: column;
+ justify-content: space-between;
+   align-items: center;
+
+}
+
+.formValidation{
+    width:   380px;
+    display: flex;
+    align-items: center;
+  
+    
+  }
+  .form{
+    width: 100%;
+    margin-bottom: 150px;
+  }
+  .img_content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-right: 60px;
+    padding-top: 50px;
+  }
+
+/* From Uiverse.io by Satwinder04 */ 
+.input-container {
+  position: relative;
+  margin: 50px auto;
+  width:100%;
+}
+
+.input-container input[type="text"] {
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 0;
+  background-color: transparent;
+  outline: none;
+}
+.input-container .label {
+
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.input-container input[type="text"]:focus ~ .label,
+.input-container input[type="text"]:valid ~ .label {
+  top: -10px;
+  font-size: 16px;
+  color: #333;
+}
+
+
+
+.cotenedor_buton{
+  display: flex;
+
+  width: 100%;
+
+
+}
+.buton{
+border-radius: 15px;
+padding-left:30px ;
+padding-right: 30px;
+width: 100%;
+}

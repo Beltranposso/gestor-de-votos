@@ -1,27 +1,54 @@
 import React, { useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Card_Home from './Card_votacion';
+import Hme from './Hme'
 import axios from 'axios'
+import { jwtDecode } from "jwt-decode"
+import '../App.css';
+import '../Animations.css';
+import { Card } from 'react-bootstrap';
 
 const Home = () => {
   const [cards, setCards] = useState([
   
   ]);
-
+  
+  const [Asamblea, setAsamblea] = useState([
+  
+  ]);
+  
   const URI = 'http://localhost:8000/card/';
 
   
-  const getCard = async () => {
+/*   const getCard = async () => {
     const response = await axios.get(URI);
     setCards(response.data);
+  }; */
+  const getAsamblea = async () => {
+    const response = await axios.get(URI);
+    setAsamblea(response.data);
   };
   useEffect(() => {
-   getCard();
+   getAsamblea();
      
   }, []);
+  console.log(Asamblea)
+  
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const Cedula= decoded.Cedula
+/*   console.log(Cedula) */
+  
+  const FiltradoAsamblea = Asamblea.filter(Asamble => Asamble.Userid  === Cedula );
+/*   console.log(FiltradoAsamblea) */
 
-console.log(cards)
   return (
+   
+    <div className='content'>
+          <Hme></Hme>
+   <main className='main'>
+
+   
     <div className="Home">
       <div className="search-bar_Home">
         <div>
@@ -33,13 +60,15 @@ console.log(cards)
       <div className='Content_Card'>
         <h2 className='fs-3'>Encuestas en curso</h2>
         <div className='content_Card_2'>
-          {cards.map((card) => (
-            <Card_Home key={card.id} titulo={card.Title} hora={card.createdAt} color={card.Color} />
+          {FiltradoAsamblea.map((asamblea) => (
+            <Card_Home key={asamblea.id} titulo={asamblea.Title} hora={asamblea.createdAt} color={asamblea.Color} />
            
           ))}
         </div>
       </div>
 
+    </div>
+    </main>
     </div>
   );
 };
