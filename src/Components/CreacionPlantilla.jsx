@@ -2,107 +2,67 @@ import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import '../Plantilla.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode"
+import Hme from './Hme';
 
 const URI = 'http://localhost:8000/card/';
+const URI2 = 'http://localhost:8000/questions/'; 
+const URI3 = 'http://localhost:8000/options/';
 
 const CreacionPlantilla = () => {
-    const [selectedOption, setSelectedOption] = useState(null);
     const [showColorPicker, setShowColorPicker] = useState(false);
-    const [showFontPicker, setShowFontPicker] = useState(false);
-    const [color, setColor] = useState('#fff');
-    const [font, setFont] = useState('Arial');
-    const [title, setTitle] = useState('');
-    const [questions, setQuestions] = useState([
-        { id: Date.now(), text: '', options: ['Opción_1', 'Opción_2'], selectedOption: null }
-    ]);
+  const [showFontPicker, setShowFontPicker] = useState(false);
+  const [color, setColor] = useState('#fff');
+  const [Question, setQuestion] = useState('');
+  const [title, setTitle] = useState('');
+  const [option1, setOptions1] = useState('');
+  const [option2, setOptions2] = useState('');
+  const [font, setFont] = useState('Arial');
 
-    const text = questions[0].text;
-    const navigate = useNavigate();
-    const Finalizar = async (e) => {
-        e.preventDefault();
-        await axios.post(URI, { Title: title, Content: text, Color:color });
- 
-        navigate('/Home');
-    };
+  const navigate = useNavigate();
 
-    const handleRadioChange = (questionId, option) => {
-        setQuestions(prevQuestions =>
-            prevQuestions.map(q =>
-                q.id === questionId ? { ...q, selectedOption: option } : q
-            )
-        );
-    };
+  
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const Cedula= decoded.Cedula
+  console.log(Cedula)
+  const Finalizar = async (e) => {
+    e.preventDefault();
 
-    const handleColorChange = (newColor) => {
-        setColor(newColor.hex);
-        setShowColorPicker(false);
-    };
+    try {
+      // Crear el título y la pregunta
+      await axios.post(URI, { Title: title, Color: color ,Userid:Cedula});
+      await axios.post(URI2, { id_title: title, Pregunta: Question });
 
-    const handleFontChange = (font) => {
-        setFont(font);
-        setShowFontPicker(false);
-    };
 
-    const addQuestion = (e) => {
-        e.preventDefault();
-        setQuestions(prevQuestions => [
-            ...prevQuestions,
-            { id: Date.now(), text: '', options: ['Opción_1', 'Opción_2'], selectedOption: null }
-        ]);
-    };
+        axios.post(URI3, { id_pregunta: Question,opcion:option1})   
+        axios.post(URI3, { id_pregunta: Question,opcion:option2})
 
-    const handleQuestionChange = (questionId, text) => {
-        setQuestions(prevQuestions =>
-            prevQuestions.map(q =>
-                q.id === questionId ? { ...q, text } : q
-            )
-        );
-    };
 
-    const handleOptionChange = (questionId, index, value) => {
-        setQuestions(prevQuestions =>
-            prevQuestions.map(q =>
-                q.id === questionId
-                    ? { ...q, options: q.options.map((opt, i) => (i === index ? value : opt)) }
-                    : q
-            )
-        );
-    };
+     
+      navigate('/Home');
+    } catch (error) {
+      console.error('Error al enviar los datos:', error);
+    }
+  };
 
-    const addOption = (e, questionId) => {
-        e.preventDefault();
-        setQuestions(prevQuestions =>
-            prevQuestions.map(q =>
-                q.id === questionId
-                    ? { ...q, options: [...q.options, `Opción_${q.options.length + 1}`] }
-                    : q
-            )
-        );
-    };
+  const handleColorChange = (newColor) => {
+    setColor(newColor.hex);
+    setShowColorPicker(false);
+  };
 
-    const removeOption = (e, questionId, index) => {
-        e.preventDefault();
-        setQuestions(prevQuestions =>
-            prevQuestions.map(q =>
-                q.id === questionId
-                    ? {
-                        ...q,
-                        options: q.options.filter((_, i) => i !== index).map((opt, i) => `Opción_${i + 1}`)
-                    }
-                    : q
-            )
-        );
-    };
+  const handleFontChange = (font) => {
+    setFont(font);
+    setShowFontPicker(false);
+  };
 
-    const removeQuestion = (e, questionId) => {
-        e.preventDefault();
-        setQuestions(prevQuestions =>
-            prevQuestions.filter(q => q.id !== questionId)
-        );
-    };
 
     return (
+        <div className='content'>
+      <Hme />
+      <main className='main'>
         <form onSubmit={Finalizar} on className='Content_CreacionPlantilla' style={{ backgroundColor: color }}>
             <div className='Controls'>
                 <div className='icon-container'>
@@ -132,13 +92,23 @@ const CreacionPlantilla = () => {
                         onClick={() => setShowFontPicker(!showFontPicker)}
                         type="button"
                     >
-                       <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-letter-case">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-  <path d="M17.5 15.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0" />
-  <path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5" />
-  <path d="M3 13h7" />
-  <path d="M21 12v7" />
-</svg>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={38}
+                            height={38}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="icon icon-tabler icon-tabler-font"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 4v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-16" />
+                            <path d="M10 3v18" />
+                            <path d="M14 3v18" />
+                        </svg>
                     </button>
                 </div>
                 <div>
@@ -230,20 +200,23 @@ const CreacionPlantilla = () => {
                         Agregar otra pregunta +
                     </button>
                 </div>
-                {showFontPicker && (
-                    <div className="dropdown-container">
-                        <ul className="dropdown-list">
-                            <li onClick={() => handleFontChange('Arial')}>Arial</li>
-                            <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
-                            <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
-                            <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
-                            <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
-                        </ul>
-                    </div>
-                )}
                 <button type="submit" className='finish-button'>Finalizar</button>
                         
+            {showFontPicker && (
+                <div className="dropdown-container">
+                    <ul className="dropdown-list">
+                        <li onClick={() => handleFontChange('Arial')}>Arial</li>
+                        <li onClick={() => handleFontChange('Courier New')}>Courier New</li>
+                        <li onClick={() => handleFontChange('Georgia')}>Georgia</li>
+                        <li onClick={() => handleFontChange('Times New Roman')}>Times New Roman</li>
+                        <li onClick={() => handleFontChange('Verdana')}>Verdana</li>
+                    </ul>
+                </div>
+            )}
         </form>
+      </main>
+
+        </div>
     );
 };
 

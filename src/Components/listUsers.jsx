@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import Data_User from "./Datauser";
+import '../App.css';
+import '../Animations.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import Hme from './Hme'
 import { Link,} from 'react-router-dom';
 
-const URI = 'http://localhost:8000/usuarios/';
+const URI = 'http://localhost:8001/usuarios/';
 
 export default function ListUsers() {
   const [usuarios, setUser] = useState([]);
@@ -33,7 +35,9 @@ export default function ListUsers() {
 
 
   return (
-  
+    <div className='content'>
+     <Hme></Hme>
+      <main className='main'>
     <div className="ContenedorUsers">
       <div className="share_Listuser">
         <h1>Usuarios Registrados</h1>
@@ -99,6 +103,8 @@ export default function ListUsers() {
   </tbody>
 </table>
       </div>
+    </div>
+    </main>
     </div>
    
   );

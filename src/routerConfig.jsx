@@ -1,8 +1,14 @@
 import { useParams } from "react-router-dom";
-import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla} from "./Pages";
+import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla,Loby, Home_1, Validation,Formulario, } from "./Pages";
+
 
 
 export  const routes = [
+        
+    {
+        path: '/',
+        component:<p>Control 360</p>
+    },
     {
         path: '/Home',
         component: <Home></Home>
@@ -21,6 +27,22 @@ export  const routes = [
        path: "/Creacion",
        component: <CreacionPlantilla></CreacionPlantilla>
 
+    },{
+        path: '/loby',
+        component: <Loby></Loby>
+    },
+   
+    {
+        path: '/Validation',
+        component: <Validation></Validation>
+    },{
+        path: '/Formulario',
+        component:<Formulario></Formulario>
+
+    }/* ,{
+        path: '/Login',
+        component: <Login></Login>
     }
+ */
    
 ]
