@@ -1,12 +1,11 @@
 
 import { useEffect, useState } from 'react';
-import '../App.css';
-import '../Animations.css';
+import '/src/App.css';
 import {  Link } from 'react-router-dom';
-import { routes } from '../routerConfig';
+
 import { jwtDecode } from "jwt-decode"
-import logo from '../assets/img/Control-360.png'; 
-const Hme= ()=>{
+import logo from '/src/assets/img/Control-360.png'; 
+const Header= ({Component})=>{
   const [State, Setstate] = useState(true);
 
   const setvisible = () => {
@@ -20,21 +19,32 @@ const Hme= ()=>{
   
 return(
   
-    
+       <div className='h-screen'>
       <header className='cabezera'>
         <div className='div_header'>
-          <button className='bottun_Aside' onClick={setvisible} >
+          {/* <button className='bottun_Aside' onClick={setvisible} >
             <svg xmlns="http://www.w3.org/2000/svg" width={34} height={34} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-menu-2">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M4 6l16 0" />
               <path d="M4 12l16 0" />
               <path d="M4 18l16 0" />
             </svg>
-          </button>
+          </button> */}
 
           <Link to="/Home"> 
             <img src={logo} alt="Control 360 Logo" className="header-logo" />
           </Link>
+          <Link className='link_Aside' to='/Home'>
+               Home
+         </Link>
+         <Link className='link_Aside' to="/listUsers">
+         Usuarios registrados
+        </Link>
+        <Link className='link_Aside' to='/createUser'>
+                 Crear Cuentas
+        </Link>
+
+
         </div>
         <div className='div_header_2'>
           <h4>{nombre}</h4>
@@ -45,7 +55,11 @@ return(
               <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
             </svg>
           </button>
+          
         </div>
+
+
+
         <aside className='aside_21' style={State ? { left: '-300px' } : { left: '0px' }}>
           <div className='content_aside'>
             <ul className='lista_Aside'>
@@ -82,7 +96,13 @@ return(
             </ul>
           </div>
         </aside>
+
+
       </header>
+       <main className='flex justify-center items-center  h-full bg-[#E6E6E6] '>
+       { Component }
+       </main>
+       </div>
     
    
  
@@ -90,4 +110,4 @@ return(
 
 }
 
-export default Hme
+export default Header

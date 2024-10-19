@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla,Loby, Home_1, Validation,Formulario, } from "./Pages";
+import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla,Loby } from "./pages";
 
 
 
@@ -30,19 +30,8 @@ export  const routes = [
     },{
         path: '/loby',
         component: <Loby></Loby>
-    },
-   
-    {
-        path: '/Validation',
-        component: <Validation></Validation>
-    },{
-        path: '/Formulario',
-        component:<Formulario></Formulario>
-
-    }/* ,{
-        path: '/Login',
-        component: <Login></Login>
     }
- */
+   
+   
    
 ]

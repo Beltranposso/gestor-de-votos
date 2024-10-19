@@ -1,6 +1,6 @@
 import './Login.css'
 import Button from 'react-bootstrap/Button';
-import Footer from '../footer/footer'
+/* import Footer from '../footer/footer' */
 import { useForm} from "react-hook-form"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -67,7 +67,7 @@ const Validation = () => {
         </form>
       </div>
 
-      <Footer></Footer>
+{/*       <Footer></Footer> */}
     </div>
   );
 };

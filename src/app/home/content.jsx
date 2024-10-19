@@ -1,29 +1,27 @@
 import React, { useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import Card_Home from './Card_votacion';
-import Hme from './Hme'
+import { URI } from '../../services/Conexiones';
+ import Card_Home from '../../components/layouts/Card_votacion';
+
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode"
-import '../App.css';
-import '../Animations.css';
+ import '/src/App.css';
+/* import '../Animations.css'; */
 import { Card } from 'react-bootstrap';
 
 const Home = () => {
-  const [cards, setCards] = useState([
-  
-  ]);
-  
+
   const [Asamblea, setAsamblea] = useState([
   
   ]);
   
-  const URI = 'http://localhost:8000/card/';
+
 
   
-/*   const getCard = async () => {
+ /*  const getCard = async () => {
     const response = await axios.get(URI);
     setCards(response.data);
-  }; */
+  };  */
   const getAsamblea = async () => {
     const response = await axios.get(URI);
     setAsamblea(response.data);
@@ -44,8 +42,8 @@ const Home = () => {
 
   return (
    
-    <div className='content'>
-          <Hme></Hme>
+    <div className='w-full h-5/6'>
+{/*           <Hme></Hme> */}
    <main className='main'>
 
    
@@ -61,9 +59,9 @@ const Home = () => {
         <h2 className='fs-3'>Encuestas en curso</h2>
         <div className='content_Card_2'>
           {FiltradoAsamblea.map((asamblea) => (
-            <Card_Home key={asamblea.id} titulo={asamblea.Title} hora={asamblea.createdAt} color={asamblea.Color} />
+            <Card_Home key={asamblea.id} id={asamblea.id} titulo={asamblea.Title} hora={asamblea.createdAt} color={asamblea.Color} />
            
-          ))}
+          ))} 
         </div>
       </div>
 

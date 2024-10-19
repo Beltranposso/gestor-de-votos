@@ -6,8 +6,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
+import { URI5 } from '../../services/Conexiones';
 
-const URI = 'http://localhost:8000/usuarios/';
 
 function Create_User() {
   const [nombre, setNombre] = useState('');
@@ -15,6 +15,7 @@ function Create_User() {
   const [correo, setCorreo] = useState('');
   const [cedula, setCedula] = useState('');
   const [validated, setValidated] = useState(false);
+  const [id_cargo, setId_cargo] = useState();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -23,11 +24,18 @@ function Create_User() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      await axios.post(URI, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula });
+      await axios.post(URI5, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula,id_cargo:id_cargo });
       navigate('/listUsers');
     }
     setValidated(true);
   };
+  const manejarCambio = ( label) => {
+      // Guardar el id seleccionado
+    setId_cargo(label);  // Guardar el label seleccionado
+
+    console.log("Label seleccionado:", id_cargo);
+ };
+  console.log("id cargo ",id_cargo)
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -81,6 +89,20 @@ function Create_User() {
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
           />
+          <Form.Control.Feedback type="invalid">
+            porfavor ingresa el correo
+          </Form.Control.Feedback>
+        </Form.Group>
+      </Row>
+      <Row className="mb-3">
+        <Form.Group as={Col} md="3" controlId="validationCustom03">
+          <Form.Label>Usuario</Form.Label>
+          <Form.Select aria-label="Default select example">
+      <option>Selecione el tipo de usuario</option>
+      <option onChange={() => manejarCambio(1)} value="1">Adminsastrador</option>
+      <option onChange={() => manejarCambio(2)} value="2">Operador de registro</option>
+      
+    </Form.Select>
           <Form.Control.Feedback type="invalid">
             porfavor ingresa el correo
           </Form.Control.Feedback>

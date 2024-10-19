@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { SketchPicker } from 'react-color';
-import '../Plantilla.css';
+import './Plantilla.css';
 import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode"
-import Hme from './Hme';
+import io from 'socket.io-client';
+/* import Hme from './Header'; */
 
 const URI = 'http://localhost:8000/card/';
 const URI2 = 'http://localhost:8000/questions/'; 
 const URI3 = 'http://localhost:8000/options/';
+const socket = io("http://localhost:8000"); 
 
 const CreacionPlantilla = () => {
     const [showColorPicker, setShowColorPicker] = useState(false);
@@ -20,6 +23,8 @@ const CreacionPlantilla = () => {
   const [option1, setOptions1] = useState('');
   const [option2, setOptions2] = useState('');
   const [font, setFont] = useState('Arial');
+  const [miId, setMiId] = useState(null);  // Almacena tu propio ID
+  const [destinatarioId, setDestinatarioId] = useState(''); 
 
   const navigate = useNavigate();
 
@@ -28,25 +33,63 @@ const CreacionPlantilla = () => {
   const decoded = jwtDecode(token);
   const Cedula= decoded.Cedula
   console.log(Cedula)
+  const uniqueID = uuidv4();
   const Finalizar = async (e) => {
     e.preventDefault();
-
+  
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, { Title: title, Color: color ,Userid:Cedula});
-      await axios.post(URI2, { id_title: title, Pregunta: Question });
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,Userid:Cedula});
+      await axios.post(URI2, { id_card: uniqueID, Pregunta: Question });
 
 
-        axios.post(URI3, { id_pregunta: Question,opcion:option1})   
-        axios.post(URI3, { id_pregunta: Question,opcion:option2})
+        axios.post(URI3, { id_pregunta: Question, opcion:option1})   
+        axios.post(URI3, { id_pregunta: Question, opcion:option2})
 
 
-     
+      
       navigate('/Home');
     } catch (error) {
       console.error('Error al enviar los datos:', error);
     }
   };
+  const Finalizar2 = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Crear el título y la pregunta
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,Userid:Cedula});
+      await axios.post(URI2, { id_card: uniqueID, Pregunta: Question });
+
+
+        axios.post(URI3, { id_pregunta: Question,opcion:option1})   
+        axios.post(URI3, { id_pregunta: Question,opcion:option2})
+        
+        socket.emit('mensaje', title);
+
+        navigate('/loby');
+        socket.emit('enviaridCard',  uniqueID,Question);
+     
+        
+      } catch (error) {
+        console.error('Error al enviar los datos:', error);
+      }
+      
+    };
+    
+    useEffect(() => {
+      
+      socket.on('bienvenida', (id) => {
+        console.log('ID recibido del servidor:',id);
+         // Guarda el ID que el servidor te envía      
+         
+        });
+   
+        
+        
+      });
+      
+
 
   const handleColorChange = (newColor) => {
     setColor(newColor.hex);
@@ -60,10 +103,11 @@ const CreacionPlantilla = () => {
 
 
   return (
-    <div className='content'>
-      <Hme />
-      <main className='main'>
-        <form onSubmit={Finalizar} className='Content_CreacionPlantilla' style={{ backgroundColor: color }}>
+    <div >
+          
+         {/*      <Hme /> */}
+      <main className='flex items-center p-10 justify-center'>
+        <form className='Content_CreacionPlantilla ' style={{ backgroundColor: color }}>
           <div className='Controls'>
             <div className='icon-container'>
               <button
@@ -171,9 +215,9 @@ const CreacionPlantilla = () => {
             </div>
           </div>
 
-          <button type="submit" className='finish-button'>Guardar</button>
-          <Link to='/loby' className='finish-button'>Guardar e iniciar</Link>
-
+          <button onClick={Finalizar} className='finish-button'>Guardar</button>
+          <button onClick={Finalizar2} to='/loby' className='finish-button'>Guardar e iniciar</button>
+          
           {showFontPicker && (
             <div className="dropdown-container">
               <ul className="dropdown-list">
@@ -187,8 +231,9 @@ const CreacionPlantilla = () => {
           )}
         </form>
       </main>
+       </div>
 
-        </div>
+  
     );
 };
 
