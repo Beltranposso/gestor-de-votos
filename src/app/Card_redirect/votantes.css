@@ -1,0 +1,10 @@
+.a_Votantes{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 3rem;
+    cursor: pointer;
+   color: white;
+   
+}
+

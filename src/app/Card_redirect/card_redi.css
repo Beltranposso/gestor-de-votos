@@ -1,0 +1,193 @@
+.Card_info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh; 
+  
+}
+
+
+
+
+.C{
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+}
+.c{
+    width: 100%;  
+    
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    background-color: #E6E6E6;
+}
+
+.c_info{
+    width: 100%;  
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+.c_h{
+    display: flex;
+    height: 30%;
+    width: 100%;
+    justify-content: center;
+    background-color: white ;
+    
+}
+
+.contentVotos_1{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    gap: 100px;
+    align-items: center;
+}
+.Votos_info{
+    height: 90%;
+    width: 24rem ;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:10px;
+    font-size: 40px;
+    gap: 10px;
+    border-radius: 5px;
+    background-color: #E6E6E6;
+}
+
+
+.Time_info{
+    height: 90%;
+    width: 24rem ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:10px;
+    font-size: 40px;
+    gap: 10px;
+    border-radius: 5px;
+    background-color: #E6E6E6;
+    
+}
+
+
+.M{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    padding-top: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+    gap: 5px;
+    background-color: white;
+    
+    
+}
+
+.numeroDevotos{
+    display: flex;
+    justify-content: space-between;
+    transition: 1s;
+    
+}
+.a{
+   width: 25%;
+   display: flex;
+   height: 100%;
+   flex-direction: column;
+   box-sizing: border-box;
+   background-color: #1E1E1E;
+ 
+  
+}
+
+.a_double{
+    display: flex;
+    
+    height: 90%;
+    max-height: 90%;
+    box-sizing: border-box;
+  
+    
+}
+
+.a_Cards{
+display: flex;
+flex-direction: column;
+width: 25%;
+background-color: #1E1E1E;
+}
+.a_Users{
+display: flex;
+flex-direction: column;
+width: 80%;
+background-color: #2B2D31;
+padding: 10px;
+color: white;
+overflow-y: auto;
+
+}
+
+.a_Users::-webkit-scrollbar {
+  width: 5px;
+    background: none; /* Ancho de la barra de desplazamiento */
+  }
+  .a_Users::-webkit-scrollbar-thumb {
+  background-color: #404249;
+  border-radius: 20px /* Color de la barra de desplazamiento */
+  }
+
+.a_User{
+    display: flex;
+    flex-direction: column;
+  
+   
+    height: 10%;
+   
+}
+
+.a_shear_user{
+    all: unset;
+    border-radius: 20px;
+    border: none;
+    background-color: #404249;
+    height: 2rem;
+    color: white;
+    padding-left: 5px;
+}
+.a_Users_header{
+    display:flex;
+    flex-direction:   column;
+ height: 5rem;
+}
+.a_Users_main{
+    display: flex;
+    flex-direction: column;
+  
+
+
+}
+.Profile{
+    display: flex;
+    width: 100%;
+    height: 100%;
+   
+    align-items: center;
+    padding-left: 15px;
+    gap: 15px;
+    background-color: #232428;
+    color:white;
+ 
+}
+
+.a_Profile_cargo{
+    display: flex;
+    align-items: center;
+   
+}
