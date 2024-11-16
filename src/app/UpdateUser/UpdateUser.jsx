@@ -15,6 +15,8 @@ function UpdateUser() {
   const [apellido, setApellido] = useState();
   const [correo, setCorreo] = useState();
   const [cedula, setCedula] = useState();
+  const[contraseña,setContraseña]= useState();
+ 
   const { id } = useParams()
   const navigate= useNavigate()
   const handleSubmit = async(event) => {
@@ -23,7 +25,7 @@ function UpdateUser() {
       event.preventDefault();
       event.stopPropagation();
     }else{
-        await axios.put(URI+id,{Nombre:nombre,Apellido:apellido,Correo: correo,Cedula:cedula})
+        await axios.put(URI+id,{Nombre:nombre,Apellido:apellido,Correo: correo,Cedula:cedula,})
 
         navigate('/listUsers')
     }
@@ -37,10 +39,7 @@ function UpdateUser() {
       setCorreo(response.data.Correo);
       setCedula(response.data.Cedula);
       
-      console.log(nombre); // Ahora debería imprimir el valor actualizado
-      console.log(apellido);
-      console.log(correo);
-      console.log(cedula);
+;
     } catch (error) {
       console.error(error);
     }

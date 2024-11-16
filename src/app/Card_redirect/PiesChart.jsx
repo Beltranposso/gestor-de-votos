@@ -6,7 +6,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function App({options, value}) {
   const data = {
-    labels:options, // Usando opcion1 en las etiquetas
+    labels: options, // Usando opcion1 en las etiquetas
     datasets: [
       {
         label: 'Cantidad de votos',

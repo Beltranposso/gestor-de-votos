@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import '/src/App.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '/src/App.css';
 import { Link,} from 'react-router-dom';
 import { URI5 } from '../../services/Conexiones';
-
-
-console.log(URI5)
+import { FileSpreadsheet } from 'lucide-react';
+import  FileUploadModal  from '../../components/layouts/UploadExcelFile';
+import { set } from 'react-hook-form';
 export default function ListUsers() {
   const [usuarios, setUser] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState(''); // Para el valor del input
+  const [filteredUsers, setFilteredUsers] = useState(usuarios);  
 
   useEffect(() => {
     getUser();
@@ -18,40 +20,68 @@ export default function ListUsers() {
   }, []);
   console.log(usuarios)
 
-  const getUser = async () => {
-    const response = await axios.get(URI5);
-    setUser(response.data);
+  const getUser = async () => { 
+    const response = await axios.get(URI5);    
+    const filter = response.data.filter ((user) =>user.id_cargo === 2 );
+    setUser(filter);
   };
   
    
-   const deleteUser = async (id) => {
+   const deleteUser = async (cedula) => {
      location.reload();
-     await axios.delete(`${URI5}${id}`);
+     await axios.delete(`${URI5}${cedula}`);
      
    }
 
-
-
-
-
+const filter = usuarios.filter ((user) =>user.id_cargo === 2 );  
+console.log("usuarios filtrado s : ",filter)
+   useEffect(() => {
+    const value = searchValue.trim().toLowerCase();
+  
+    if (value === '') {
+      setFilteredUsers(usuarios); // Mostrar todos los usuarios si no hay búsqueda
+    } else {
+      const result = usuarios.filter((user) => {
+        return (
+          user.Cedula.toString().toLowerCase().includes(value) ||
+          user.Nombre.toLowerCase().includes(value) ||
+          user.Apellido.toLowerCase().includes(value) ||
+          user.Correo.toLowerCase().includes(value)
+        );
+      });
+  
+      setFilteredUsers(result); // Mostrar los usuarios filtrados
+    }
+  }, [searchValue, usuarios]); // 
+  const searchuser = (e) => {
+    setSearchValue(e.target.value); // Actualizamos el estado del valor de búsqueda
+  };
 
   return (
 
       <main className='flex items-center justify-center h-full w-full'>
+             <FileUploadModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onFileUpload={''}
+        />
     <div className="ContenedorUsers">
       <div className="share_Listuser">
         <h1>Usuarios Registrados</h1>
         <div className="search">
-          <input type="text" className="search__input" placeholder="Buscar" />
-          <Link to='/listUsers/Create' className="create-button  btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-plus">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M12 5l0 14" />
-              <path d="M5 12l14 0" />
-                </svg>    
-          </Link>
+          <input type="text" className="search__input" placeholder="Buscar"  value={searchValue} onChange={searchuser} />
+          <div className="flex h-12   justify-center">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="group relative inline-flex items-center gap-3 rounded-lg bg-emerald-600 px-6  py-3  font-semibold text-white shadow-lg transition-all hover:bg-emerald-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+          >
+            <FileSpreadsheet className="h-4 w-4 transition-transform group-hover:-rotate-12" />
+            Importar
+          </button>
+        </div>
         </div>
       </div>
-      <div className="Data_User">      
+      <div className=" overflow-auto h-[55%] px-10 pb-10">      
         <table className="table table-striped" >
   <thead>
     <tr  className='table-primary '>
@@ -69,18 +99,20 @@ export default function ListUsers() {
     </tr>
   </thead>
   <tbody>
-  {usuarios.map((user) => (
+  {filteredUsers.map((user) => (
               <tr key={user.id}>
                  <th>{user.Cedula}</th>
                 <th>{user.Nombre}</th>
                 <th>{user.Apellido}</th>
                 <th>{user.Correo}</th>
                
-                <th>35%</th>
+               
+                <th>{user.poder}</th>
                 <th>2</th>
-                <th>Administrador</th>
+                <th>{(user.id_cargo===1?"Admin":(user.id_cargo===2?"OP.Reguistro":"null"))}</th>
+              
               <th className='d-flex gap-3 '>   
-                <Link to={`/listUsers/UpdateUser/${user.id}`}  className=' d-flex align-items-center btn btn-info'><svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-pencil-plus">
+                <Link to={`/listUsers/UpdateUser/${user.Cedula}`}  className=' d-flex align-items-center btn btn-info'><svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-pencil-plus">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
                   <path d="M13.5 6.5l4 4" />
@@ -88,7 +120,7 @@ export default function ListUsers() {
                   <path d="M19 16v6" />
                     </svg>
                 </Link>
-                <button   className=' d-flex align-items-center btn btn-danger' onClick={()=>deleteUser(user.id)}   ><svg xmlns="http://www.w3.org/2000/svg" width={18} height={18  } viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                <button   className=' d-flex align-items-center btn btn-danger' onClick={()=>deleteUser(user.Cedula)}   ><svg xmlns="http://www.w3.org/2000/svg" width={18} height={18  } viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-trash">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M4 7l16 0" />
                   <path d="M10 11l0 6" />

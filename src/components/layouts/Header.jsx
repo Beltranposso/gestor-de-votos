@@ -31,16 +31,16 @@ return(
             </svg>
           </button> */}
 
-          <Link to="/Home"> 
+          <Link to="/H"> 
             <img src={logo} alt="Control 360 Logo" className="header-logo" />
           </Link>
-          <Link className='link_Aside' to='/Home'>
+          <Link className='link_Aside' to='/H'>
                Home
          </Link>
          <Link className='link_Aside' to="/listUsers">
          Usuarios registrados
         </Link>
-        <Link className='link_Aside' to='/createUser'>
+        <Link className='link_Aside' to='/listUsers/Create'>
                  Crear Cuentas
         </Link>
 

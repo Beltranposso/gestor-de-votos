@@ -10,7 +10,7 @@ export  const routes = [
         component:<p>Control 360</p>
     },
     {
-        path: '/Home',
+        path: '/h',
         component: <Home></Home>
     },
     {
@@ -28,7 +28,7 @@ export  const routes = [
        component: <CreacionPlantilla></CreacionPlantilla>
 
     },{
-        path: '/loby',
+        path: '/loby/:id',
         component: <Loby></Loby>
     }
    
