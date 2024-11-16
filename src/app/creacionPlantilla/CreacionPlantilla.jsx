@@ -6,13 +6,14 @@ import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode"
-import io from 'socket.io-client';
+
+/* import { nanoid } from 'nanoid'; */
 /* import Hme from './Header'; */
 
 const URI = 'http://localhost:8000/card/';
 const URI2 = 'http://localhost:8000/questions/'; 
 const URI3 = 'http://localhost:8000/options/';
-const socket = io("http://localhost:8000"); 
+
 
 const CreacionPlantilla = () => {
     const [showColorPicker, setShowColorPicker] = useState(false);
@@ -25,30 +26,34 @@ const CreacionPlantilla = () => {
   const [font, setFont] = useState('Arial');
   const [miId, setMiId] = useState(null);  // Almacena tu propio ID
   const [destinatarioId, setDestinatarioId] = useState(''); 
-
+/* const shortId = nanoid(10); 
+console.log("id corto: ",shortId); */
   const navigate = useNavigate();
 
   
   const token = localStorage.getItem('token');
   const decoded = jwtDecode(token);
   const Cedula= decoded.Cedula
-  console.log(Cedula)
+
   const uniqueID = uuidv4();
+  const uniqueIDPregunta = uuidv4();
+  const codificadoID = btoa(uniqueID)
+
   const Finalizar = async (e) => {
     e.preventDefault();
   
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,Userid:Cedula});
-      await axios.post(URI2, { id_card: uniqueID, Pregunta: Question });
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${'localhost:5174'}/c/${codificadoID}`});
+      await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
 
-        axios.post(URI3, { id_pregunta: Question, opcion:option1})   
-        axios.post(URI3, { id_pregunta: Question, opcion:option2})
+        axios.post(URI3, { id_pregunta: uniqueIDPregunta, opcion:option1})   
+        axios.post(URI3, { id_pregunta: uniqueIDPregunta, opcion:option2})
 
 
       
-      navigate('/Home');
+      navigate('/H');
     } catch (error) {
       console.error('Error al enviar los datos:', error);
     }
@@ -58,17 +63,19 @@ const CreacionPlantilla = () => {
 
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,Userid:Cedula});
-      await axios.post(URI2, { id_card: uniqueID, Pregunta: Question });
+      /* el puerto se tiene que cambiar cuando se vaya a desplegar  */
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${'localhost:5174'}/c/${codificadoID}`});
+
+      await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
 
-        axios.post(URI3, { id_pregunta: Question,opcion:option1})   
-        axios.post(URI3, { id_pregunta: Question,opcion:option2})
+      axios.post(URI3, { id_pregunta: uniqueIDPregunta, opcion:option1})   
+      axios.post(URI3, { id_pregunta: uniqueIDPregunta, opcion:option2})
         
-        socket.emit('mensaje', title);
+      
 
-        navigate('/loby');
-        socket.emit('enviaridCard',  uniqueID,Question);
+        navigate('/loby/' + uniqueID);
+       
      
         
       } catch (error) {
@@ -77,17 +84,10 @@ const CreacionPlantilla = () => {
       
     };
     
-    useEffect(() => {
-      
-      socket.on('bienvenida', (id) => {
-        console.log('ID recibido del servidor:',id);
-         // Guarda el ID que el servidor te envía      
-         
-        });
    
         
         
-      });
+
       
 
 
@@ -105,8 +105,8 @@ const CreacionPlantilla = () => {
   return (
     <div >
           
-         {/*      <Hme /> */}
-      <main className='flex items-center p-10 justify-center'>
+      
+      <main className='flex items-center justify-center'>
         <form className='Content_CreacionPlantilla ' style={{ backgroundColor: color }}>
           <div className='Controls'>
             <div className='icon-container'>

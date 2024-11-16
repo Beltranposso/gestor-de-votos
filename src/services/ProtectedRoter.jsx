@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom"
 
 const ProtectedRoter =({
     canActive,
-    redirect= '/'
+    redirect= '/H'
     
 }) =>{
 

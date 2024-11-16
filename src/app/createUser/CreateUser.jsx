@@ -15,7 +15,9 @@ function Create_User() {
   const [correo, setCorreo] = useState('');
   const [cedula, setCedula] = useState('');
   const [validated, setValidated] = useState(false);
-  const [id_cargo, setId_cargo] = useState();
+  const [cargo, setCargo] = useState(0);
+  const [poder, setPoder] = useState();
+  const[contraseña,setContraseña]= useState();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -24,20 +26,24 @@ function Create_User() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      await axios.post(URI5, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula,id_cargo:id_cargo });
+      await axios.post(URI5, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula, id_cargo:cargo,poder:poder,Contraseña:contraseña });
       navigate('/listUsers');
     }
     setValidated(true);
   };
-  const manejarCambio = ( label) => {
-      // Guardar el id seleccionado
-    setId_cargo(label);  // Guardar el label seleccionado
-
-    console.log("Label seleccionado:", id_cargo);
- };
-  console.log("id cargo ",id_cargo)
+  
+  
+  
+  const manejarCambio = (label) => {
+    // Guardar el label seleccionado en el estado
+    setCargo(label);  
+ 
+    // Mostrar el valor directamente
+   
+  };
 
   return (
+    <div className='flex justify-center  items-center  w-full h-screen'>
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
         <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -93,16 +99,48 @@ function Create_User() {
             porfavor ingresa el correo
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group as={Col} md="4" controlId="validationCustom02">
+          <Form.Label>Contraseña</Form.Label>
+          <Form.Control
+          disabled={cargo == 2 ? true : false}
+            required
+            type="text"
+            placeholder="contraseña"
+            value={contraseña}
+            onChange={(e) => setContraseña(e.target.value)}
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} md="3" controlId="validationCustom03">
-          <Form.Label>Usuario</Form.Label>
-          <Form.Select aria-label="Default select example">
-      <option>Selecione el tipo de usuario</option>
-      <option onChange={() => manejarCambio(1)} value="1">Adminsastrador</option>
-      <option onChange={() => manejarCambio(2)} value="2">Operador de registro</option>
-      
-    </Form.Select>
+          <Form.Label>Tipo de Usuario</Form.Label>
+          <Form.Select 
+  aria-label="Default select example" 
+  onChange={(e) => manejarCambio(e.target.value)} // Pasar el valor seleccionado
+  defaultValue=""
+>
+  <option value="" disabled>Seleccione el tipo de usuario</option>
+  <option value={1}>Administrador</option>
+  <option value={3}>Coordinador</option>
+  <option value={2}>Operador de registro</option>
+</Form.Select>
+          <Form.Control.Feedback type="invalid">
+            porfavor ingresa el correo
+          </Form.Control.Feedback>
+        </Form.Group>
+      </Row>
+      <Row className="mb-3">
+        <Form.Group as={Col} md="3" controlId="validationCustom03">
+          <Form.Label>P.Aquisitivo</Form.Label>
+          <Form.Control
+  type="number"
+  placeholder="P.Aquisitivo"
+  step="0.1" // Esto permite ingresar valores con decimales
+  required
+  value={poder} // Asegúrate de que `poder` esté definido como estado
+  onChange={(e) => setPoder(parseFloat(e.target.value) )} // Guarda como decimal
+/>
           <Form.Control.Feedback type="invalid">
             porfavor ingresa el correo
           </Form.Control.Feedback>
@@ -116,8 +154,9 @@ function Create_User() {
           feedbackType="invalid"
         />
       </Form.Group>
-      <Button type="submit">Submit form</Button>
+      <Button type="submit">Crear</Button>
     </Form>
+    </div>
   );
 }
 

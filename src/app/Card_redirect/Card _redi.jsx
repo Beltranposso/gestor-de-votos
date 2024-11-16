@@ -7,22 +7,28 @@ import CardButton from './Card_Button';
 import Votantes from './Votantes';
 import axios from 'axios';
 import { set } from 'react-hook-form';
-import {URI2,URI3,URI6} from '../../services/Conexiones';
+import {URI2,URI3,URI6,URI5} from '../../services/Conexiones';
+import io from 'socket.io-client';
 
+const Socket = io("http://localhost:8000");
 const CardInfo = () => {
     const { id } = useParams();
     
-    const [optionVotes, setOptionVotes] = useState([]);
+const [optionVotes, setOptionVotes] = useState([]);
 const [Questionsdata, setQuestionsdata] = useState([]);
 const [Optiondata, setOptiondata] = useState([]);
 const [Votesdata, setVotesdata] = useState([]);
 const[Numvotos,setNumerosVotos]=useState(0);
 const [opciones, setOpciones] = useState([]);
+const[idPregunta,setidPregunta]=useState('');
+const [users, setUsers] = useState([]);
+const [Señal, setSeñal] = useState([]);
 
 
 const getQuestdions = async () => {
     const response = await axios.get(URI2+id);//, params:   id);
     setQuestionsdata(response.data.Pregunta);
+    setidPregunta(response.data.id);
 };
 
 const getOption = async () => {
@@ -36,61 +42,65 @@ const getVotos = async () => {
 
 }
 
+const getuser = async () => {
+const response  = await axios.get(URI5)
+setUsers(response.data)
+};
 
 useEffect(() => {
+    Socket.on('M', (señal) => {
+        setSeñal(señal);
+    })
     getQuestdions();
     getOption();
     getVotos();
-}, []);
+    getuser();
+}, [Señal]);
 
-console.log();
 
+    const OptionFilter = Optiondata.filter((option) => option.id_pregunta === idPregunta).map((option) => option.id);
 
-    const OptionFilter = Optiondata.filter((option) => option.id_pregunta === Questionsdata).map((option) => option.id);
-
-    const OptionFilter2 = Optiondata.filter((option) => option.id_pregunta === Questionsdata ).map((option) => option.opcion);
+    const OptionFilter2 = Optiondata.filter((option) => option.id_pregunta === idPregunta ).map((option) => option.opcion);
 
     const VotosFilter = Votesdata.filter((voto) => OptionFilter.includes(voto.id_Option)).length;
  
     const votosFilter_2 = Votesdata.filter((voto) => voto.id_card === id);
-    console.log("votos id",votosFilter_2);
-
-     
-
-
- useEffect(() => {
-setNumerosVotos(VotosFilter)
-setOpciones(OptionFilter2)
-},[VotosFilter]) 
-
-
-const OptionVotesCount = OptionFilter.reduce((acc, optionId) => {
-   
-    const votesForOption = Votesdata.filter((voto) => voto.id_Option === optionId).length;
     
-   
-    acc[optionId] = votesForOption;
-    return acc;
-}, {});
-useEffect(() => {
-    if (Questionsdata && Optiondata.length > 0 && Votesdata.length > 0) {
-      
-        const filteredOptions = Optiondata.filter((option) => option.id_pregunta === Questionsdata);
-        const optionIds = filteredOptions.map((option) => option.id); 
-        const optionTexts = filteredOptions.map((option) => option.opcion); 
 
-        // Calcular el número de votos por opción
-        const OptionVotesList = optionIds.map((optionId) => {
-            return Votesdata.filter((voto) => voto.id_Option === optionId).length;
+ 
+ useEffect(() => {
+    
+setNumerosVotos(votosFilter_2.length)
+setOpciones(OptionFilter2)
+},[VotosFilter]); 
+
+
+
+
+
+useEffect(() => {
+    if (idPregunta && Optiondata.length > 0 && Votesdata.length > 0 && users.length > 0) {
+        const filteredOptions = Optiondata.filter((option) => option.id_pregunta === idPregunta);
+        const optionTexts = filteredOptions.map((option) => option.opcion);
+
+        // Crear un Map para obtener el poder de cada usuario usando la cédula
+        const userPowerMap = new Map(users.map((user) => [user.Cedula, user.poder]));
+
+        // Calcular votos ponderados
+        const OptionVotesList = filteredOptions.map((option) => {
+            return Votesdata
+                .filter((voto) => voto.id_Option === option.id)
+                .reduce((total, voto) => {
+                    const userPower = userPowerMap.get(voto.id_voter) || 0; // Obtener poder desde userPowerMap
+                  
+                    return total + userPower;
+            },0 );
         });
 
-        // Actualizar el estado
-        setOpciones(optionTexts);  
-        setOptionVotes(OptionVotesList);  
+        setOpciones(optionTexts);
+        setOptionVotes(OptionVotesList);
     }
-}, [Questionsdata, Optiondata, Votesdata]); 
-
-console.log("data: ",optionVotes);
+}, [idPregunta, Optiondata, Votesdata, users]);
 
 
 
@@ -114,8 +124,7 @@ console.log("data: ",optionVotes);
                            </header>
                            <main >
                             <div className='a_Users_main'>
-                           
-                          
+
 
                             {votosFilter_2.map((voto) => (
                                 <Votantes key={voto.id} votantes={voto.id_voter}>                               

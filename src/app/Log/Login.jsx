@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Validation = () => {
- const navigate = useNavigate();
+
  
   const { register, handleSubmit, formState: { errors } } = useForm();
   
@@ -21,7 +21,7 @@ const Validation = () => {
       if (response.data.token) {
         // Almacena el token en localStorage
         localStorage.setItem('token', response.data.token);
-        navigate('/Home');
+        window.location.href = '/H';
  
       } else {
         alert('Cedula o Contraseña incorrectos');
