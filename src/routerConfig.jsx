@@ -7,7 +7,7 @@ export  const routes = [
         
     {
         path: '/',
-        component:<p>Control 360</p>
+        component:<p>Control 360.......</p>
     },
     {
         path: '/h',

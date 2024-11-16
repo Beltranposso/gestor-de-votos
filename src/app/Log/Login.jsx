@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useForm} from "react-hook-form"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import img from '../../assets/img/file.png';
 
 const Validation = () => {
 
@@ -35,7 +36,7 @@ const Validation = () => {
     <div className="validation">
       {/*   <img  className='img_control' src="/src/assets/img/control 360(gestion de votos) (1).png" alt="" width={600} height={300}/> */}
       <div className='img_content'>
-        <img src="/src/assets/img/file.png" alt="" width={450} height={200} />
+        <img src={img} width={450} height={200} />
       </div>
       <div className='formValidation'>
         <form className='form' onSubmit={handleSubmit(isSubmit)}>
