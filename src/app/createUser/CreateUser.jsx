@@ -16,8 +16,8 @@ function Create_User() {
   const [cedula, setCedula] = useState('');
   const [validated, setValidated] = useState(false);
   const [cargo, setCargo] = useState(0);
-  const [poder, setPoder] = useState();
-  const[contraseña,setContraseña]= useState();
+  const [poder, setPoder] = useState(0);
+  const[contraseña,setContraseña]= useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -37,7 +37,7 @@ function Create_User() {
   const manejarCambio = (label) => {
     // Guardar el label seleccionado en el estado
     setCargo(label);  
- 
+  console.log(label)
     // Mostrar el valor directamente
    
   };
@@ -106,7 +106,7 @@ function Create_User() {
             required
             type="text"
             placeholder="contraseña"
-            value={contraseña}
+            value={contraseña || ''}
             onChange={(e) => setContraseña(e.target.value)}
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>

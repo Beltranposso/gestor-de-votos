@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Upload, FileSpreadsheet, AlertCircle, Save } from 'lucide-react';
 import { read, utils } from 'xlsx';
-import { URI5 } from '../../services/Conexiones';
+import { URI10 } from '../../services/Conexiones';
 import axios from 'axios';
 
 const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
@@ -69,12 +69,13 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
   const handleSave = async () => {
    
       try {
-        const response = await axios.post(URI5, previewData);
+        const response = await axios.post(URI10 , previewData);
     
 
 
         if (response.status === 200) {
           onClose();
+          location.reload();
         } else {
           console.error('Error en la respuesta:', response);
           setError('Error en la respuesta');

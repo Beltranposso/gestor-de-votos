@@ -10,4 +10,5 @@ export const  URI6 = 'https://serverapivote.co.control360.co/votes/';
 export const  URI7 = 'https://serverapivote.co.control360.co/Link/';
 export const URI8 = 'https://serverapivote.co.control360.co/api/votacion/estado';
 export const URI9 = 'https://serverapivote.co.control360.co/api/votacion/estado';
+export const URI10 = 'https://serverapivote.co.control360.co/CreateExcel';
  
