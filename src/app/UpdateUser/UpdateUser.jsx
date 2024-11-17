@@ -7,7 +7,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const URI = 'http://localhost:8000/usuarios/';
+const URI = 'https://serverapivote.co.control360.co/usuarios/';
 
 function UpdateUser() {
   const [validated, setValidated] = useState(false);
