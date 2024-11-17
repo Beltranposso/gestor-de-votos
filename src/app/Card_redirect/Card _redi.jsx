@@ -9,8 +9,8 @@ import axios from 'axios';
 import { set } from 'react-hook-form';
 import {URI2,URI3,URI6,URI5} from '../../services/Conexiones';
 import io from 'socket.io-client';
-/*************  ✨ Codeium Command 🌟  *************/
-const Socket = io('https://serverapivote.co.control360.co ');
+
+const Socket = io('https://serverapivote.co.control360.co');
 
  
 const CardInfo = () => {
