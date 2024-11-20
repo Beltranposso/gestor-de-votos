@@ -116,7 +116,7 @@ useEffect(() => {
                 <Search className="h-5 w-5 text-muted-foreground text-white" />
                 </div>
                 <input
-                    type="search"
+                    type="search" 
                     placeholder="Search for anything"
                     className="h-10 w-full bg-background/5 rounded-xs pl-10 text-base placeholder:text-muted-foreground focus-visible:ring-1 dark text-white bg-zinc-950 mb"
                     />        
