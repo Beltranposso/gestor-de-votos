@@ -17,7 +17,7 @@ const Loby = () => {
   const [QRurl, setQRurl] = useState('');
   const [Idcard, setIdcard] = useState('');
   const[questions,setQuestions] = useState('');
-  const[estado, setEstado] = useState('');
+  const[estado, setEstado] = useState();
   const {id} = useParams();
 
   const [link, setLink] = useState('');
@@ -27,7 +27,7 @@ const Loby = () => {
     try {
 
       // Puedes cambiar esta URL por la que deseas generar
-  const url = await QRCode.toDataURL(`http://localhost:5174/c/${id}`);
+  const url = await QRCode.toDataURL(`https://control360.co/c/${id}`);
       setQRurl(url);
    
     } catch (error) {
@@ -63,7 +63,7 @@ const Loby = () => {
   const Iniciar = async () => {
   // Cambia el estado
     setEstado(true); 
-    const Es = estado ? 'Activa' : 'Finalizada'; 
+    const Es = estado ? 'Activa' : 'Activa'; 
    
     try {
       await axios.post(URI8, {id:id, Estado: Es });

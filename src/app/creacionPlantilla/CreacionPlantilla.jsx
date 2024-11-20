@@ -46,7 +46,7 @@ console.log("id corto: ",shortId); */
   
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${''}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://controlvotantes360.co.control360.co'}/c/${codificadoID}`});
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
 
@@ -66,7 +66,7 @@ console.log("id corto: ",shortId); */
     try {
       // Crear el título y la pregunta
       /* el puerto se tiene que cambiar cuando se vaya a desplegar  */
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${'localhost:5174'}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://controlvotantes360.co.control360.co'}/c/${codificadoID}`});
 
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
