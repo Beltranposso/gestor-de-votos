@@ -64,6 +64,7 @@ console.log("usuarios filtrado s : ",filter)
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onFileUpload={''}
+          id={id}
         />
     <div className="ContenedorUsers">
       <div className="share_Listuser">

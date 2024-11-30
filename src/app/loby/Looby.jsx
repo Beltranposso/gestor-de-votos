@@ -11,7 +11,7 @@ import { URI, URI7,URI8,URI9 } from '../../services/Conexiones';
 import { set } from 'react-hook-form';
 import { useParams,useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
-const socket = io("https://serverapivote.co.control360.co");
+/* const socket = io("https://serverapivote.co.control360.co"); */
 
 const Loby = () => {
   const [QRurl, setQRurl] = useState('');

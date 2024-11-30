@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Grafficas from './Grafficas';
 import { useParams } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import CardButton from './Card_Button';
@@ -11,14 +10,17 @@ import { Search } from 'lucide-react'
 import {URI2,URI3,URI6,URI5} from '../../services/Conexiones';
 import io from 'socket.io-client';
 import Profile from '../../components/layouts/Profile';
+import ExitButton  from '../../components/ExitButtonHome';
 
+
+import { Outlet,useNavigate } from "react-router-dom";
 /* const Socket = io('https://serverapivote.co.control360.co'); */ 
-const Socket = io('https://localhost:8000');
+const Socket = io('');
 
  
 const CardInfo = () => {
-    const { id } = useParams();
     
+ const { id } = useParams();  
 const [optionVotes, setOptionVotes] = useState([]);
 const [Questionsdata, setQuestionsdata] = useState([]);
 const [Optiondata, setOptiondata] = useState([]);
@@ -28,7 +30,11 @@ const [opciones, setOpciones] = useState([]);
 const[idPregunta,setidPregunta]=useState('');
 const [users, setUsers] = useState([]);
 const [Señal, setSeñal] = useState([]);
-
+const navigate = useNavigate();
+const navigate2 = useNavigate();
+useEffect(() => {
+  navigate('Dashboard');  
+},[]) 
 
 const getQuestdions = async () => {
     const response = await axios.get(URI2+id);//, params:   id);
@@ -52,6 +58,10 @@ const response  = await axios.get(URI5)
 setUsers(response.data)
 };
 
+const Exit =() => {
+    navigate('/H');
+}
+
 useEffect(() => {
     Socket.on('M', (señal) => {
         setSeñal(señal);
@@ -61,6 +71,7 @@ useEffect(() => {
     getVotos();
     getuser();
 }, [Señal]);
+ 
 
 
     const OptionFilter = Optiondata.filter((option) => option.id_pregunta === idPregunta).map((option) => option.id);
@@ -71,7 +82,7 @@ useEffect(() => {
  
     const votosFilter_2 = Votesdata.filter((voto) => voto.id_card === id);
     
-
+ console.log(votosFilter_2)
  
  useEffect(() => {
     
@@ -109,7 +120,8 @@ useEffect(() => {
 
     return (
         <div className='flex justify-start items-center bg-[#E6E6E6] gap-1 h-screen px-2 py-2'>
-            <div className='flex gap-2 flex-col h-full w-[280px] bg-zinc-950 rounded-lg p-3 mr-2 '>
+            <div className='flex gap-2 flex-col h-full w-[20%] max-w-[20%] bg-zinc-950 rounded-lg p-3 mr-2 justify-between '>
+            <div className='flex flex-col gap-2'>
             <Profile></Profile>
             <div className="relative w-full max-w-2xl  mb-3  ">
                  <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
@@ -123,15 +135,41 @@ useEffect(() => {
             </div>
 
      <Acordion></Acordion>
-            </div>
-  <div className='flex flex-col gap-2 h-full w-[80%]  rounded-lg p-2 bg-red-400'>
-            <div className=''>
+     </div>
 
+     <ExitButton onClick={Exit} ></ExitButton>
             </div>
-            <div className=''>
 
+
+                <div className='flex flex-col gap-2 h-full w-[100%] max-w-[1500px]   rounded-lg   '>
+                <header className='bg-white h-20 rounded-t-lg px-3 items-center flex justify-between'>
+                    <div className='flex justify-center flex-col w-[300px] gap-2'>
+                        <h1 className='text-2xl'>Asamblea 1</h1>
+                        <p className='text-sm'>Asamblea dirigioda por el presidente</p>         
+                    </div>
+
+                    <div className='flex h-full gap-8'>
+
+                        <div className='flex gap-3  justify-center items-center '>
+                        <p>Estado de la encuesta</p>
+                         <div className='flex items-center w-auto px-2 justify-center  h-2/4  border-sky-400 border-2 rounded-[5px] '>
+                         <span><strong>Programada</strong></span>
+                         </div>
+                        </div>     
+
+
+                    <div className='flex h-full justify-center items-center gap-2'>
+                        <p>Inicia el </p>
+                        <span><strong>12/12/2023</strong></span>
+                    </div>  
+                    
+                    </div>
+                </header>
+                <main className='h-full bg-white rounded-b-lg flex p-3 gap-4 overflow-hidden justify-center items-center'>
+
+                <Outlet/>
+                </main>
             </div>
-  </div>
         </div>
     );
 };

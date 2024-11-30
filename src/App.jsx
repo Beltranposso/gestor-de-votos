@@ -3,7 +3,12 @@ import { routes } from './routerConfig';
 import Proted from '../src/services/ProtectedRoter';
 import CardInfo from './app/Card_redirect/Card _redi';
 import Login from '../src/app/Log/Login';
+import  MainDash  from './components/comon/MainDashboard';
+import ListUserDash from './components/comon/UsuariosCardinfo';
+import CreateUser from './components/create';
 import { useEffect, useState } from 'react';
+
+
 
 function App() {
   // Establece el estado inicial con el valor del token almacenado en localStorage
@@ -33,9 +38,14 @@ function App() {
             {routes.map((route, index) => (
               <Route key={index} path={route.path} element={route.component} />
             ))}
+            <Route path='/Home/Cardinfo/:id/*' element={<CardInfo />} > 
+                <Route path='Dashboard' element={<MainDash />} />
+                <Route path='listUsers' element={<ListUserDash />} />
+                <Route path='Create' element={<CreateUser />} />
+            </Route>
           </Route>
           <Route path='/Login' element={<Login />} />
-          <Route path='/Home/Cardinfo/:id' element={<CardInfo />} />
+
         </Routes>
       </div>
     </BrowserRouter>

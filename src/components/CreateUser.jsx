@@ -6,7 +6,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
-import { URI5 } from '../../services/Conexiones';
+import { URI5 ,URI18} from '../services/Conexiones';
+import { SuccessModal } from './Modal/SuccessModal';
 
 
 function Create_User() {
@@ -18,6 +19,7 @@ function Create_User() {
   const [cargo, setCargo] = useState(0);
   const [poder, setPoder] = useState(0);
   const[contraseña,setContraseña]= useState('');
+  const [Apto, setApto] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -26,12 +28,22 @@ function Create_User() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      await axios.post(URI5, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula, id_cargo:cargo,poder:poder,Contraseña:contraseña });
-      navigate('/listUsers');
-    }
+      if(cargo===4){
+
+        await axios.post(URI18, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula, id_cargo:cargo,quorum:poder ,Apto: A});
+      }else{        
+        await axios.post(URI5, );
+      }
+
+      navigate('listUsers');
+    } 
     setValidated(true);
   };
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleShowModal = () => {
+    setIsModalOpen(true);
+  };
   
   
   const manejarCambio = (label) => {
@@ -40,11 +52,20 @@ function Create_User() {
   console.log(label)
     // Mostrar el valor directamente
    
-  };
+  }; 
 
   return (
-    <div className='flex justify-center  items-center  w-full h-screen'>
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <div className='flex justify-center   items-center  w-full h-full'>
+       <SuccessModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          duration={4000}
+        />
+         <button
+          onClick={handleShowModal}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+        ></button>
+     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
         <Form.Group as={Col} md="4" controlId="validationCustom01">
           <Form.Label>First name</Form.Label>
@@ -85,6 +106,18 @@ function Create_User() {
           </InputGroup>
         </Form.Group>
       </Row>
+          <Form.Label>Tipo de Usuario</Form.Label>
+          <Form.Select 
+  aria-label="Default select example" 
+  onChange={(e) => manejarCambio(e.target.value)} // Pasar el valor seleccionado
+  defaultValue=""
+>
+  <option value="" disabled>Seleccione el tipo de usuario</option>
+  <option value={1}>Administrador</option>
+  <option value={3}>Coordinador</option>
+  <option value={2}>Operador de registro</option>
+  <option value={4}>Usuario</option>
+</Form.Select>
       <Row className="mb-3">
         <Form.Group as={Col} md="6" controlId="validationCustom03">
           <Form.Label>Correo</Form.Label>
@@ -95,14 +128,12 @@ function Create_User() {
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
           />
-          <Form.Control.Feedback type="invalid">
-            porfavor ingresa el correo
-          </Form.Control.Feedback>
+      
         </Form.Group>
         <Form.Group as={Col} md="4" controlId="validationCustom02">
           <Form.Label>Contraseña</Form.Label>
           <Form.Control
-          disabled={cargo == 2 ? true : false}
+          disabled={cargo == 4 ? true : false}
             required
             type="text"
             placeholder="contraseña"
@@ -114,20 +145,7 @@ function Create_User() {
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} md="3" controlId="validationCustom03">
-          <Form.Label>Tipo de Usuario</Form.Label>
-          <Form.Select 
-  aria-label="Default select example" 
-  onChange={(e) => manejarCambio(e.target.value)} // Pasar el valor seleccionado
-  defaultValue=""
->
-  <option value="" disabled>Seleccione el tipo de usuario</option>
-  <option value={1}>Administrador</option>
-  <option value={3}>Coordinador</option>
-  <option value={2}>Operador de registro</option>
-</Form.Select>
-          <Form.Control.Feedback type="invalid">
-            porfavor ingresa el correo
-          </Form.Control.Feedback>
+   
         </Form.Group>
       </Row>
       <Row className="mb-3">
@@ -136,16 +154,27 @@ function Create_User() {
           <Form.Control
   type="number"
   placeholder="P.Aquisitivo"
-  step="0.1" // Esto permite ingresar valores con decimales
+  step="0.0001" // Esto permite ingresar valores con decimales
   required
   value={poder} // Asegúrate de que `poder` esté definido como estado
   onChange={(e) => setPoder(parseFloat(e.target.value) )} // Guarda como decimal
 />
-          <Form.Control.Feedback type="invalid">
-            porfavor ingresa el correo
-          </Form.Control.Feedback>
+        
+        
         </Form.Group>
+        
       </Row>
+      <Form.Group className="mb-3">
+      <Form.Label>Apartamento o residencia</Form.Label>
+          <Form.Control
+  type="text"
+  placeholder=""
+  step="0.001" // Esto permite ingresar valores con decimales
+  required
+  value={Apto} // Asegúrate de que `poder` esté definido como estado
+  onChange={(e) => setApto(e.target.value )} // Guarda como decimal
+/>
+      </Form.Group>
       <Form.Group className="mb-3">
         <Form.Check
           required
@@ -155,7 +184,7 @@ function Create_User() {
         />
       </Form.Group>
       <Button type="submit">Crear</Button>
-    </Form>
+    </Form> 
     </div>
   );
 }

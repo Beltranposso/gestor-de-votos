@@ -9,7 +9,7 @@ const Profile = ({}) => {
 
           
             <div className='flex  flex-col font-sans font-bold'>               
-            <p className=" ">Alejandro  </p>
+            <p className=" ">Alejandro  </p> 
             <p className="text-sm ">Admin</p>
             </div>          
         </div>

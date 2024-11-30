@@ -4,14 +4,16 @@ import { read, utils } from 'xlsx';
 import { URI10 } from '../../services/Conexiones';
 import axios from 'axios';
 
-const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
+const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
   const [dragActive, setDragActive] = useState(false);
-  const [error, setError] = useState(null);
+  const [Mesagge, setMesagge] = useState(null);
   const [previewData, setPreviewData] = useState(null);
   const inputRef = React.useRef(null);
 
   if (!isOpen) return null;
  console.log("dta json ?= ",previewData)
+
+ 
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -21,28 +23,73 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
       setDragActive(false);
     }
   };
-
   const processFile = async (file) => {
     try {
-      setError(null);
+      setMesagge(null); // Reiniciar errores previos
+  
       if (!file.name.match(/\.(xlsx|xls)$/)) {
-        throw new Error('Please upload an Excel file (.xlsx or .xls)');
+        throw new Error('Por favor, sube un archivo Excel (.xlsx o .xls)');
       }
-
+  
       const data = await file.arrayBuffer();
       const workbook = read(data);
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = utils.sheet_to_json(worksheet);
-
+  
       if (jsonData.length === 0) {
-        throw new Error('The Excel file is empty');
+        throw new Error('El archivo Excel está vacío');
       }
-
-      setPreviewData(jsonData);
+  
+      // Normalizar los nombres de las columnas eliminando espacios
+      const normalizedData = jsonData.map((row) => {
+        const normalizedRow = {};
+        Object.keys(row).forEach((key) => {
+          const normalizedKey = key.replace(/\s+/g, '').trim(); // Eliminar espacios de los nombres de columnas
+          normalizedRow[normalizedKey] = row[key];
+        });
+        return normalizedRow;
+      });
+  
+      // Verificar si la columna Cédula existe
+      const columnName = 'Cedula'; // Cambia esto según el nombre exacto de la columna en tu Excel (sin espacios)
+      if (!normalizedData[0][columnName]) {
+        throw new Error(`La columna "${columnName}" no existe en el archivo cargado.`);
+      }
+  
+      // Validar duplicados en la columna
+      const cedulaValues = normalizedData.map((row) => row[columnName]); // Extraer valores de la columna Cédula
+      const duplicates = cedulaValues.filter(
+        (value, index, array) => array.indexOf(value) !== index && value !== undefined && value !== null
+      );
+  
+      if (duplicates.length > 0) {
+        setMesagge(`Se encontraron valores duplicados en la columna ${columnName}: ${[...new Set(duplicates)].join(', ')}`);
+        return; // Detener procesamiento si hay duplicados
+      }
+  
+      // Validar que los valores en la columna "Cédula" sean solo números
+      const invalidCedulas = cedulaValues.filter(
+        (value) => typeof value !== 'number' && !/^\d+$/.test(value) // Aceptar solo números o strings numéricos
+      );
+  
+      if (invalidCedulas.length > 0) {
+        console.log(
+          `Se encontraron valores inválidos en la columna "${columnName}". Los valores deben ser únicamente números. Valores no válidos: ${[...new Set(invalidCedulas)].join(', ')}`
+        );
+        setMesagge(
+          `Se encontraron valores inválidos en la columna "${columnName}". Los valores deben ser únicamente números. Valores no válidos: ${[...new Set(invalidCedulas)].join(', ')}`
+        );
+     
+      }
+  
+      // Si todo está bien, procesar los datos
+      setPreviewData(normalizedData); // Almacenar datos procesados para su visualización o envío al backend
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error processing file');
+      setMesagge(err instanceof Error ? err.message : 'Error procesando el archivo');
     }
   };
+  
+  
 
   const handleDrop = async (e) => {
     e.preventDefault();
@@ -69,20 +116,18 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
   const handleSave = async () => {
    
       try {
-        const response = await axios.post(URI10 , previewData);
+        const response = await axios.post(URI10+id , previewData);
     
-
-
         if (response.status === 200) {
           onClose();
           location.reload();
         } else {
           console.error('Error en la respuesta:', response);
-          setError('Error en la respuesta');
+          setMesagge('Error en la respuesta');
         }
       } catch (err) {
         console.error('Error al enviar los datos:', err);
-        setError('Error al acargar los datos');
+        setMesagge('Error al acargar los datos');
       
       }
     
@@ -196,10 +241,10 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload }) => {
               </div>
 
               <div className="mt-4 text-center">
-                {error && (
+                {Mesagge && (
                   <div className="text-red-600">
                     <AlertCircle className="inline h-5 w-5" />
-                    <span>{error}</span>
+                    <span>{Mesagge}</span>
                   </div>
                 )}
               </div>

@@ -1,6 +1,6 @@
 
 import Layaut from '../../components/layouts/Header';
-import CreateUser from './CreateUser';
+import CreateUser from '../../components/CreateUser';
 
 
 const Content = () => {
