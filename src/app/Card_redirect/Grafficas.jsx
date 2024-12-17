@@ -13,7 +13,7 @@ import {
 import { URI6, URI3, URI13, URI2 } from '../../services/Conexiones';
 import axios from 'axios';
 
-const Grafficas = ({ questions = [] }) => {
+const Grafficas = ({ questions = [],señal }) => {
   const { id } = useParams(); // Obtener el ID de la ruta
   const [Optiondata, setOptiondata] = useState([]); // Opciones disponibles
   const [Votesdata, setVotesdata] = useState([]); // Votos registrados
@@ -22,7 +22,8 @@ const Grafficas = ({ questions = [] }) => {
   const [optionVotes, setOptionVotes] = useState([]); // Cantidad de votos ponderados por opción
   const [Questionsdata, setQuestionsdata] = useState([]); // Preguntas disponibles
   const [Pregunta, SetPregunta] = useState(''); // Texto de la pregunta seleccionada
-  const [selectedQuestion, setSelectedQuestion] = React.useState(questions[0]?.id || ""); // Pregunta seleccionada
+  const [selectedQuestion, setSelectedQuestion] = React.useState(questions[0]?.id || "");
+
   
   // Obtener datos de las opciones
   const getOption = async () => {
@@ -45,56 +46,59 @@ const Grafficas = ({ questions = [] }) => {
   // Obtener datos de las preguntas
   const getQuestions = async () => {
     const response = await axios.get(URI2 + id);
-    setQuestionsdata(response[0].id);
+    setQuestionsdata(response.data);
   };
 
   // Cargar datos iniciales
   useEffect(() => {
+   
+   
     getOption();
     getVotos();
     getUser();
     getQuestions();
-  }, []);
-console.log("opciones de datos : ",users)
+  }, [señal]);
+  
+
+
   // Procesar datos cuando cambia la pregunta seleccionada
   useEffect(() => {
     if (
-      selectedQuestion &&
-      Optiondata.length > 0 &&
-      Votesdata.length > 0 &&
-      users.length > 0
+        selectedQuestion &&
+        Optiondata.length > 0 // Asegúrate de que los datos de opciones ya están cargados
     ) {
-      // Filtrar opciones relacionadas con la pregunta seleccionada
-      const filteredOptions = Optiondata.filter(
-        (option) => option.id_pregunta === selectedQuestion
-      );
+        const filteredOptions = Optiondata.filter((option) => {
+         
+            return option.id_pregunta === selectedQuestion;
+        });
 
-      // Obtener el texto de las opciones
-      const optionTexts = filteredOptions.map((option) => option.opcion);
+      
 
-      // Crear un Map con el poder de voto de cada usuario basado en su cédula
-      const userPowerMap = new Map(users.map((user) => [user.Cedula, user.quorum]));
+        const optionTexts = filteredOptions.map((option) => option.opcion);
 
-      // Calcular los votos ponderados por opción
-      const OptionVotesList = filteredOptions.map((option) => {
-        return Votesdata.filter((voto) => voto.id_Option === option.id).reduce(
-          (total, voto) => {
-            const userPower = userPowerMap.get(voto.id_voter) || 0;
-            return total + userPower;
-          },
-          0
-        );
-      });
+        
 
-      // Actualizar estados
-      setOpciones(optionTexts);
-      setOptionVotes(OptionVotesList);
- 
-      console.log("Opciones actualizadas:", optionTexts);
-      console.log("Votos ponderados actualizados:", OptionVotesList);
-      // Debugging
+        // Si necesitas calcular votos ponderados
+        if (Votesdata.length > 0 && users.length > 0) {
+            const userPowerMap = new Map(users.map((user) => [user.Cedula, user.quorum]));
+
+            const OptionVotesList = filteredOptions.map((option) => {
+                return Votesdata.filter((voto) => voto.id_Option === option.id).reduce(
+                    (total, voto) => {
+                        const userPower = userPowerMap.get(voto.id_voter) || 0;
+                        return total + userPower;
+                    },
+                    0
+                );
+            });
+
+            setOptionVotes(OptionVotesList);
+        }
+
+        setOpciones(optionTexts);
     }
-  }, [selectedQuestion, Optiondata, Votesdata, users]);
+}, [selectedQuestion, Optiondata, Votesdata, users]);
+
   useEffect(() => {
     // Si las preguntas cambian, actualiza el valor predeterminado
     if (questions.length > 0 && !selectedQuestion) {
@@ -102,6 +106,14 @@ console.log("opciones de datos : ",users)
       SetPregunta(questions[0].Pregunta);
     }
   }, [questions, selectedQuestion]);
+ 
+
+
+
+
+
+
+
 
   return (
     <div className="h-[100%] w-full flex flex-col">

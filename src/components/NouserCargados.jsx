@@ -1,6 +1,6 @@
 import { Users, PlusCircle } from 'lucide-react';
 import {Link} from 'react-router-dom'
-export default function EmptyAssemblyState({id,Usuario}) {
+export default function EmptyAssemblyState({id,Usuario,rute}) {
   return (
     <div className="min-h-[400px] w-5/6 flex flex-col items-center justify-center p-8 rounded-lg bg-gradient-to-b ">
       <div className="relative">
@@ -20,7 +20,7 @@ export default function EmptyAssemblyState({id,Usuario}) {
         Aún no se han agregado {Usuario} a esta asamblea. Comienza agregando Para iniciar.
       </p>
 
-      <Link to={`/Home/Cardinfo/${id}/Create`}  className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors duration-200 flex items-center gap-2 group">
+      <Link to={`${rute}/Cardinfo/${id}/Create`}  className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors duration-200 flex items-center gap-2 group">
         <PlusCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
         Agregar
       </Link>

@@ -3,9 +3,32 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useEffect, useState } from "react"
 
 import { set } from "react-hook-form";
-const Votantes = ({name,Cedula, voto, abreviatura,estado}) => {
+const Votantes = ({name,Cedula, voto, estado}) => {
 
 const[isActive, setIsActive] = useState(false);
+const [abreviatura, setAbreviatura] = useState("");
+
+  // Función para generar la abreviatura
+  const generarAbreviatura = (nombre) => {
+    // Dividir el nombre por espacios para obtener las partes
+    const partes = nombre.split(' ');
+
+    // Obtener la primera letra del primer nombre y el apellido (si existen)
+    const primeraLetra = partes[0]?.charAt(0)?.toUpperCase();
+    const segundaLetra = partes.length > 1 ? partes[1]?.charAt(0)?.toUpperCase() : '';
+
+    // Retornar las dos primeras letras como abreviatura
+    return primeraLetra + (segundaLetra || '');
+  }
+
+  // Ejecutamos la función cuando el nombre cambia
+  useEffect(() => {
+    if (name) {
+      setAbreviatura(generarAbreviatura(name));
+    }
+  }, [name]);
+
+
 
 
 useEffect(() => {
@@ -20,13 +43,11 @@ useEffect(() => {
 
     return (
         <div
-        className="flex mx-2 items-center space-x-4 p-3 bg-white rounded-md shadow-sm overflow-hidden"
+        className="bg-white rounded-lg p-3 flex items-center gap-4 shadow-md hover:shadow-lg transition-shadow duration-200"
       >
     
-        <Avatar>
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-gray-300 h-12 w-12" >{abreviatura||""}</AvatarFallback>
-            </Avatar>
+      
+          <div className="flex justify-center items-center rounded-full bg-gray-200 w-5 h-5 p-3 tex-sm">{abreviatura}</div>
         <div className="space-y-2 flex justify-between w-full">
         <div>
             <p className="text-lg w-[140px] max-w-[140px] h-8 max-h-8 overflow-ellipsis overflow-hidden text-nowrap">{name}</p>

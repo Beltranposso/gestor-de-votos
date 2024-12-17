@@ -1,17 +1,20 @@
-
 import React,{ useState,useEffect} from 'react';
 import { Search,FileSpreadsheet } from 'lucide-react';
 import Table from '../Table';
 import NavM from '../NavSegment';
-import {URI13,URI5,URI15,URI16,URI17} from '../../services/Conexiones';
+import {URI13,URI5,URI15,URI16,URI17,URI22} from '../../services/Conexiones';
 import  FileUploadModal  from '../layouts/UploadExcelFile';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import NoUsersCargados from '../NouserCargados';
 import {  User  } from 'lucide-react'
 import CountUser from '../CountUser';
-import { set } from 'react-hook-form';
+import io from 'socket.io-client';
+import {getRouteByRole} from '../../components/rutes.js'
 
+
+/* const socket = io('http://localhost:8000/'); */
+const socket = io('https://serverapivote.co.control360.co/');
 
 const BaseComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +24,16 @@ const BaseComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const[UserLabel,setUserLabel]=useState("Usuarios");
   const [searchValue, setSearchValue] = useState(''); // Para el valor del input
-  const [filteredUsers, setFilteredUsers] = useState(users);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [rute,setRuta]=useState("");
+  const [funcion, setFuncion] = useState(() => {
+    return () => {
+    
+    }
+  });
   const{id}=useParams();
 
+  
 
 const getUser = async () => {
   const response = await axios.get(URI13+id);
@@ -42,7 +52,7 @@ const getAPPUsers2 = async () => {
   setUserLabel("Coordinadores");
 };
 const deleteUser = async (cedula) => {
-  console.log("Cédula a eliminar: ", cedula);
+
 
   // Determina la URI según el valor de NavMenu
   const deleteURI = (NavMenu === "coordinador" || NavMenu === "registro") ? URI5 : URI13;
@@ -52,6 +62,7 @@ const deleteUser = async (cedula) => {
     // Vuelve a obtener los datos actualizados después de eliminar
     if (NavMenu === "usuarios") {
       getUser();
+   
     } else if (NavMenu === "registro") {
       getAPPUsers();
     } else if (NavMenu === "coordinador") {
@@ -60,30 +71,62 @@ const deleteUser = async (cedula) => {
       console.log(err);
     }
 
-    console.log("Usuario eliminado correctamente");
+    
   } catch (error) {
     console.error("Error al eliminar el usuario:", error);
   }
 };
 
-console.log("NavMenu:sddddddddddddd ", NavMenu);
+const obtenerRuta = async () => {
+  const ruta = await getRouteByRole();
+ 
+  setRuta(ruta);
+
+   // Muestra la ruta obtenida en consola
+};
 
 const SetAsistencia = async (Cedula,asistencia) => {
   if(asistencia){
   const response = await axios.put(`${URI17}${Cedula}`);
-  console.log("Usuario actualizado correctamente:", response.data);
+ 
+  socket.emit('Asistencia', Cedula);
+  socket.emit('Estado', Cedula);
+  
   getUser();
   }
   else{
-    console.log("el usuario: ",Cedula, "no esta asistiendo");
+   
   }
 };
 
+
+
+const setAsitenciaOpe = async (Cedula, asistencia) => {
+  if (asistencia) {
+    try {
+      const response = await axios.put(`${URI22}${Cedula}`);
+      getAPPUsers()
+      socket.emit('Asistencia', Cedula);
+      socket.emit('Estado', Cedula);
+  
+    } catch (error) {
+      console.error("Error al actualizar asistencia:", error);
+    }
+  } else {
+  
+  }
+};
+
+
+
 useEffect(() => {
 if(NavMenu==="usuarios"){
+
   getUser();
+  setFuncion(()=> SetAsistencia)
 }else if(NavMenu==="registro"){
   getAPPUsers();
+  setFuncion(()=> setAsitenciaOpe)
 
 }else if (NavMenu==="coordinador"){
   getAPPUsers2();
@@ -98,29 +141,40 @@ useEffect(() => {
 
 
 
-   useEffect(() => {
-    const value = searchValue.trim().toLowerCase();
-  
-    if (value === '') {
-      setFilteredUsers(users); // Mostrar todos los usuarios si no hay búsqueda
-    } else {
-      const result = users.filter((user) => {
-        return (
-          user.Cedula.toString().toLowerCase().includes(value) ||
-          user.Nombre.toLowerCase().includes(value) ||
-          user.Apellido.toLowerCase().includes(value) ||
-          user.Correo.toLowerCase().includes(value)
-        );
-      });
-  
-      setFilteredUsers(result); // Mostrar los usuarios filtrados
-    }
-  }, [searchValue, users]); // 
+useEffect(() => {
+
+
+  const value = searchValue.trim().toLowerCase();
+
+  if (value === '') {
+    setFilteredUsers(Array.isArray(users) ? users : []);
+  } else {
+    const result = Array.isArray(users)
+      ? users.filter((user) => {
+          return (
+            user?.Cedula?.toString().toLowerCase().includes(value) ||
+            user?.Nombre?.toLowerCase().includes(value) ||
+            user?.Apellido?.toLowerCase().includes(value) ||
+            user?.Correo?.toLowerCase().includes(value)
+          );
+        })
+      : [];
+
+    setFilteredUsers(result);
+  }
+}, [users, searchValue]);
+
   const searchuser = (e) => {
     setSearchValue(e.target.value); // Actualizamos el estado del valor de búsqueda
   };
 
+useEffect(() => {
+  obtenerRuta();
+}, []);
 
+
+
+  
 
   return (
     <div className='flex flex-col w-full h-full '>
@@ -184,7 +238,7 @@ useEffect(() => {
    
        
       <main className='h-full flex flex-col  items-star overflow-y-auto '>
-       {users.message==='No hay usuarios'? <NoUsersCargados id={id} Usuario={UserLabel}></NoUsersCargados>:<Table onclik={deleteUser}  usuarios={filteredUsers} Asistencia={SetAsistencia} ></Table>} 
+      {users.message==='No hay usuarios'? <NoUsersCargados rute={rute} id={id} Usuario={UserLabel}></NoUsersCargados>:<Table onclik={deleteUser} text={searchValue}  usuarios={filteredUsers} Asistencia={funcion} ></Table>} 
 
       </main>
 

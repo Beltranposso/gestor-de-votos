@@ -6,13 +6,16 @@ import Grafficas from '../../app/Card_redirect/Grafficas';
 import { useParams } from 'react-router-dom';
 import  axios  from 'axios';
 import { useEffect,useState } from 'react';
-import { URI11,URI12,URI2,URI6,URI3,UIR14 } from "../../services/Conexiones";
+import { URI11,URI12,URI2,URI6,URI3,UIR14,URI19,URI25 } from "../../services/Conexiones";
 import Select from '../Select';
 import { Skeleton } from "@/components/ui/skeleton"
+import  io  from "socket.io-client";
 
 import Novotes  from '../Novotes'
+import { set } from "react-hook-form";
 
-
+/* const Socket = io('http://localhost:8000'); */
+const Socket = io('https://serverapivote.co.control360.co');
 
 const MyComponent = () => {
 const {id} = useParams();
@@ -21,6 +24,23 @@ const[UserNovoting, setUserNovoting] = useState([]);
 const [Questionsdata, setQuestionsdata] = useState([]);
 const [CountUsers , setConterUsers] = useState([]);
 const [idPregunta, setidPregunta] = useState('');
+const [Fecha, setFecha] = useState();
+const [timeRemaining, setTimeRemaining] = useState({});
+const [CreacionDate,setCreacionDate] = useState('');
+const [Condominio,setCondominio] = useState('');
+const[Descripcion, setDescripcion] = useState('');
+const[señal,setsenal] = useState('');
+
+
+
+const getfechaIncial = async () => {
+ const response = await axios.get(URI19+id);
+ setFecha(response.data.FechaInicio);
+ setCreacionDate(response.data.createdAt);
+ setCondominio(response.data.Condominio);
+ setDescripcion(response.data.Descripcion);
+}
+
 
 
 const GetVotos = async () => {
@@ -47,16 +67,25 @@ const GetCounTUsers = async () => {
 
 
 
+
+
+
+
+
 useEffect(() => {
+  Socket.on('M', (data) => {
+   setsenal(data);
+  })
+
+
+
   GetVotos();
   GetUserNovoting(); 
   getQuestdions();
   GetCounTUsers();
+  getfechaIncial();
  
-}, []);  
-console.log("Preguntaspor Id:  ", Questionsdata);
-
-console.log("contador de votos totaldddddddsdddddddddddddddddddd :", CountUsers);
+}, [señal]); 
 
   return ( 
     <div className='h-full w-full  flex  gap-4  '>
@@ -73,7 +102,7 @@ console.log("contador de votos totaldddddddsdddddddddddddddddddd :", CountUsers)
     votos.map((voto) => (
       <ProfilVote
         key={voto.id_voter} // Usamos una clave única para cada voto
-        name={voto.usuario.Nombre}
+        name={'nombre'}
         Cedula={voto.id_voter}
         voto={voto.Voto}
         abreviatura={voto.abreviatura}
@@ -81,24 +110,24 @@ console.log("contador de votos totaldddddddsdddddddddddddddddddd :", CountUsers)
         className="transition-all opacity-0 animate-fadeIn"
       />
     ))
-  ) : <Novotes message="No hay votaciones Recientes"></Novotes>}
+  ) : <Novotes message="No hay votaciones Recientes"></Novotes>}   
 </div>
 
-     <div class="w-[80%]  grid grid-cols-2 grid-rows-4 gap-3">
+     <div class="w-[80%] grid grid-cols-2 grid-rows-4 gap-3">
 
 
                 <div className='col-span-1 row-span-1  grid grid-rows-1 grid-cols-2 gap-2 '>
 
                     <ContentInfo description={"Votos"} data={votos.length}  svg={<Vote/>}></ContentInfo>
-                    <ContentInfo description={"Tiempo promedio en responder"} data={"5Min"} svg={<History/>}></ContentInfo>
+                    <ContentInfo description={"Tiempo Para que empieze la Asamblea"} data={" d:"+timeRemaining.days+" h:"+timeRemaining.hours} svg={<History/>}></ContentInfo>
                    
 
                 </div>
 
 
-                <div className='col-span-1 row-span-2 '>
+                <div className='col-span-1 row-span-2 shadow-sm bg-[#F5F5F5] rounded-lg'>
             
-                    <InfoAsamblea></InfoAsamblea>
+                    <InfoAsamblea Fecha={Fecha} Condominio={Condominio} Descripcion={Descripcion}></InfoAsamblea>
                 </div>
 
                 <div className='col-span-1 w-full row-span-3 h-full bg-[#F5F5F5] rounded-lg shadow-xl flex flex-col gap-2'>
@@ -108,8 +137,7 @@ console.log("contador de votos totaldddddddsdddddddddddddddddddd :", CountUsers)
      <span className="">{UserNovoting.length}/{CountUsers.count}</span> 
 
   </div>
-
-  {/* Renderizado condicional */}
+  <div className="flex flex-col h-full gap-2 overflow-y-auto">
   {UserNovoting.length > 0 ? (
     UserNovoting.map((voto) => (
       <ProfilVote
@@ -122,13 +150,14 @@ console.log("contador de votos totaldddddddsdddddddddddddddddddd :", CountUsers)
       />
     ))
   ) : <Novotes message={"La asamblea no ha iniciado"}></Novotes>}
+  </div>
 </div>
 
 
-                <div className='col-span-1 row-span-2 flex h-full w-full bg-[#F5F5F5] rrounded-lg shadow-sm p-2 '>
+                <div className='col-span-1 row-span-2 flex h-full w-full bg-[#F5F5F5] rrounded-lg shadow-xl  p-2 '>
                     
                     
-                    <Grafficas questions={Questionsdata}></Grafficas>
+                    {Questionsdata.length>0 ? <Grafficas señal={señal} id={id} questions={Questionsdata}></Grafficas>:<Novotes message={"No hay preguntas para votar"}></Novotes>}
                  
                  
                 </div>

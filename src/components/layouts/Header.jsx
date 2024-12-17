@@ -18,9 +18,8 @@ const Header= ({Component})=>{
 
   
 return(
-  
-       <div className='h-screen'>
-      <header className='cabezera'>
+       <div className='min-h-screen'>
+      <header className='cabezera sticky top-0 z-[999]'>
         <div className='div_header'>
           {/* <button className='bottun_Aside' onClick={setvisible} >
             <svg xmlns="http://www.w3.org/2000/svg" width={34} height={34} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-menu-2">
@@ -34,15 +33,7 @@ return(
           <Link to="/H"> 
             <img src={logo} alt="Control 360 Logo" className="header-logo" />
           </Link>
-          <Link className='link_Aside' to='/H'>
-               Home
-         </Link>
-         <Link className='link_Aside' to="/listUsers">
-         Usuarios registrados
-        </Link>
-        <Link className='link_Aside' to='/listUsers/Create'>
-                 Crear Cuentas
-        </Link>
+         
 
 
         </div>
@@ -99,9 +90,11 @@ return(
 
 
       </header>
-       <main className='flex justify-center items-center  h-full bg-[#E6E6E6] '>
+    
        { Component }
-       </main>
+
+
+      
        </div>
     
    

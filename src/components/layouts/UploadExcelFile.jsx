@@ -3,6 +3,9 @@ import { X, Upload, FileSpreadsheet, AlertCircle, Save } from 'lucide-react';
 import { read, utils } from 'xlsx';
 import { URI10 } from '../../services/Conexiones';
 import axios from 'axios';
+import ButtunDoulong from '../D';
+
+import ImportanMessage from '../ImportantMensage';
 
 const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
   const [dragActive, setDragActive] = useState(false);
@@ -11,7 +14,7 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
   const inputRef = React.useRef(null);
 
   if (!isOpen) return null;
- console.log("dta json ?= ",previewData)
+
 
  
   const handleDrag = (e) => {
@@ -73,9 +76,7 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
       );
   
       if (invalidCedulas.length > 0) {
-        console.log(
-          `Se encontraron valores inválidos en la columna "${columnName}". Los valores deben ser únicamente números. Valores no válidos: ${[...new Set(invalidCedulas)].join(', ')}`
-        );
+     
         setMesagge(
           `Se encontraron valores inválidos en la columna "${columnName}". Los valores deben ser únicamente números. Valores no válidos: ${[...new Set(invalidCedulas)].join(', ')}`
         );
@@ -141,6 +142,12 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      
+      <ImportanMessage
+          title="Aviso Importante"
+          message="Recuerda que el archivo que vayas a montar deber debe tener los mismos campos que la plantilla que descargaste"
+          variant="warning"
+        />
       <div className="relative h-[90vh] w-[90vw] max-w-6xl rounded-lg bg-white p-8">
         <button
           onClick={onClose}
@@ -149,12 +156,17 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
           <X className="h-6 w-6" />
         </button>
 
-        <div className="mb-6 text-center">
+        <div className="relative flex justify-center mb-6 ">
+          <div className='flex flex-col items-center'>
           <FileSpreadsheet className="mx-auto h-12 w-12 text-emerald-500" />
           <h2 className="mt-4 text-2xl font-semibold text-gray-900">
             Carga tu archivo Excel
           </h2>
-          <p className="mt-2 text-sm text-gray-500">Solo archivos xlsx o xls</p>
+          <p className="mt-2 text-sm text-gray-500">Es obligatorio descargar el plantilla, re cuerde </p>
+
+
+          </div>
+         
         </div>
 
         <div className="grid h-[calc(90vh-16rem)] grid-rows-[auto,1fr]">
@@ -251,7 +263,11 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
             </div>
           )}
         </div>
+      <div className='w-full flex justify-center'>
+       <ButtunDoulong></ButtunDoulong>
       </div>
+      </div>
+   
     </div>
   );
 };

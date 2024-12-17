@@ -28,8 +28,7 @@ const CreacionPlantilla = () => {
   const [font, setFont] = useState('Arial');
   const [miId, setMiId] = useState(null);  // Almacena tu propio ID
   const [destinatarioId, setDestinatarioId] = useState(''); 
-/* const shortId = nanoid(10); 
-console.log("id corto: ",shortId); */
+
   const navigate = useNavigate();
 
   

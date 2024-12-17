@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla,Loby } from "./pages";
+import { Create_User, Home, ListUsers, UpdateUser,CreacionPlantilla,Loby,FormAsamblea } from "./pages";
 
 
 
@@ -22,7 +22,7 @@ export  const routes = [
         component: <UpdateUser></UpdateUser>
     },{
        path: "/Creacion",
-       component: <CreacionPlantilla></CreacionPlantilla>
+       component: <FormAsamblea></FormAsamblea>
 
     },{
         path: '/loby/:id',

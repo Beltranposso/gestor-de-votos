@@ -4,6 +4,8 @@ import { X } from 'lucide-react';
 
 
 export function Modal({ isOpen, onClose, children }) {
+
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';

@@ -1,4 +1,5 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,TableFooter,  TableCaption,
+} from "@/components/ui/table"
 import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { Pencil, Trash2, MoreHorizontal } from 'lucide-react'
@@ -7,6 +8,7 @@ import axios from "axios"
 import { URI, URI5,URI17 } from "../services/Conexiones"
 import  TableSkeleton  from "./skeletonTable"
 import { useState,useEffect } from "react"
+import NoshareUser from "./NoshareUser"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,8 +22,9 @@ import {
 
 
 
-export default function UserList({onclik,usuarios =[],Asistencia}) {
-
+export default function UserList({onclik,usuarios =[],Asistencia,text}) {
+  const Cargo = localStorage.getItem('C');
+  const c = atob(Cargo);
 
   const [keys, setKeys] = useState(() => {
     const ordenDeseado = ["Apellido", "Correo", "Contraseña", "Cedula", "quorum", "Apto"];
@@ -45,7 +48,7 @@ export default function UserList({onclik,usuarios =[],Asistencia}) {
       const response = await axios.put(`${URI17}${Cedula}`);
   
       // Confirmar en la consola que el usuario fue actualizado correctamente
-      console.log("Usuario actualizado correctamente:", response.data);
+     
     } catch (error) {
       // Manejar errores y mostrarlos en la consola
       console.error("Error al actualizar la asistencia:", error.message);
@@ -105,7 +108,7 @@ useEffect(() => {
     <TableCell className="font-medium hover:bg-muted cursor-pointer transition-colors">{user.Nombre}</TableCell>
     <TableCell className="hidden md:table-cell">{user.Apellido}</TableCell>
     <TableCell className="hidden sm:table-cell underline sm:overflow-ellipsis">{user.Correo}</TableCell>
-    <TableCell className={estate ? "hidden xl:table-cell" : "hidden" }>{user.Contraseña}jkhgjhg</TableCell>         
+    <TableCell className={estate ? "hidden xl:table-cell" : "hidden" }>{user.Contraseña}</TableCell>         
     <TableCell className="hidden lg:table-cell">{user.Cedula}</TableCell>
     <TableCell className={estate ?"hidden":"hidden lg:table-cell"}>{user.quorum}</TableCell>
     <TableCell className={estate ?"hidden":"hidden lg:table-cell"}>{user.Apto}</TableCell>
@@ -118,7 +121,7 @@ useEffect(() => {
     <TableCell>
       <div className="flex items-center gap-2">
         <div className="hidden sm:flex items-center gap-2">
-          <Button onClick={() =>onclik(user.Cedula)} variant="ghost"  size="icon" className=" hover:text-red-600">
+          <Button  onClick={() =>onclik(user.Cedula)} variant="ghost"  size="icon" className={c==="Operador de registro"? "hidden" : " hover:text-red-600"}>
             <Trash2 className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="icon">
@@ -129,7 +132,7 @@ useEffect(() => {
          checked={user.Asistencia === "Presente"} 
           onCheckedChange={(cheked)=>Asistencia(user.Cedula,cheked)}
         
-          className={user.cargo === 2 || user.cargo === 3 ? "hidden" : ""}
+          className={ user.cargo === 3 ? "hidden" : ""}
       />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -155,7 +158,12 @@ useEffect(() => {
       </div>
     </TableCell>
   </TableRow>
-)):<div className="w-full h-full flex items-center justify-center">no hay datos</div>} 
+)):(
+  <TableRow>
+    <TableCell colSpan={8} ><NoshareUser searchTerm={text}/></TableCell>
+   
+  </TableRow>
+)} 
 
 
           </TableBody>

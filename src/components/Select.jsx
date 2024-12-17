@@ -12,7 +12,7 @@ import {
 export default function QuestionSelect({ questions = [] }) {
   // Inicializa con un valor vacío o el id de la primera pregunta, si existe
   const [selectedQuestion, setSelectedQuestion] = React.useState("");
- console.log(selectedQuestion)
+
   return (
     <Select
       value={selectedQuestion}

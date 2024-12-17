@@ -49,7 +49,7 @@ function Create_User() {
   const manejarCambio = (label) => {
     // Guardar el label seleccionado en el estado
     setCargo(label);  
-  console.log(label)
+
     // Mostrar el valor directamente
    
   }; 

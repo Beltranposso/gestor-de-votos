@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"              
 import { useState } from 'react'
 
 
@@ -14,7 +14,7 @@ export default function ExitButton({ onClick }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       aria-label="Salir"
-      className="hover:bg-red-600 hover:text-white " 
+      className="hover:bg-red-600 hover:text-white w-full" 
       
     >
       <ArrowLeft 

@@ -8,7 +8,8 @@ import Loby from '../app/loby/Looby'
 import Login from '../app/Log/Login'
 import MainDash from "../components/comon/MainDashboard"
 import ListUserDash from "../components/comon/UsuariosCardinfo"
-export { ListUsers, Home, Create_User, UpdateUser, CreacionPlantilla, Loby, Login,MainDash,ListUserDash }
+import FormAsamblea from "../app/CreacionAsamblea/CreatedAsamblea"
+export { ListUsers, Home, Create_User, UpdateUser, CreacionPlantilla, Loby, Login,MainDash,ListUserDash,FormAsamblea }
 
 
 
@@ -21,6 +22,7 @@ export const loby = React.lazy(() => ('../app/loby/Looby'))
 export const login = React.lazy(() => ('../app/Log/Login'))
 export const mainDash = React.lazy(() => ('../components/comon/MainDashboard'))
 export const listUserDash = React.lazy(() => ('../components/comon/UsuariosCardinfo'))
+export const formAsamble = React.lazy(() => ('../app/CreacionAsamblea/CreatedAsamblea'))
 
 
 

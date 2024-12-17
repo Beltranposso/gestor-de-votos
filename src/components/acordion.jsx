@@ -1,7 +1,7 @@
 
 /*************  ✨ Codeium Command ⭐  *************/
 import React from 'react';
-import { Home, User, UserPlus  } from 'lucide-react'
+import { Home, User, UserPlus ,FileCheck } from 'lucide-react'
 import {
     Accordion,
     AccordionContent,
@@ -55,6 +55,14 @@ const MiComponente = () => {
 >
 <UserPlus className='w-5 h-5' />
   Crear Usuario 
+</Link>
+
+<Link 
+  to='CreateVotacion'
+  className="flex items-center h-7 pl-1 rounded-lg gap-2 text-sm font-medium text-foreground hover:text-primary"
+>
+<FileCheck className='w-5 h-5' />
+  Crear votacion 
 </Link>
 </div>
 </div>

@@ -11,8 +11,11 @@
 
 }
 html{
-  overflow: hidden;
+  height: 100vh;
+  overflow-x: hidden;
+
 }
+
 
 .content {
   display: flex;
@@ -278,15 +281,7 @@ padding-right:25px ;
   padding: 10px;
 }
 
-.Home {
-  display: flex;
-  flex-direction: column;
-  background-color: #f3f3f3;
-  width: 95%;
-  height: 85vh;
-  color: rgb(0, 0, 0);
 
-}
 
 
 
