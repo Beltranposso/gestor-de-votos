@@ -14,7 +14,7 @@ useEffect(() => {
     }else if (Cargo === 'Coordinador'){
         setColor('bg-green-500')
     }
-},[])
+},[Cargo])
 
 
 

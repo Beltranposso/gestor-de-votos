@@ -145,7 +145,7 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
       
       <ImportanMessage
           title="Aviso Importante"
-          message="Recuerda que el archivo que vayas a montar deber debe tener los mismos campos que la plantilla que descargaste"
+          message="Recuerda que el archivo que subas debe tener los mismos campos y formato que la plantilla que descargaste."
           variant="warning"
         />
       <div className="relative h-[90vh] w-[90vw] max-w-6xl rounded-lg bg-white p-8">

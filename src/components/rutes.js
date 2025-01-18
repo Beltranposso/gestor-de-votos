@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const getRouteByRole = async () => {
     try {
-        const response = await axios.get('https://serverapivote.co.control360.co/get-user-info', { withCredentials: true });
+        const response = await axios.get('http://localhost:8000/get-user-info', { withCredentials: true });
 
         if (response.status === 200) {
             const { Cargo } = response.data; // Extraemos el cargo del usuario

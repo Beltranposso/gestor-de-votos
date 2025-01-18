@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Download } from 'lucide-react';
+import axios from 'axios';
 
 const DownloadTemplate = () => {
   const fileUrl = '/plantilla.xlsx';
@@ -21,10 +22,33 @@ const DownloadTemplate = () => {
     setTimeout(() => setIsAnimating(false), 1000);
   };
 
+
+
+
+
+  const downloadTemplate = async () => {
+    try {
+      const response = await axios.get('https://serverapivote.co.control360.co/download-template', {
+        responseType: 'blob', // Esto asegura que la respuesta sea tratada como un archivo
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data])); // Convierte la respuesta a URL Blob
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'plantilla.xlsx'); // Nombre del archivo al descargar
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url); // Libera la memoria
+    } catch (error) {
+      console.error('Error al descargar la plantilla:', error);
+    }
+  };
+
   return (
     <div className="flex items-center space-x-2">
       <button
-        onClick={handleDownload}
+        onClick={downloadTemplate}
         className={`group p-2 bg-teal-600 text-white rounded-md 
           hover:bg-teal-700 transition-all duration-300 ease-in-out
           transform hover:scale-105 active:scale-95

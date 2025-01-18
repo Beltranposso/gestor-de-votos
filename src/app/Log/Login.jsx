@@ -19,7 +19,7 @@ const Validation = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   
  /*  const URI4 = 'https://serverapivote.co.control360.co/login'; */ // Asegúrate de que esta URI es correcta
-  const URI4 = 'https://serverapivote.co.control360.co/login'; 
+  const URI4 = 'http://localhost:8000/login'; 
 
 // Asegúrate de instalar js-cookie con `npm install js-cookie`
 const isSubmit = async (data) => {

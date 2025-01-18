@@ -11,11 +11,11 @@ function App() {
         </div>
         
         <h1 className="text-2xl font-bold text-gray-800">
-          ¡Ya creaste la votación!
+          ¡Ya Finalizo la asamblea!
         </h1>
         
         <p className="text-gray-600">
-          Espera los resultados
+          Revisa los resultados
         </p>
       </div>
     </div>

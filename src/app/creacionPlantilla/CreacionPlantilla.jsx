@@ -10,12 +10,15 @@ import { jwtDecode } from "jwt-decode"
 /* import { nanoid } from 'nanoid'; */
 /* import Hme from './Header'; */
 
-
+/*  
 const URI = 'https://serverapivote.co.control360.co/card/';
 const URI2 = 'https://serverapivote.co.control360.co/questions/'; 
-const URI3 = 'https://serverapivote.co.control360.co/options/';
+const URI3 = 'https://serverapivote.co.control360.co/options/'; */
 
-
+ const URI = 'http://localhost:8000/card/';
+const URI2 = 'http://localhost:8000/questions/'; 
+const URI3 = 'http://localhost:8000/options/';
+ 
 
 const CreacionPlantilla = () => {
     const [showColorPicker, setShowColorPicker] = useState(false);
@@ -45,7 +48,7 @@ const CreacionPlantilla = () => {
   
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://controlvotantes360.co.control360.co'}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://serverapivote.co.control360.co'}/c/${codificadoID}`});
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
 
@@ -65,7 +68,7 @@ const CreacionPlantilla = () => {
     try {
       // Crear el título y la pregunta
       /* el puerto se tiene que cambiar cuando se vaya a desplegar  */
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://controlvotantes360.co.control360.co'}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'https://serverapivote.co.control360.co'}/c/${codificadoID}`});
 
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 

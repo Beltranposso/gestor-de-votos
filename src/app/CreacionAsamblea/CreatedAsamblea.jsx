@@ -7,6 +7,7 @@ import {getRouteByRole}from '../../components/rutes.js'
 import { SuccessModal } from '../../components/Modal/SuccessModal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ArrowLeft } from 'lucide-react';
 
 
 export default function AssemblyForm() {
@@ -29,12 +30,12 @@ export default function AssemblyForm() {
   useEffect(() => {
 
     // Realizamos la solicitud al backend para validar el token y obtener el rol
-    axios.get('https://serverapivote.co.control360.co/get-user-info', { withCredentials: true })
+    axios.get('http://localhost:8000/get-user-info', { withCredentials: true })
       .then(response => {
-        const { Cedula } = response.data;
+        const { id } = response.data;
          // El backend devuelve el rol del usuari
       
-          setCeedula(Cedula);
+          setCeedula(id);
        
 // Comprobamos si el rol está permitido
       })
@@ -123,9 +124,20 @@ export default function AssemblyForm() {
   };
 
 
+
+  const goBack = () => {
+    nav(-1); // -1 indica que retrocede una página
+};
+
+
+
   useEffect(() => {
     obtenerRuta();
   }, []);
+
+
+
+
 
   return (
     <div className="h-screen w-full  flex items-center justify-center">
@@ -140,8 +152,21 @@ export default function AssemblyForm() {
             id={uniqueID}
         
         />
+    <div className='w-full  flex  flex-col'>
 
+      <div className='h-5 pl-2'>
+      <button
+        onClick={goBack}
+        className="flex items-center gap-2 px-3 py-1 bg-indigo-600 text-white rounded-lg 
+                 hover:bg-indigo-700 transition-colors duration-200 
+                 shadow-lg hover:shadow-xl active:scale-95 transform"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span className="font-medium">Devolver</span>
+      </button>
+      </div>
       <div className=" w-4/5 h-auto  mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
+
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900">Cree su asamblea </h2>
           <p className="mt-2 text-sm text-gray-600">Complete todos los campos para crear su asamblea</p>
@@ -253,6 +278,8 @@ export default function AssemblyForm() {
             </button>
           </div>
         </form>
+      </div>
+
       </div>
     </div>
   );

@@ -10,13 +10,18 @@ import NoUsersCargados from '../../components/NouserCargados';
 import {  User  } from 'lucide-react'
 import CountUser from '../../components/CountUser';
 import { use } from 'react';
+import ListModal from '../../components/Modal/ModalListUser';
+import { Plus } from 'lucide-react';
+import Modal from '../../components/Modal/ModalContent';
+import FormularioModal from '../../components/Modal/FormRepresentacion';
 import io from 'socket.io-client';
+
 
 
 const BaseComponent = () => {
  /*  const socket = io('http://localhost:8000/'); */
- const socket = io('https://serverapivote.co.control360.co/');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+ const socket = io('https://serverapivote.co.control360.co/'); 
+  const [isModalOpen3, setIsModalOpen3] = useState(false);
   const[users,setUsers]=useState([]);
   const[App_users,setApp_users]=useState([]);
   const [NavMenu, setNavMenu] = useState("usuarios");
@@ -24,6 +29,11 @@ const BaseComponent = () => {
   const[UserLabel,setUserLabel]=useState("Usuarios");
   const [searchValue, setSearchValue] = useState(''); // Para el valor del input
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [cedula,setcedula] = useState();
+  const  [Name,setName] = useState();
+  const [Casa, setCasa] = useState();
+
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const{id}=useParams();
 
 
@@ -32,21 +42,25 @@ const getUser = async () => {
   setUsers(response.data);
   setUserLabel("Usuarios");
 };
+
+
+
 useEffect(() => {
   getUser();
 },[])
 
 
-const SetAsistencia = async (Cedula,asistencia) => {
-  if(asistencia){
-  const response = await axios.put(`${URI17}${Cedula}`);
- 
-  socket.emit('Asistencia', Cedula);
-  
-  getUser();
-  }
-  else{
-   
+const SetAsistencia = async (Cedula, asistencia) => {
+  try {
+    // Enviar la solicitud PUT al backend con el valor de 'asistencia' que puede ser "Presente" o "Ausente"
+    const response = await axios.put(`${URI17}${Cedula}`, { asistencia });
+      socket.emit('Estado', Cedula);
+      socket.emit('Asisten', Cedula);
+
+    // Obtener la lista de usuarios actualizada
+    getUser();
+  } catch (error) {
+    console.error("Error al actualizar la asistencia:", error.message);
   }
 };
 
@@ -85,20 +99,55 @@ useEffect(() => {
   };
 
 
+const handleOpenModal2 = (cedula,name,Casa) => {
+  setcedula(cedula); // Actualizar el estado de 'cedula'
+  setname(name);
+  setcasa(Casa);
+  setIsModalOpen3(true);
+};
+
+
+
+  const handleOpenModal = (cedula,name,Casa) => {
+    setcedula(cedula); // Actualizar el estado de 'cedula'
+    setName(name);
+    setCasa(Casa);
+    setIsModalOpen3(true);
+  };
+
+
+
+
+
+
+
 
   return (
 
     <div className='flex w-full h-screen justify-center items-center pt-5'>
-      <div className='flex flex-col h-full w-[90%] '>
+
+
+      <Modal  isOpen={isModalOpen2} onClose={() => setIsModalOpen2(false)}>
+          <FormularioModal></FormularioModal>
+      </Modal>
+
+
+
+
+
+
+      <ListModal
+              isOpen={isModalOpen3}
+              onClose={() => setIsModalOpen3(false)}  
+              Cedula={cedula}
+              Nombre={Name}
+              Casa={Casa}
+              
+      ></ListModal>
+
+      <div className='flex flex-col h-full w-[90%]'>
 
      
-          <FileUploadModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onFileUpload={''}
-
-          id={id}
-        />
       <header className='w-full h-[150px]  flex flex-col justify-between gap-10'>
         <div className='w-full flex justify-between pr-10 '>
         <h1 className='text-4xl '>Control de registro</h1>
@@ -115,18 +164,27 @@ useEffect(() => {
                 </div>
                 <input
                     type="search" 
-                    placeholder="Busca un usuario perteneciente a la asamblea"
-                    
-                    className="h-12  flex items-center w-full bg-background/5 rounded-full pl-10 text-base placeholder:text-muted-foreground focus-visible:ring-1 dark text-dark bg-[#F5F5F5] focus-visible:ring-slate-400 border border-slate-200"
+                    placeholder="Busca un usuario perteneciente a la asamblea"                    
+                    className="h-12  flex items-center w-full bg-background/5 rounded-full pl-10 text-base placeholder:text-muted-foreground 
+                    focus-visible:ring-1 dark text-dark bg-[#F5F5F5] focus-visible:ring-slate-400 border border-slate-200"
                     value={searchValue} onChange={searchuser}
-                    />        
+/>      
+
             </div>
 
-            <div className='w-full flex gap-10  '>
+            <div className='w-full flex gap-10  justify-end '>
 
-            <div className="flex items-center  h-12">
-          
-            </div>
+         
+            <button
+        onClick={() => setIsModalOpen2(true)}
+        className="bg-white  text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition-colors duration-200 shadow-lg hover:shadow-xl flex items-center w-auto h-auto"
+      >
+       <Plus></Plus>
+    
+      </button>
+
+
+            
 
        
             </div>
@@ -140,7 +198,7 @@ useEffect(() => {
    
        
       <main className='h-full flex flex-col  items-star overflow-y-auto '>
-      {users.message==='No hay usuarios'? <NoUsersCargados id={id} Usuario={UserLabel}></NoUsersCargados>:<Table  text={searchValue}  usuarios={filteredUsers} Asistencia={SetAsistencia} ></Table>} 
+      {users.message==='No hay usuarios'? <NoUsersCargados id={id} Usuario={UserLabel}></NoUsersCargados>:<Table  text={searchValue}  usuarios={filteredUsers} Asistencia={SetAsistencia}  ListModal={handleOpenModal}></Table>} 
 
       </main>
 

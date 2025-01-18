@@ -26,7 +26,7 @@ export const QuorumList = ({ attendees='', totalRequired,quorumtoal }) => {
         <p className="text-sm text-gray-600 mt-2">
           {percentage.toFixed(2)}% de quórum alcanzado.
         </p>
-        <p className='ext-sm text-gray-600 '>quorum minimo 51%</p>
+                 
 
         </div>
       </div>

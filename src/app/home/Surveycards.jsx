@@ -1,14 +1,26 @@
-import { Calendar, MapPin, Users } from 'lucide-react';
+import { Calendar, Delete, MapPin, Users } from 'lucide-react';
 import {RoleModal} from '../../components/Modal/MoadlRol/RoleModal'
 import { Link } from "react-router-dom";
 import {getRouteByRole} from '../../components/rutes.js'
 import { useState,useEffect } from "react";
+
+import { Button } from "@/components/ui/button"
+
+
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { MoreHorizontal, Trash2 } from 'lucide-react'
 import { use } from 'react';
 
 
@@ -25,7 +37,7 @@ const getStatusColor = (status) => {
           }
         };
         
-        export default function SurveyCard({ survey, viewMode,id,title,date,Condominio,Estado,onClick,cargo}) {
+        export default function SurveyCard({ survey, viewMode,id,title,date,Condominio,Estado,onClick,cargo,DeletedCard}) {
           const headerColor = getStatusColor(survey); 
           const isListView = viewMode === 'list';
           const [ruta, setRuta] = useState('');
@@ -41,13 +53,23 @@ const getStatusColor = (status) => {
             
              // Muestra la ruta obtenida en consola
           };
+
+
+
+
 useEffect(() => {
   obtenerRuta();
 }, []);
-  return (
-    <div>
 
-      <button onClick={() => setIsModalOpen(true)} className='w-full text-start'>
+
+
+
+
+
+
+  return (
+    <div className=''>
+
       <RoleModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -58,11 +80,17 @@ useEffect(() => {
     <Card className={`hover:shadow-lg transition-shadow duration-200 overflow-hidden ${
       isListView ? 'flex flex-col sm:flex-row ' : ''
     }`}>
+
+
+   
+      <button onClick={() => setIsModalOpen(true)} className='w-full text-start'>
       <div className={`${headerColor} ${isListView ? 'w-full sm:w-2 sm:h-auto' : 'h-2'}`} />
       <div className={`flex-1 ${isListView ? 'flex flex-col sm:flex-row items-center gap-4 p-4' : ''}`}>
         {!isListView && (
           <CardHeader className="pb-4">
+          
             <div className="flex items-start justify-between">
+              
               <div>
                 <CardTitle className="text-lg font-semibold">{title}</CardTitle>
                 <p className="text-sm text-gray-500">{"Asamblea"}</p>
@@ -77,6 +105,7 @@ useEffect(() => {
             </div>
           </CardHeader>
         )}
+        
         {isListView ? (
           <div className="flex-1 min-w-0  ">
             <div className="flex items-center justify-between gap-4 mb-2">
@@ -126,9 +155,24 @@ useEffect(() => {
           </CardContent>
         )}
       </div>
-    </Card>
     </button>
-
+<div className='flex justify-end w-full pr-5 pb-2'>
+<DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-6" size="icon">
+          <MoreHorizontal className="h-5 w-2" />
+          <span className="sr-only">Abrir menú</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-10 h-10">
+        <DropdownMenuItem onClick={() => DeletedCard(id)}>
+          <Trash2 className="mr-2 h-4 w-4" />
+          <span>Eliminar</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+</div>
+    </Card>
 
     </div>
   );

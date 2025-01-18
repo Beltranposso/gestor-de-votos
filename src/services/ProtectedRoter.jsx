@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import Loading from '../components/loadingpestaña';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const [userRole, setUserRole] = useState(null); // Almacena el rol del usuario
@@ -10,7 +11,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   useEffect(() => {
 
     // Realizamos la solicitud al backend para validar el token y obtener el rol
-    axios.get('https://serverapivote.co.control360.co/get-user-info', { withCredentials: true })
+    axios.get('http://localhost:8000/get-user-info', { withCredentials: true })
       .then(response => {
         const { Cargo } = response.data;
          // El backend devuelve el rol del usuario
@@ -32,7 +33,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 
   if (isLoading) {
-    return <div>Loading...</div>; // Mostrar un indicador mientras cargamos
+    return <Loading></Loading>; // Mostrar un indicador mientras cargamos
   }
 
   if (!isAuthorized) {

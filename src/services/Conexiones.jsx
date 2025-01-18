@@ -1,18 +1,7 @@
 
 
 
-/* export const  URI = 'https://serverapivote.co.control360.co/card/';
-export const  URI2 = 'https://serverapivote.co.control360.co/questions/';
-export const  URI3 = 'https://serverapivote.co.control360.co/options/';
-export const  URI4 = 'https://serverapivote.co.control360.co/login';
-export const  URI5 = 'https://serverapivote.co.control360.co/usuarios/';
-export const  URI6 = 'https://serverapivote.co.control360.co/votes/';
-export const  URI7 = 'https://serverapivote.co.control360.co/Link/';
-export const URI8 = 'https://serverapivote.co.control360.co/api/votacion/estado/';
-export const URI9 = 'https://serverapivote.co.control360.co/api/votacion/estado/';
-export const URI10 = 'https://serverapivote.co.control360.co/CreateExcel';
-   */
-/* export const  URI = 'http://localhost:8000/card/'
+export const  URI = 'http://localhost:8000/card/'
 export const  URI2 = 'http://localhost:8000/questions/'; 
 export const  URI3 = 'http://localhost:8000/options/';
 export const  URI4 = 'http://localhost:8000/login';
@@ -36,10 +25,17 @@ export const URI21 = 'http://localhost:8000/DataAutenticathed';
 export const URI22 = 'http://localhost:8000/usuarios/A/';
 export const URI23 = 'http://localhost:8000/usuarios/api/get-column';
 export const URI24 = 'http://localhost:8000/Propuestas/api/';
-export const URI25 = 'http://localhost:8000/Propuestas/'; */
+export const URI25 = 'http://localhost:8000/Propuestas/'; 
+export const URI26 = 'http://localhost:8000/UsersDefinitive/pdf/';
+export const URI27 = 'http://localhost:8000/UsersDefinitive/Excel/';
+export const URI28 = 'http://localhost:8000/UsersDefinitive/OPE/getAll/';
+export const URI29 = 'http://localhost:8000/UsersDefinitive/Quorum/setquorum/';
+export const URI30 = 'http://localhost:8000/Votes/Votes/';
+export const URI31 = 'http://localhost:8000/UsersDefinitive/CreateUser/Apoderado/';
 
 
-export const URI = 'https://serverapivote.co.control360.co/card/';
+
+/* export const URI = 'https://serverapivote.co.control360.co/card/';
 export const URI2 = 'https://serverapivote.co.control360.co/questions/';
 export const URI3 = 'https://serverapivote.co.control360.co/options/';
 export const URI4 = 'https://serverapivote.co.control360.co/login';
@@ -64,3 +60,8 @@ export const URI22 = 'https://serverapivote.co.control360.co/usuarios/A/';
 export const URI23 = 'https://serverapivote.co.control360.co/usuarios/api/get-column';
 export const URI24 = 'https://serverapivote.co.control360.co/Propuestas/api/';
 export const URI25 = 'https://serverapivote.co.control360.co/Propuestas/';
+export const URI26 = 'https://serverapivote.co.control360.co/UsersDefinitive/pdf/';
+export const URI27 = 'https://serverapivote.co.control360.co/UsersDefinitive/Excel/';
+export const URI28 = 'https://serverapivote.co.control360.co/UsersDefinitive/OPE/getAll/';
+export const URI29 = 'https://serverapivote.co.control360.co/UsersDefinitive/Quorum/setquorum/';
+export const URI30 = 'https://serverapivote.co.control360.co/Votes/Votes/'; */

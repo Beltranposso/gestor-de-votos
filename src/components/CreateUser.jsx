@@ -10,6 +10,7 @@ import { URI5 ,URI18} from '../services/Conexiones';
 import { SuccessModal } from './Modal/SuccessModal';
 
 
+
 function Create_User() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -18,10 +19,10 @@ function Create_User() {
   const [validated, setValidated] = useState(false);
   const [cargo, setCargo] = useState(0);
   const [poder, setPoder] = useState(0);
-  const[contraseña,setContraseña]= useState('');
+  const [contraseña,setContraseña]= useState('');
   const [Apto, setApto] = useState('');
   const navigate = useNavigate();
-
+  let NombreCompleto = `${nombre}${apellido}`;
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -30,7 +31,7 @@ function Create_User() {
     } else {
       if(cargo===4){
 
-        await axios.post(URI18, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula, id_cargo:cargo,quorum:poder ,Apto: A});
+        await axios.post(URI18, { Nombre: nombre, Apellido: apellido, Correo: correo, Cedula: cedula, id_cargo:cargo,quorum:poder ,Apto: A,RegisterQuorum:poder});
       }else{        
         await axios.post(URI5, );
       }

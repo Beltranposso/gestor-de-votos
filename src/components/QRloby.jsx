@@ -17,7 +17,7 @@ export const QRCodeSection = () => {
         try {
     
           // Puedes cambiar esta URL por la que deseas generar
-      const url = await QRCode.toDataURL(`https://control360.co/c/${Codify}`);
+      const url = await QRCode.toDataURL(`https://controlvotantes360.co.control360.co/c/${Codify}`);
           setQRurl(url);
        
         } catch (error) {
@@ -50,12 +50,12 @@ useEffect(() => {
       </p>
       <div className=''>
       <a
-        href={`https://control360.co/c/${Codify}`}
+        href={`https://controlvotantes360.co.control360.co/c/${Codify}`}
         className="text-blue-600 hover:text-blue-800 underline text-sm mt-1 block text-wrap "
         target="_blank"
         rel="noopener noreferrer"
         >
-        {`https://control360.co/c/${Codify}`}
+        {`https://controlvotantes360.co.control360.co/c/${Codify}`}
       </a>
       </div>
     </div>

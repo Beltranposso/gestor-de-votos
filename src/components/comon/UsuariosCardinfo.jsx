@@ -13,6 +13,7 @@ import io from 'socket.io-client';
 import {getRouteByRole} from '../../components/rutes.js'
 
 
+
 /* const socket = io('http://localhost:8000/'); */
 const socket = io('https://serverapivote.co.control360.co/');
 
@@ -26,6 +27,7 @@ const BaseComponent = () => {
   const [searchValue, setSearchValue] = useState(''); // Para el valor del input
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [rute,setRuta]=useState("");
+  const[señal2,setsenal2]=useState(false);
   const [funcion, setFuncion] = useState(() => {
     return () => {
     
@@ -51,32 +53,37 @@ const getAPPUsers2 = async () => {
   setUsers(response.data);
   setUserLabel("Coordinadores");
 };
+
 const deleteUser = async (cedula) => {
-
-
   // Determina la URI según el valor de NavMenu
   const deleteURI = (NavMenu === "coordinador" || NavMenu === "registro") ? URI5 : URI13;
 
   try {
-    await axios.delete(`${deleteURI}${cedula}`);
-    // Vuelve a obtener los datos actualizados después de eliminar
+    // Realiza la solicitud para eliminar el usuario
+    const response = await axios.delete(`${deleteURI}${cedula}`);
+    
+    // Muestra el mensaje del backend en la consola
+    console.log(response.data.message);
+
+    // Llama a la función correspondiente para actualizar la lista según NavMenu
     if (NavMenu === "usuarios") {
-      getUser();
-   
+      await getUser(); // Actualiza la lista de usuarios
     } else if (NavMenu === "registro") {
-      getAPPUsers();
+      await getAPPUsers(); // Actualiza la lista de operadores
     } else if (NavMenu === "coordinador") {
-      getAPPUsers2();
-    }else{
-      console.log(err);
+      await getAPPUsers2(); // Actualiza la lista de coordinadores
     }
 
-    
+ 
   } catch (error) {
-    console.error("Error al eliminar el usuario:", error);
+    // Maneja errores del backend y muestra un mensaje adecuado
+    if (error.response) {
+      console.error("Error del servidor:", error.response.data.message);
+    } else {
+      console.error("Error desconocido al eliminar el usuario:", error.message);
+    }
   }
 };
-
 const obtenerRuta = async () => {
   const ruta = await getRouteByRole();
  
@@ -85,19 +92,23 @@ const obtenerRuta = async () => {
    // Muestra la ruta obtenida en consola
 };
 
-const SetAsistencia = async (Cedula,asistencia) => {
-  if(asistencia){
-  const response = await axios.put(`${URI17}${Cedula}`);
- 
-  socket.emit('Asistencia', Cedula);
-  socket.emit('Estado', Cedula);
-  
-  getUser();
-  }
-  else{
-   
+const SetAsistencia = async (Cedula, asistencia) => {
+  try {
+    // Enviar la solicitud PUT al backend con el valor de 'asistencia' que puede ser "Presente" o "Ausente"
+    const response = await axios.put(`${URI17}${Cedula}`, { asistencia });
+      socket.emit('Estado', Cedula);
+      
+
+    // Emitir los eventos de socket para actualizar la asistencia y el estado
+    socket.emit('Asisten', Cedula);
+
+    // Obtener la lista de usuarios actualizada
+    getUser();
+  } catch (error) {
+    console.error("Error al actualizar la asistencia:", error.message);
   }
 };
+
 
 
 
@@ -168,6 +179,7 @@ useEffect(() => {
     setSearchValue(e.target.value); // Actualizamos el estado del valor de búsqueda
   };
 
+  
 useEffect(() => {
   obtenerRuta();
 }, []);

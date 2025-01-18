@@ -17,10 +17,12 @@ import  io  from 'socket.io-client';
 import { Outlet, useNavigate } from "react-router-dom";
 import { ExternalLink } from 'lucide-react';
 import {getRouteByRole} from '../../components/rutes.js'
- const socket = io('https://serverapivote.co.control360.co'); 
+import ButtonPDf from '../../components/ButtonCretedPdf.jsx'
+import ButtonsReports from '../../components/ButtonsReports.jsx'
+/*  const socket = io('https://serverapivote.co.control360.co');  */
 
 
-/* const socket = io('http://localhost:8000/'); */
+ const socket = io('http://localhost:8000/'); 
 const CardInfo = () => {
 
     const { id } = useParams();
@@ -55,7 +57,7 @@ const CardInfo = () => {
 
     const obtenerUsuarioInfo = async () => {
         try {
-            const response = await axios.get('https://serverapivote.co.control360.co/get-user-info', {
+            const response = await axios.get('http://localhost:8000/get-user-info', {
                 withCredentials: true, // Asegúrate de enviar cookies con la solicitud
             });
     
@@ -84,7 +86,7 @@ const CardInfo = () => {
 
             const obtenerUsuarioInfoName = async () => {
                 try {
-                    const response = await axios.get('https://serverapivote.co.control360.co/get-info-by-token', {
+                    const response = await axios.get('http://localhost:8000/get-info-by-token', {
                         withCredentials: true, // Asegúrate de enviar cookies con la solicitud
                     });
             
@@ -226,14 +228,14 @@ useEffect(() => {
                 <div className='flex flex-col gap-2'>
                     <Profile Cargo={Cargo} Name={Nombre}></Profile>
                     <div className="relative w-full max-w-2xl  mb-3  ">
-                        <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                     {/*    <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
                             <Search className="h-5 w-5 text-muted-foreground text-white" />
                         </div>
                         <input
                             type="search"
                             placeholder="Search for anything"
                             className="h-10 w-full bg-background/5 rounded-xs pl-10 text-base placeholder:text-muted-foreground focus-visible:ring-1 dark text-white bg-zinc-950 mb"
-                        />
+                        /> */}
                     </div>
 
 
@@ -245,10 +247,13 @@ useEffect(() => {
 
                 </div>
 
-                <div className='w-full h-full flex flex-col justify-between pt-3'>
+                <div className='w-full h-full flex flex-col justify-between pt-1'>
 
+                        <div className='flex flex-col gap-3'>
+                        <ButtunIniar estado={estado} onClick={() => setIsModalOpen(true)}></ButtunIniar>
+                        
 
-                    <ButtunIniar estado={estado} onClick={() => setIsModalOpen(true)}></ButtunIniar>
+                        </div>
                     <ExitButton onClick={Exit} ></ExitButton>
 
 
@@ -261,7 +266,7 @@ useEffect(() => {
                 <header className='bg-white h-20 rounded-t-lg px-3 items-center flex justify-between'>
                     <div className='flex justify-center flex-col w-[300px] gap-2'>
                         <h1 className='text-2xl'>{titulo ? titulo : <Skeleton className="h-4 w-[300px]" />}</h1>
-                        <p className='text-sm'>Asamblea dirigioda por el presidente</p>
+                     
                     </div>
 
                     <div className='flex h-full gap-8'>
@@ -281,11 +286,10 @@ useEffect(() => {
 
 
                         <div className='flex h-full justify-center items-center gap-2'>
-                            <p>Inicia el </p>
-                            <span><strong>{HoraIncio ? HoraIncio : <Skeleton className="h-4 w-[110px]" />}</strong></span>
+                           
                             <div className=" bg-gray-100 flex items-center justify-center">
       <a
-        href={`http://localhost:5173${ruta}/loby/${id}`}
+        href={`http://localhost:5173/${ruta}/loby/${id}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm"
@@ -294,6 +298,8 @@ useEffect(() => {
         <ExternalLink size={20} />
       </a>
     </div>
+
+ <ButtonsReports estado={estado} id={id}></ButtonsReports>
                         </div>
 
                     </div>

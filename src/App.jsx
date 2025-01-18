@@ -16,7 +16,7 @@ import OperadorUser from './app/OprUserAsistencia/UserAsistencia';
 import CreateVotacion from './app/CreateEncuesta/Createencuesta'
 import SessionStatus from './services/SecionStatus';
 import MainCoordi from './app/MainCoordi';
-
+import Loading from './components/loadingpestaña';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -40,10 +40,10 @@ function App() {
           path="/admin/*"
           element={
             <ProtectedRoute allowedRoles={['Administrador']}>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading></Loading>}>
                 <MainAdmin>
                   <Routes>
-          <Route path="AsambleaControl" element={<Home />} />
+          <Route path="AsambleaControl" element={<Layaut Component={<Home></Home>}></Layaut>} />
           <Route path="loby/:id" element={<Loby />} />
           <Route path="Creacion" element={<FormAsamblea />} />
           <Route path="Cardinfo/:id" element={<CardInfo />}>
@@ -68,10 +68,10 @@ function App() {
           path="/coordi/*"
           element={
             <ProtectedRoute allowedRoles={['Coordinador']}>
-           <Suspense fallback={<div>Loading...</div>}>
+           <Suspense fallback={<Loading></Loading>}>
                 <MainAdmin>
                   <Routes>
-          <Route path="AsambleaControl" element={<Home />} />
+          <Route path="AsambleaControl" element={<Layaut Component={<Home></Home>}></Layaut>} />
           <Route path="loby/:id" element={<Loby />} />
           <Route path="Creacion" element={<FormAsamblea />} />
           <Route path="Cardinfo/:id" element={<CardInfo />}>
@@ -95,7 +95,7 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['Operador de registro']}>    
 
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading></Loading>}>
                  <MainOpr>
                 <Routes>
                  <Route path="AsambleaControl" element={<HomeOp />} />

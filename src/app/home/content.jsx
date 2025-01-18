@@ -43,7 +43,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-   getAsamblea();
+      getAsamblea();
      
   }, []);
 
@@ -56,11 +56,15 @@ const Home = () => {
   const FiltradoAsamblea = Asamblea.filter(Asamble => Asamble.UserId  === Cedula );
   */
  const navigate = ()=>{
-   if(ruta==='/Admin'){
+
+
+
+
+    if(ruta==='/Admin'){
      nav('/Admin/Creacion');
    }else if(ruta==='/coordi'){
      nav('');
-   }
+   } 
    } 
  
  const obtenerRuta = async () => {
@@ -84,12 +88,12 @@ const Home = () => {
 
    const obtenerUsuarioInfo = async () => {
     try {
-        const response = await axios.get('https://serverapivote.co.control360.co/get-user-info', {
+        const response = await axios.get('http://localhost:8000/get-user-info', {
             withCredentials: true, // Asegura que las cookies se envíen con la solicitud
         });
 
         if (response.status === 200) {
-        
+
           setCargo(response.data.Cargo);
     
         } else {
@@ -101,6 +105,29 @@ const Home = () => {
         return null; // Maneja el error devolviendo null o realiza otra acción
     }
 };
+
+
+async function deleteCard(cardId) {
+  try {
+      const response = await axios.delete(URI+cardId);
+
+      if (response.status === 200) {
+        getAsamblea();
+      } else {
+          throw new Error(response.data.message || "Failed to delete card");
+      }
+  } catch (error) {
+      console.error("Error deleting card:", error.response?.data?.message || error.message);
+      alert(`Error: ${error.response?.data?.message || error.message}`);
+  }
+}
+
+
+
+
+
+
+
 
 useEffect(() => {
 obtenerUsuarioInfo();
@@ -146,6 +173,7 @@ obtenerUsuarioInfo();
                 viewMode={viewMode}
                 Estado={survey.Estado}
                 cargo={Cargo}
+                DeletedCard={deleteCard}
               />
             ))}
           </div>

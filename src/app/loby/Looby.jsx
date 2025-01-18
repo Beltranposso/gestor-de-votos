@@ -5,9 +5,12 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import QRCode from 'qrcode'; 
 import { URI, URI7,URI8,URI9,URI19, URI18 } from '../../services/Conexiones';
+import { Link, Users, Clock, Vote, ArrowLeft } from 'lucide-react';
 import Header from '../../components/headerLoby';
 import QRsection from '../../components/QRloby';
 import Quorum from '../../components/QuorumLoby';
+import VotingForm from '../../components/VotingForm';
+import QrContent from '../../components/Lobby';
 /* import Footer from '../footer/footer'; */
 import { useParams,useNavigate } from 'react-router-dom';
 import { use } from 'react';
@@ -15,9 +18,9 @@ import { use } from 'react';
 
 
 
-
- const socket = io("https://serverapivote.co.control360.co"); 
-/* const socket = io('http://localhost:8000/'); */
+/* 
+ const socket = io("https://serverapivote.co.control360.co/");  */
+ const socket = io('http://localhost:8000/'); 
 const Loby = () => {
   const [QRurl, setQRurl] = useState('');
   const [Idcard, setIdcard] = useState('');
@@ -29,8 +32,10 @@ const Loby = () => {
   const [dateTime, setDateTime] = useState('');
   const [startTime, setStartTime] = useState('');
   const [señal, setseñal] = useState('');
+  const [estado2, setEstado2] = useState(''); 
   const[Users,setUseres]= useState([]);
   const navigate = useNavigate()
+  const [showVotingForm, setShowVotingForm] = useState(false);
   const codify = btoa(id);
   
   
@@ -45,6 +50,7 @@ const response = await axios.get(`${URI19}${id}`);
 setTitle(response.data.Title);
 setDateTime(response.data.FechaInicio);
 setStartTime(response.data.horaInicio);
+setEstado2(response.data.Estado);
 }
 
 
@@ -53,7 +59,7 @@ setStartTime(response.data.horaInicio);
     try {
 
       // Puedes cambiar esta URL por la que deseas generar
-  const url = await QRCode.toDataURL(`https://control360.co/c/${codify}`);
+  const url = await QRCode.toDataURL(`https://serverapivote.co.control360.co/c/${codify}`);
       setQRurl(url);
    
     } catch (error) {
@@ -86,6 +92,7 @@ setStartTime(response.data.horaInicio);
   }, []); //
 
 
+
  
 
 
@@ -98,16 +105,17 @@ setStartTime(response.data.horaInicio);
 const obtenerQuorum = async () => {
   try {
      
-      const response = await axios.get(`https://serverapivote.co.control360.co/UsersDefinitive/q/quorum/${id}`, {
+      const response = await axios.get(`http://localhost:8000/UsersDefinitive/q/quorum/${id}`, {
           withCredentials: true // Si manejas autenticación con cookies
       });
 
       // Actualizar el estado con los datos recibidos
-      setQuorumTotal(response.data.quorumTotal); 
       setUserpresentes(response.data.numeroUsuariosPresentes);
       setNumeroUsuarios(response.data.totalUsuariosRegistrados); 
-       setUseres(response.data.usuariosPresentes); 
-     
+   
+            setQuorumTotal(response.data.quorumTotal); 
+       
+     console.log (response.data);
 
       setError(null);
   } catch (err) {
@@ -118,7 +126,7 @@ const obtenerQuorum = async () => {
       setError(null);
   }
 };
-
+console.log("hahahahaahahahahahahahahahahah",quorumTotal)
  const getEstado = async () => {
   try {
     const response = await axios.get(`${URI9}${id}`);
@@ -146,15 +154,40 @@ useEffect(() => {
   });
   getEstado();
   obtenerQuorum();
+  getAsamblea();
 }, [señal])
  
 
 
+const maxParticipants = 10;
+const joinLink = 'https://example.com/join-room';
+
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-white">
+    <Header onCreateVote={() => setShowVotingForm(true)} />
+    
+    <div className="flex items-center justify-center p-4 pt-8">
+      {showVotingForm ? (
+        <VotingForm onBack={() => setShowVotingForm(false)} />
+      ) : (
+        <QrContent
+          participants={Userpresentes}          maxParticipants={numeroUsuarios}
+        
+          quorum={quorumTotal}
+        />
+      )}
+    </div>
+  </div>
+  );
+};
+
+export default Loby;
+
+   /*  <div className="min-h-screen bg-gray-100 p-6">
     <div className="max-w-6xl mx-auto">
       
-     <Header startTime={startTime} DateTime={dateTime} assemblyName={Title}  />
+     <Header startTime={startTime} DateTime={dateTime} assemblyName={Title}  estado={estado2} />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <QRsection assemblyUrl={''} />
@@ -165,13 +198,7 @@ useEffect(() => {
         />
       </div>
     </div>
-  </div>
-
-  );
-};
-
-export default Loby;
-
+  </div> */
 /*  <div className="Lobi">
     
    <div id="contenedorQR" className='Qr_component'>

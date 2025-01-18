@@ -22,13 +22,13 @@ import {
 
 
 
-export default function UserList({onclik,usuarios =[],Asistencia,text}) {
+export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal}) {
   const Cargo = localStorage.getItem('C');
   const c = atob(Cargo);
 
   const [keys, setKeys] = useState(() => {
     const ordenDeseado = ["Apellido", "Correo", "Contraseña", "Cedula", "quorum", "Apto"];
-    const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo"];
+    const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo","HoraDellegada"];
     return usuarios.length > 0
       ? Object.keys(usuarios[0])
           .filter(key => !keysADescartar.includes(key))
@@ -62,30 +62,23 @@ export default function UserList({onclik,usuarios =[],Asistencia,text}) {
 
   useEffect(() => {
     if (usuarios.length > 0) {
-      const ordenDeseado = ["Apellido", "Correo", "Contraseña", "Cedula", "quorum", "Apto"];
-      const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo","Asistencia"];
+      const ordenDeseado = ["Apellido", "Correo", "Contraseña", "Cedula", "coeficiente", "Propiedad"];
+      const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo", "Asistencia", "HoraDellegada", "PoderesDelegados","RegisterQuorum","esRepresentado","Representante"];
       
       const filteredKeys = Object.keys(usuarios[0])
         .filter(key => !keysADescartar.includes(key)) // Filtrar claves no deseadas
+        .map(key => {
+          if (key === "quorum") return "coeficiente"; // Renombrar "quorum" a "coeficiente"
+          if (key === "Apto") return "Propiedad"; // Renombrar "Apto" a "Propiedad"
+          return key;
+        })
         .sort((a, b) => ordenDeseado.indexOf(a) - ordenDeseado.indexOf(b)); // Ordenar según el orden deseado
   
       setKeys(filteredKeys); // Actualiza las claves
-      setUsers(usuarios);
-      setLoading(false);    // Actualiza la lista de usuarios
+      setUsers(usuarios);    // Actualiza la lista de usuarios
+      setLoading(false);     // Detiene la carga
     }
   }, [usuarios]);
-
-
-useEffect(() => {
-  if (usuarios.length > 0 && "Contraseña" in usuarios[0]) { // Verifica si la clave existe en el objeto
-    setestate(true);
-  } else {
-    setestate(false);
-  }
-}, [u])
-
-
-
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -124,16 +117,18 @@ useEffect(() => {
           <Button  onClick={() =>onclik(user.Cedula)} variant="ghost"  size="icon" className={c==="Operador de registro"? "hidden" : " hover:text-red-600"}>
             <Trash2 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button onClick={() =>ListModal(user.Cedula,user.Nombre,user.Apto)} variant="ghost" size="icon">
             <Pencil className="h-4 w-4" />
           </Button>
         </div>
         <Switch
-         checked={user.Asistencia === "Presente"} 
-          onCheckedChange={(cheked)=>Asistencia(user.Cedula,cheked)}
-        
-          className={ user.cargo === 3 ? "hidden" : ""}
-      />
+  checked={user.Asistencia === "Presente"} // El switch está marcado si la asistencia es "Presente"
+  onCheckedChange={(checked) => {
+    const asistencia = checked ? "Presente" : "Ausente"; // Dependiendo de si está marcado o no
+    Asistencia(user.Cedula, asistencia); // Llamar a la función SetAsistencia con la cédula y el nuevo valor de asistencia
+  }}
+  className={user.cargo === 3 ? "hidden" : ""} // Opcional: esconder el switch si el cargo es 3
+/>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0 sm:hidden">

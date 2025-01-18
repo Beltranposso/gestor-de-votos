@@ -207,7 +207,7 @@ const handleShowModal = () => {
               </div>
             </div>
             <div className="space-y-1">
-              <Label htmlFor="quorum" className="text-sm font-medium">Quorum</Label>
+              <Label htmlFor="quorum" className="text-sm font-medium">Coeficiente</Label>
               <div className="relative">
                
                 <Input 
