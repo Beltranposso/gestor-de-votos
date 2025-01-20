@@ -39,7 +39,7 @@ export const Lobby = ({ participants, maxParticipants, quorum}) => {
 
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-3xl w-full space-y-8 border border-gray-200">
+    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-3xl w-full space-y-8 border border-gray-200 h-full">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Sala de Espera</h1>
         <p className="text-gray-600">Escanea el código QR para unirte</p>

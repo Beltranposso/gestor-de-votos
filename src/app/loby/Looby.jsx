@@ -13,14 +13,14 @@ import VotingForm from '../../components/VotingForm';
 import QrContent from '../../components/Lobby';
 /* import Footer from '../footer/footer'; */
 import { useParams,useNavigate } from 'react-router-dom';
-import { use } from 'react';
+
 
 
 
 
 /* 
  const socket = io("https://serverapivote.co.control360.co/");  */
- const socket = io('http://localhost:8000/'); 
+ const socket = io('http://localhost:8000'); 
 const Loby = () => {
   const [QRurl, setQRurl] = useState('');
   const [Idcard, setIdcard] = useState('');
@@ -113,7 +113,7 @@ const obtenerQuorum = async () => {
       setUserpresentes(response.data.numeroUsuariosPresentes);
       setNumeroUsuarios(response.data.totalUsuariosRegistrados); 
    
-            setQuorumTotal(response.data.quorumTotal); 
+      setQuorumTotal(response.data.quorumTotal); 
        
      console.log (response.data);
 
@@ -140,34 +140,56 @@ console.log("hahahahaahahahahahahahahahahah",quorumTotal)
  useEffect(() => {
   getEstado();
   getAsamblea();
-
+  obtenerQuorum();
  },[])
 
 
 
 
  
+
+
+
+
+ useEffect(() => {
+  const handleSocketEvent = (r) => {
+    setseñal(r); // Actualiza el estado 'close' cuando el socket reciba la señal
+  };
+
+  // Escuchar evento 'CL' del socket
+  socket.on('ASIST', handleSocketEvent);
+
+  // Limpieza para evitar múltiples listeners
+  return () => {
+    socket.off('ASIST', handleSocketEvent);
+  };
+}, []); // Se ejecuta al montar, y solo escucha al socket
+
 useEffect(() => {
-  socket.on("ASIST", (señal ) => {
-   
-    setseñal(señal);
-  });
+  // Este efecto depende de 'close' y se ejecuta solo cuando 'close' cambia
+  if (señal) {
   getEstado();
   obtenerQuorum();
   getAsamblea();
-}, [señal])
+  }
+}, [señal]); // A
  
+useEffect(() => {
 
+  socket.on('ASIST', (m) => {
+    console.log('se recibio la senal');
+    setseñal(m);
+  });
 
-const maxParticipants = 10;
-const joinLink = 'https://example.com/join-room';
+},[señal]);
+
 
 
   return (
     <div className="min-h-screen bg-white">
-    <Header onCreateVote={() => setShowVotingForm(true)} />
+    <Header id={id} estado={estado2} onCreateVote={() => setShowVotingForm(true)} />
     
-    <div className="flex items-center justify-center p-4 pt-8">
+    <div className="flex items-center justify-center h-full  pt-8 ">
       {showVotingForm ? (
         <VotingForm onBack={() => setShowVotingForm(false)} />
       ) : (

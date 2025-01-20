@@ -8,10 +8,7 @@ export  const ProgressBar = ({ participants, maxParticipants,quorum }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between text-sm text-gray-600">
-        <div className="flex items-center gap-2">
-          <Users size={20} />
-          <span className='font-semibold text-sm'>Participantes: {participants}/{maxParticipants}</span>
-        </div>
+       
         <span className='font-semibold text-lg'>Quórum: <span >{quorum}</span> </span>
       </div>
 

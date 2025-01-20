@@ -122,8 +122,7 @@ const CardInfo = () => {
                         socket.emit('estadoA', 'Estatus: '+estado);
                         setstado(response.data.Estado);
 
-                        if (estado == 'Programada') {
-                            window.open(`/admin/loby/${id}`);            
+                        if (estado == 'Programada') {          
                             getCardInfo();
                             getCardInfo();
         
@@ -294,7 +293,7 @@ useEffect(() => {
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm"
       >
-        <span>Vista previa</span>
+        <span>Vista para proyectar</span>
         <ExternalLink size={20} />
       </a>
     </div>

@@ -39,13 +39,7 @@ const MiComponente = () => {
   Crear Usuario 
 </Link>
 
-<Link 
-  to='CreateVotacion'
-  className="flex items-center h-7 pl-1 rounded-lg gap-2 text-sm font-medium text-foreground hover:text-primary hover:bg-gray-100 py-2"
->
-<FileCheck className='w-5 h-5' />
-  Crear votacion 
-</Link>
+
 </div>
 </div>
   );

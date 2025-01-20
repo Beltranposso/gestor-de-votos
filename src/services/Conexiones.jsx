@@ -32,7 +32,10 @@ export const URI28 = 'http://localhost:8000/UsersDefinitive/OPE/getAll/';
 export const URI29 = 'http://localhost:8000/UsersDefinitive/Quorum/setquorum/';
 export const URI30 = 'http://localhost:8000/Votes/Votes/';
 export const URI31 = 'http://localhost:8000/UsersDefinitive/CreateUser/Apoderado/';
-
+export const URI32 = 'http://localhost:8000/UsersDefinitive/ShareUserOne/';
+export const URI33 = 'http://localhost:8000/Usuarios/GetuserOne/oneuser/';
+export const URI34 = 'http://localhost:8000/usuarios/update/';
+export const URI35 = 'http://localhost:8000/UsersDefinitive/update/';
 
 
 /* export const URI = 'https://serverapivote.co.control360.co/card/';

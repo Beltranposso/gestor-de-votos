@@ -22,7 +22,7 @@ import {
 
 
 
-export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal}) {
+export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal,Open,NavMenu}) {
   const Cargo = localStorage.getItem('C');
   const c = atob(Cargo);
 
@@ -59,26 +59,43 @@ export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal}
 
  
 
-
   useEffect(() => {
     if (usuarios.length > 0) {
+      // Define el orden deseado de las claves y las claves a descartar
       const ordenDeseado = ["Apellido", "Correo", "Contraseña", "Cedula", "coeficiente", "Propiedad"];
-      const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo", "Asistencia", "HoraDellegada", "PoderesDelegados","RegisterQuorum","esRepresentado","Representante"];
-      
-      const filteredKeys = Object.keys(usuarios[0])
-        .filter(key => !keysADescartar.includes(key)) // Filtrar claves no deseadas
-        .map(key => {
-          if (key === "quorum") return "coeficiente"; // Renombrar "quorum" a "coeficiente"
-          if (key === "Apto") return "Propiedad"; // Renombrar "Apto" a "Propiedad"
-          return key;
-        })
-        .sort((a, b) => ordenDeseado.indexOf(a) - ordenDeseado.indexOf(b)); // Ordenar según el orden deseado
+      const keysADescartar = ["createdAt", "updatedAt", "id", "id_card", "Nombre", "EstadoVoto", "cargo", "Cargo", "Asistencia", "HoraDellegada", "PoderesDelegados", "RegisterQuorum", "esRepresentado", "Representante", "esApoderado"];
   
-      setKeys(filteredKeys); // Actualiza las claves
-      setUsers(usuarios);    // Actualiza la lista de usuarios
-      setLoading(false);     // Detiene la carga
+      // Filtra las claves de los usuarios y cambia los nombres según lo especificado
+      const filteredKeys = Object.keys(usuarios[0])
+        .filter(key => !keysADescartar.includes(key)) // Filtra claves no deseadas
+        .map(key => {
+          if (key === "quorum") {
+            return "coeficiente";  // Renombrar "quorum" a "coeficiente"
+          } 
+          if (key === "Apto") {
+            return "Propiedad";  // Renombrar "Apto" a "Propiedad"
+          }
+          return key; // Si no es necesario renombrar, se mantiene la clave original
+        })
+        .sort((a, b) => {
+          const indexA = ordenDeseado.indexOf(a);
+          const indexB = ordenDeseado.indexOf(b);
+          // Si la clave no está en el orden deseado, devolver un valor mayor para mantener su posición original
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+          return indexA - indexB;  // Ordena según el índice en el array ordenDeseado
+        });
+  
+      // Actualiza las claves filtradas y la lista de usuarios
+      setKeys(filteredKeys);   // Actualiza las claves filtradas
+      setUsers(usuarios);      // Actualiza la lista de usuarios
+      setLoading(false);       // Detiene la carga
     }
   }, [usuarios]);
+  
+
+
+console.log("usuarios",usuarios);
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -97,13 +114,13 @@ export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal}
           </TableHeader>
           <TableBody>
           {usuarios.length > 0  ? u.map((user,index) => (
-  <TableRow key={index}>
+  <TableRow className={user.esApoderado==="Si"? "border-1 border-cyan-600":""} key={index}>
     <TableCell className="font-medium hover:bg-muted cursor-pointer transition-colors">{user.Nombre}</TableCell>
     <TableCell className="hidden md:table-cell">{user.Apellido}</TableCell>
     <TableCell className="hidden sm:table-cell underline sm:overflow-ellipsis">{user.Correo}</TableCell>
     <TableCell className={estate ? "hidden xl:table-cell" : "hidden" }>{user.Contraseña}</TableCell>         
     <TableCell className="hidden lg:table-cell">{user.Cedula}</TableCell>
-    <TableCell className={estate ?"hidden":"hidden lg:table-cell"}>{user.quorum}</TableCell>
+    <TableCell className={estate ?"hidden":"hidden lg:table-cell  "}>{user.quorum}</TableCell>
     <TableCell className={estate ?"hidden":"hidden lg:table-cell"}>{user.Apto}</TableCell>
 
     <TableCell>
@@ -117,7 +134,10 @@ export default function UserList({onclik,usuarios =[],Asistencia,text,ListModal}
           <Button  onClick={() =>onclik(user.Cedula)} variant="ghost"  size="icon" className={c==="Operador de registro"? "hidden" : " hover:text-red-600"}>
             <Trash2 className="h-4 w-4" />
           </Button>
-          <Button onClick={() =>ListModal(user.Cedula,user.Nombre,user.Apto)} variant="ghost" size="icon">
+          <Button  onClick={() =>{ ListModal(user.Cedula,user.Nombre,user.Apto)}} variant="ghost" size="icon" className={c==="Administrador"||c==="Coordinador"? "hidden" : " hover:text-blue-600"}>
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button  className={c==="Operador de registro"? "hidden" : " hover:text-blue-600"} onClick={() =>Open(user.id)} variant="ghost" size="icon">
             <Pencil className="h-4 w-4" />
           </Button>
         </div>

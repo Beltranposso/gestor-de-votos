@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 
 
 
+
 const URL = 'http://localhost:8000/idCard/';
 const socket = io('http://localhost:8000/', {
     reconnection: true,             // Habilita la reconexión automática
@@ -16,17 +17,13 @@ export const VotingForm = ({ onBack,id }) => {
   const [isVotingEnded, setIsVotingEnded] = useState(false);
   const [preguntaId, setPreguntaId] = useState();
   const [pregunta, setPregunta] = useState('');
+  const [Votos, setVotos] = useState([]);
+  const [opciones, setOpciones] = useState([]);
 const [tiempoRestante, setTiempoRestante] = useState(0);
 const [terminado, setTerminado] = useState(false);
 const[estado, setestado] = useState(false);
 
-const [Optiondata, setOptiondata] = useState([]); // Opciones disponibles
-const [Votesdata, setVotesdata] = useState([]); // Votos registrados
-const [users, setUser] = useState([]); // Usuarios y su poder de voto
-const [opcion, setOpciones] = useState([]); // Opciones de texto para graficar
-const [optionVotes, setOptionVotes] = useState([]); // Cantidad de votos ponderados por opción
-const [Questionsdata, setQuestionsdata] = useState([]); // Preguntas disponibles
-const [Pregunta, SetPregunta] = useState('');
+
   const handleEndVoting = () => {
     setIsVotingEnded(true);
     // Aquí puedes agregar la lógica para manejar el fin de la votación
@@ -48,32 +45,21 @@ const [Pregunta, SetPregunta] = useState('');
 useEffect(() => {
   GetId();
 }, []);
+console.log(preguntaId);
 
-
-
-const getOption = async () => {
-  const response = await axios.get(URI3);
-  setOptiondata(response.data);
-};
-
-// Obtener datos de los votos
-const getVotos = async () => {
-  const response = await axios.get(URI6);
-  setVotesdata(response.data);
-};
-
-// Obtener datos de los usuarios
-const getUser = async () => {
-  const response = await axios.get(URI13+ id);
-  setUser(response.data);
-}; 
-
-// Obtener datos de las preguntas
-const getQuestions = async () => {
-  const response = await axios.get(URI2 + id);
-  setQuestionsdata(response.data);
-};
-
+const Getresult = async () => {
+  try {
+    
+    const reponse = await axios.get('http://localhost:8000/votes/Results/Question/'+ id + '/' + preguntaId);
+  console.log(reponse.data);
+  setVotos(reponse.data.Votos);
+  setOpciones(reponse.data.opciones);
+  
+  } catch (error) {
+    
+  }
+}
+console.log("dkdkjdkdkkdkd",preguntaId)
 const ClosetQuestion = async () => {
 
     try {
@@ -92,9 +78,7 @@ const ClosetQuestion = async () => {
 }
 
 
-const depuree = () => {
-    socket.emit('CerrarPregunta',preguntaId);
-}
+
 
 useEffect(() => {
     // URL del servidor
@@ -140,8 +124,9 @@ useEffect(() => {
             <div className="flex flex-col items-end gap-4">
               <Timer Time={tiempoRestante} />
               {isVotingEnded? <button
-                onClick={() => {
-                  setestado(true);
+                onClick={async() => {
+                 await Getresult();
+                   setestado(true);
                 }}
              
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors bg-sky-400  hover:bg-blue-200 `}
@@ -168,7 +153,7 @@ useEffect(() => {
           <div className="bg-white p-6 rounded-xl border border-gray-200">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados de la Votación</h3>
             <div className="h-[300px]">
-                <Pies value={[1,2,3,4,5]} options={["A","B","C","D","E"]} ></Pies>
+                <Pies value={Votos} options={opciones} ></Pies>
             </div>
           </div>
         )}

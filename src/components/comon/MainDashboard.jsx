@@ -25,7 +25,7 @@ const[UserNovoting, setUserNovoting] = useState([]);
 const [Questionsdata, setQuestionsdata] = useState([]);
 const [CountUsers , setConterUsers] = useState([]);
 const [idPregunta, setidPregunta] = useState('');
-const [Fecha, setFecha] = useState();
+const [Fecha, setFecha] = useState('0000-00-00');
 const [timeRemaining, setTimeRemaining] = useState({});
 const [CreacionDate,setCreacionDate] = useState('');
 const [Condominio,setCondominio] = useState('');
@@ -53,6 +53,7 @@ const GetVotos = async () => {
    const reesponse = await axios.get(URI11+id);//, params:   id);
    setVotos(reesponse.data);
 }
+console.log("votossssssssssssssssssssss",votos)
  
  const GetUserNovoting = async () => {
     const response = await axios.get(URI12+id);
@@ -71,55 +72,56 @@ const GetCounTUsers = async () => {
  setConterUsers(response.data);
 }
 
-
+console.log(HoraInicio)
 
 const [timeLeft, setTimeLeft] = useState("");
-
- 
 useEffect(() => {
-  // Convertir las fechas de string a objetos Date
-  const creation = new Date(CreacionDate);
-
-  // Desglosar la hora de expiración y aplicarla a la fecha de expiración
+  // Crear fecha de expiración combinando CreacionDate y HoraInicio
+  const [year, month, day] = Fecha.split("-").map(Number);
   const [hours, minutes] = HoraInicio.split(":").map(Number);
-  const expiration = new Date(Fecha);
-  expiration.setHours(hours, minutes, 0, 0); // Establecer horas, minutos, segundos y milisegundos
+  const expiration = new Date(year, month - 1, day, hours, minutes, 0); // Combinación de fecha y hora
+  console.log("Fecha de expiración:", expiration);
 
-  // Validar que las fechas sean válidas
-  if (isNaN(creation.getTime()) || isNaN(expiration.getTime())) {
+  // Verificar que la fecha de expiración sea válida
+  if (isNaN(expiration.getTime())) {
     setTimeLeft("Formato de fecha u hora inválido. Use 'YYYY-MM-DD' para fecha y 'HH:mm' para hora.");
     return;
   }
 
-  // Asegurarse de que la fecha de expiración sea posterior a la fecha de creación
- 
+  // Función para calcular el tiempo restante
   const updateCountdown = () => {
-    const now = new Date();
+    const now = new Date(); // Fecha y hora actual
+    console.log("Fecha actual:", now);
+
     const diff = expiration - now; // Diferencia en milisegundos
 
+    // Verificar si ya pasó la fecha de expiración
     if (diff <= 0) {
-      setTimeLeft("Ya empezó"); // Cambiar el mensaje cuando el tiempo haya pasado
-      return clearInterval(timer);
+      setTimeLeft("¡El tiempo ya pasó!");
+      clearInterval(timer); // Detener el contador si la fecha ya pasó
+      return;
     }
 
     // Calcular días, horas, minutos y segundos restantes
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    const hoursRemaining = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutesRemaining = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secondsRemaining = Math.floor((diff % (1000 * 60)) / 1000);
 
     // Actualizar el estado con el tiempo restante
-    setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    setTimeLeft(`${days}d ${hoursRemaining}h ${minutesRemaining}m ${secondsRemaining}s`);
   };
 
-  // Configurar el intervalo
+  // Configurar el intervalo para actualizar cada segundo
   const timer = setInterval(updateCountdown, 1000);
   updateCountdown(); // Ejecutar inmediatamente
 
-  return () => clearInterval(timer); // Limpiar el intervalo al desmontar
-}, [CreacionDate,Fecha, HoraInicio]);
+  // Limpiar el intervalo al desmontar el componente
+  return () => clearInterval(timer);
+}, [CreacionDate, HoraInicio]);
 
- 
+
+
 
 useEffect(() => {
   Socket.on('M', (data) => {
@@ -152,7 +154,7 @@ useEffect(() => {
     votos.map((voto) => (
       <ProfilVote
         key={voto.id_voter} // Usamos una clave única para cada voto
-        name={voto.usuarios.Nombre}
+        name={voto.usuarios[0].Nombre}
         Cedula={voto.id_voter}
         voto={voto.Voto}
         abreviatura={voto.abreviatura}
@@ -170,7 +172,7 @@ useEffect(() => {
                 <div className='col-span-1 row-span-1  grid grid-rows-1 grid-cols-2 gap-2 '>
 
                     <ContentInfo description={"Votos"} data={votos.length}  svg={<Vote/>}></ContentInfo>
-                    <ContentInfo description={"Tiempo Para que empieze la Asamblea"} data={estado==="Programada" ? timeLeft:estado==="Activa" ?"La asamblea ha comenzado":"La asamblea ha finalizado" } svg={<History/>}></ContentInfo>
+                    <ContentInfo description={"Tiempo Para que empieze la Asamblea"} data={estado==="Programada" ? timeLeft :estado==="Activa" ?"Activa":" finalizada" } svg={<History/>}></ContentInfo>
                    
 
                 </div>

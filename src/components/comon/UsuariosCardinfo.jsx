@@ -2,7 +2,7 @@ import React,{ useState,useEffect} from 'react';
 import { Search,FileSpreadsheet } from 'lucide-react';
 import Table from '../Table';
 import NavM from '../NavSegment';
-import {URI13,URI5,URI15,URI16,URI17,URI22} from '../../services/Conexiones';
+import {URI13,URI5,URI15,URI16,URI17,URI22,URI32,URI33} from '../../services/Conexiones';
 import  FileUploadModal  from '../layouts/UploadExcelFile';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -11,15 +11,18 @@ import {  User  } from 'lucide-react'
 import CountUser from '../CountUser';
 import io from 'socket.io-client';
 import {getRouteByRole} from '../../components/rutes.js'
-
+import ModalForm from '../../components/Modal/FormModal.jsx'
+import { data } from 'autoprefixer';
 
 
 /* const socket = io('http://localhost:8000/'); */
-const socket = io('https://serverapivote.co.control360.co/');
+const socket = io('http://localhost:8000/');
 
 const BaseComponent = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState();
+  const [URL, setURL] = useState('');
   const[users,setUsers]=useState([]);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const[App_users,setApp_users]=useState([]);
   const [NavMenu, setNavMenu] = useState("usuarios");
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +30,14 @@ const BaseComponent = () => {
   const [searchValue, setSearchValue] = useState(''); // Para el valor del input
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [rute,setRuta]=useState("");
+  const[UserDataid,setUserDataid]=useState('');
+  const[Funcion2,setFuncion2]=useState(() => {
+    return () => {
+    
+    }
+  });
   const[señal2,setsenal2]=useState(false);
+  const [IDUSER, setIDUSER] = useState('');
   const [funcion, setFuncion] = useState(() => {
     return () => {
     
@@ -96,11 +106,17 @@ const SetAsistencia = async (Cedula, asistencia) => {
   try {
     // Enviar la solicitud PUT al backend con el valor de 'asistencia' que puede ser "Presente" o "Ausente"
     const response = await axios.put(`${URI17}${Cedula}`, { asistencia });
+    
+    if (response.status === 200) {
       socket.emit('Estado', Cedula);
+      socket.emit('Asistencia', Cedula);
       
+    } else {
+      console.error("Error al actualizar la asistencia:", response.data.message);
+    }
 
     // Emitir los eventos de socket para actualizar la asistencia y el estado
-    socket.emit('Asisten', Cedula);
+ 
 
     // Obtener la lista de usuarios actualizada
     getUser();
@@ -115,9 +131,9 @@ const SetAsistencia = async (Cedula, asistencia) => {
 const setAsitenciaOpe = async (Cedula, asistencia) => {
   if (asistencia) {
     try {
-      const response = await axios.put(`${URI22}${Cedula}`);
-      getAPPUsers()
-      socket.emit('Asistencia', Cedula);
+       const response = await axios.put(`${URI22}${Cedula}`);
+      getAPPUsers() 
+      socket.emit('Asistencia', "esta es la señal:"+Cedula);
       socket.emit('Estado', Cedula);
   
     } catch (error) {
@@ -185,8 +201,55 @@ useEffect(() => {
 }, []);
 
 
+const getUserID = async (id) => {
+  const response = await axios.get(URI32+id);
+  console.log("datadesde la tabla usduarios",response.data);
+  setUserDataid(response.data);
+};
 
+
+
+const getAPPUsers3 = async (id) => {
+  const response = await axios.get(URI33+id);
+  console.log("data des la tabla app useresss",response.data);
+  setUserDataid(response.data);
+};
+
+
+
+useEffect(() => {
+  if(NavMenu==="usuarios"){
+ 
+    setFuncion2(()=> getUserID);
+  }else if(NavMenu==="registro"){
+ 
+    setFuncion2(()=> getAPPUsers3);
+  }else if (NavMenu==="coordinador"){
+ 
+    setFuncion2(()=> getAPPUsers3);
+  }
+  },[NavMenu]);
   
+
+
+
+
+const SetModel = async(ID) => {
+console.log("sssssssasdafsdfasdfasdfasdfafsdfasd",ID);
+
+const getiduser = async()=>{
+Funcion2(ID);
+setIDUSER(ID)
+} 
+
+const openModal = async() => {
+  setIsModalOpen2(true); 
+  
+}
+
+await getiduser();
+await openModal();
+};
 
   return (
     <div className='flex flex-col w-full h-full '>
@@ -194,9 +257,18 @@ useEffect(() => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onFileUpload={''}
-
+          
           id={id}
+         
         />
+
+      <ModalForm 
+        isOpen={isModalOpen2} 
+        onClose={() => setIsModalOpen2(false)} 
+        NavMenu={NavMenu}
+      Data={UserDataid}
+      IDUSER={IDUSER}
+      />
       <header className='w-full h-[150px]  flex flex-col justify-between gap-10'>
         <div className='w-full flex justify-between pr-10 '>
         <h1 className='text-4xl '>Usuarios de la Asamblea</h1>
@@ -250,7 +322,7 @@ useEffect(() => {
    
        
       <main className='h-full flex flex-col  items-star overflow-y-auto '>
-      {users.message==='No hay usuarios'? <NoUsersCargados rute={rute} id={id} Usuario={UserLabel}></NoUsersCargados>:<Table onclik={deleteUser} text={searchValue}  usuarios={filteredUsers} Asistencia={funcion} ></Table>} 
+      {users.message==='No hay usuarios'? <NoUsersCargados rute={rute} id={id} Usuario={UserLabel}></NoUsersCargados>:<Table onclik={deleteUser} text={searchValue}  usuarios={filteredUsers} Asistencia={funcion} Open={SetModel} NavMenu={NavMenu} ></Table>} 
 
       </main>
 

@@ -1,14 +1,15 @@
 import React ,{useEffect, useState}from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, IdCard } from 'lucide-react';
 import CreateVotacion from '../app/CreateEncuesta/Createencuesta'
 import { use } from 'react';
 import VotePregunta from '../components/ContentPreguntaVotacionLoby'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import ButttonReloading from '../components/ButtunRefresh'
 export const VotingForm= ({ onBack }) => {
 
   const URL = 'http://localhost:8000/idCard/';
-
+  const[señal2, setseñal2]=useState()
   const [idcard, setIdcard] = useState({
     preguntas: []
  });
@@ -27,9 +28,11 @@ useEffect(() => {
 
 
 const GetId = async () => {
+ 
   const response = await axios.get(URL + id);
+    
   setIdcard(response.data);
-  console.log("data traidaaaaaaaaaaaaaaaaaaaaa",response.data);
+  
 };
 
 useEffect(() => {
@@ -37,11 +40,18 @@ useEffect(() => {
 }, []);
 
 
+useEffect(() => {
+  GetId();
+}, [señal2]);
+
+
 const señal =  () => {
   GetId();
 
 };
-
+const h = () =>{
+ setIdcard({preguntas:[]})
+}
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 max-w-3xl w-full space-y-8 border border-gray-200">
@@ -54,6 +64,7 @@ const señal =  () => {
           <ArrowLeft size={20} />
           Volver
         </button>
+        <ButttonReloading onClick={h} ></ButttonReloading>
       </div>
       <div className="space-y-6">
 
