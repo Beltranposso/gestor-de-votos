@@ -16,7 +16,7 @@ const Header= ({Component})=>{
   
   const logout = async () => {
     try {
-      const response = await axios.post('https://serverapivote.co.control360.co/Logout', {}, { withCredentials: true });
+      const response = await axios.post('http://localhost:8000/Logout', {}, { withCredentials: true });
       window.location.reload(); // Confirmación de cierre de sesión
     } catch (error) {
       console.error('Error al cerrar sesión:', error);

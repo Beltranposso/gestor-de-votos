@@ -5,9 +5,9 @@ import axios from 'axios';
 import { use } from 'react';
 import Pies from '../app//Card_redirect/PiesChart'
 import io from 'socket.io-client';
-
-
-
+import { Maximize2, Minimize2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Modal from '../components/Modal/ModalContent'
 
 const URL = 'http://localhost:8000/idCard/';
 const socket = io('http://localhost:8000/', {
@@ -22,8 +22,8 @@ export const VotingForm = ({ onBack,id }) => {
 const [tiempoRestante, setTiempoRestante] = useState(0);
 const [terminado, setTerminado] = useState(false);
 const[estado, setestado] = useState(false);
-
-
+  const [isExpanded, setIsExpanded] = useState(false)
+const [isModalOpen, setIsModalOpen] = useState(false);
   const handleEndVoting = () => {
     setIsVotingEnded(true);
     // Aquí puedes agregar la lógica para manejar el fin de la votación
@@ -108,9 +108,60 @@ useEffect(() => {
  }, [preguntaId]);
 
 
+ const [exportedData, setExportedData] = useState([]);
+
+ // Función para recibir los datos desde el componente `App`
+ const handleDataReady = (data) => {
+   setExportedData(data); // Guardar los datos con porcentajes y colores en el estado
+ };
+
+
+const Code = (
+  <div className="bg-white p-6 rounded-xl border border-gray-200 ">
+  <div className="flex  gap-4 justify-between">
+  <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados de la Votación</h3>
+
+  </div>
+  <div className="h-[350px] flex ">
+      <Pies value={Votos} options={opciones} onDataReady={handleDataReady} ></Pies>
+
+  <div className='w-full gap-20'>
+
+<div className="flex-col h-full ">
+      
+{      exportedData.map((item, index) => (
+      <div className='text-center gap20 h-[100px]' key={index}>
+        <div className={`text-2xl font-bold `} style={{ color: item.color }}>{item.percentage}%</div>
+        <div className="text-gray-600">{item.label}</div>
+      </div>
+   
+))  
+    
+
+}
+
+
+
+    </div>      
+
+
+
+  </div>
+      
+  </div>
+</div>
+)
+
+
   return (
 
     <div>
+ <Modal
+ isOpen={isModalOpen}
+ onClose={() => setIsModalOpen(false)}
+ children={Code}
+ />
+
 
         {/* Sección de la Pregunta */}
         <div className="bg-gray-50 p-6 rounded-xl space-y-4">
@@ -151,9 +202,44 @@ useEffect(() => {
         {/* Mensaje de Votación Finalizada */}
         {estado && (
           <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="flex  gap-4 justify-between">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados de la Votación</h3>
-            <div className="h-[300px]">
-                <Pies value={Votos} options={opciones} ></Pies>
+            <Button
+      variant="outline"
+      size="icon"
+      onClick={ () => setIsModalOpen(true)}
+      aria-label={isExpanded ? "Minimizar" : "Expandir"}
+      className="transition-all duration-200 ease-in-out hover:scale-110"
+    >
+      {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+    </Button>
+            </div>
+            <div className="h-[350px] flex ">
+                <Pies value={Votos} options={opciones} onDataReady={handleDataReady} ></Pies>
+
+            <div className='w-full gap-20'>
+     
+<div className="flex-col h-full ">
+                
+{      exportedData.map((item, index) => (
+                <div className='text-center gap20 h-[100px]' key={index}>
+                  <div className={`text-2xl font-bold `} style={{ color: item.color }}>{item.percentage}%</div>
+                  <div className="text-gray-600">{item.label}</div>
+                </div>
+             
+))  
+              
+
+}
+
+
+
+              </div>      
+  
+         
+
+            </div>
+                
             </div>
           </div>
         )}

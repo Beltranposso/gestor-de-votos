@@ -47,11 +47,24 @@ const FileUploadModal = ({ isOpen, onClose, onFileUpload ,id}) => {
       const normalizedData = jsonData.map((row) => {
         const normalizedRow = {};
         Object.keys(row).forEach((key) => {
-          const normalizedKey = key.replace(/\s+/g, '').trim(); // Eliminar espacios de los nombres de columnas
-          normalizedRow[normalizedKey] = row[key];
+          // Eliminar espacios
+          const normalizedKey = key.replace(/\s+/g, '').trim(); 
+      
+          // Reemplazar claves específicas
+          let finalKey;
+          if (normalizedKey === 'Coeficiente') {
+            finalKey = 'quorum';
+          } else if (normalizedKey === 'Propiedad') {
+            finalKey = 'Apto';
+          } else {
+            finalKey = normalizedKey;
+          }
+      
+          normalizedRow[finalKey] = row[key];
         });
         return normalizedRow;
       });
+      
   
       // Verificar si la columna Cédula existe
       const columnName = 'Cedula'; // Cambia esto según el nombre exacto de la columna en tu Excel (sin espacios)

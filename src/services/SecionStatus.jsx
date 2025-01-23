@@ -9,7 +9,7 @@ const SessionStatus = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await axios.get('https://serverapivote.co.control360.co/check-session', {
+        const response = await axios.get('http://localhost:8000/check-session', {
           withCredentials: true, // Asegúrate de enviar las cookies
         });
 

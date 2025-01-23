@@ -19,10 +19,10 @@ import { ExternalLink } from 'lucide-react';
 import {getRouteByRole} from '../../components/rutes.js'
 import ButtonPDf from '../../components/ButtonCretedPdf.jsx'
 import ButtonsReports from '../../components/ButtonsReports.jsx'
-/*  const socket = io('https://serverapivote.co.control360.co');  */
+/*   const socket = io('https://serverapivote.co.control360.co/');  */
 
 
- const socket = io('http://localhost:8000/'); 
+  const socket = io('http://localhost:8000/');  
 const CardInfo = () => {
 
     const { id } = useParams();
@@ -288,7 +288,7 @@ useEffect(() => {
                            
                             <div className=" bg-gray-100 flex items-center justify-center">
       <a
-        href={`http://localhost:5173/${ruta}/loby/${id}`}
+        href={`https://asambleascontrol.com.control360.co${ruta}/loby/${id}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm"

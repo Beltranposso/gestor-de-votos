@@ -20,7 +20,7 @@ import io from 'socket.io-client';
 
 const BaseComponent = () => {
  /*  const socket = io('http://localhost:8000/'); */
- const socket = io('https://serverapivote.co.control360.co/'); 
+ const socket = io('http://localhost:8000/'); 
   const [isModalOpen3, setIsModalOpen3] = useState(false);
   const[users,setUsers]=useState([]);
   const[App_users,setApp_users]=useState([]);
@@ -54,15 +54,24 @@ const SetAsistencia = async (Cedula, asistencia) => {
   try {
     // Enviar la solicitud PUT al backend con el valor de 'asistencia' que puede ser "Presente" o "Ausente"
     const response = await axios.put(`${URI17}${Cedula}`, { asistencia });
+    
+    if (response.status === 200) {
       socket.emit('Estado', Cedula);
-      socket.emit('Asisten', Cedula);
+      socket.emit('Asistencia', Cedula);
+      
+    } else {
+      console.error("Error al actualizar la asistencia:", response.data.message);
+    }
+
+    // Emitir los eventos de socket para actualizar la asistencia y el estado
+ 
 
     // Obtener la lista de usuarios actualizada
     getUser();
   } catch (error) {
     console.error("Error al actualizar la asistencia:", error.message);
   }
-};
+}
 
 
 

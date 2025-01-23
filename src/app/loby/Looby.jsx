@@ -18,9 +18,9 @@ import { useParams,useNavigate } from 'react-router-dom';
 
 
 
-/* 
- const socket = io("https://serverapivote.co.control360.co/");  */
- const socket = io('http://localhost:8000'); 
+ 
+ const socket = io("http://localhost:8000/"); 
+/*  const socket = io('http://localhost:8000');  */
 const Loby = () => {
   const [QRurl, setQRurl] = useState('');
   const [Idcard, setIdcard] = useState('');
@@ -59,7 +59,7 @@ setEstado2(response.data.Estado);
     try {
 
       // Puedes cambiar esta URL por la que deseas generar
-  const url = await QRCode.toDataURL(`https://serverapivote.co.control360.co/c/${codify}`);
+  const url = await QRCode.toDataURL(`http://localhost:3157/c/${codify}`);
       setQRurl(url);
    
     } catch (error) {
@@ -114,8 +114,8 @@ const obtenerQuorum = async () => {
       setNumeroUsuarios(response.data.totalUsuariosRegistrados); 
    
       setQuorumTotal(response.data.quorumTotal); 
-       
-     console.log (response.data);
+       console.log(response.data);
+ 
 
       setError(null);
   } catch (err) {
@@ -126,7 +126,7 @@ const obtenerQuorum = async () => {
       setError(null);
   }
 };
-console.log("hahahahaahahahahahahahahahahah",quorumTotal)
+
  const getEstado = async () => {
   try {
     const response = await axios.get(`${URI9}${id}`);
@@ -176,8 +176,7 @@ useEffect(() => {
  
 useEffect(() => {
 
-  socket.on('ASIST', (m) => {
-    console.log('se recibio la senal');
+  socket.on('ASIST', (m) => {   
     setseñal(m);
   });
 

@@ -16,7 +16,7 @@ import { set } from "react-hook-form";
 
 
 /* const Socket = io('http://localhost:8000'); */
-const Socket = io('https://serverapivote.co.control360.co');
+const Socket = io('http:/localhost:8000/');
 
 const MyComponent = () => {
 const {id} = useParams();
@@ -53,7 +53,7 @@ const GetVotos = async () => {
    const reesponse = await axios.get(URI11+id);//, params:   id);
    setVotos(reesponse.data);
 }
-console.log("votossssssssssssssssssssss",votos)
+
  
  const GetUserNovoting = async () => {
     const response = await axios.get(URI12+id);
@@ -67,9 +67,11 @@ const getQuestdions = async () => {
   setidPregunta(response.data.id);
 };
 
+
+
 const GetCounTUsers = async () => {
-  const response = await axios.get(UIR14);//, params:   id);
- setConterUsers(response.data);
+  const response = await axios.get(UIR14+id);//, params:   id);
+ setConterUsers(response.data.count);
 }
 
 console.log(HoraInicio)
@@ -187,7 +189,7 @@ useEffect(() => {
   {/* Título del contenedor */}
   <div className='h-10 flex justify-center items-center bg-[#F5F5F5] shadow-[0px_5px_11px_-2px_rgba(0,_0,_0,_0.1)] rounded-t-lg mb-2'>
     <p className="">Usuarios Faltantes por votar</p>
-     <span className="">{UserNovoting.length}/{CountUsers.count}</span> 
+     <span className="">{UserNovoting.length}/{CountUsers}</span> 
 
   </div>
   <div className="flex flex-col h-full gap-2 overflow-y-auto">

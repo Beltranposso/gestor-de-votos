@@ -28,7 +28,7 @@ const DownloadTemplate = () => {
 
   const downloadTemplate = async () => {
     try {
-      const response = await axios.get('https://serverapivote.co.control360.co/download-template', {
+      const response = await axios.get('http://localhost:8000/download-template', {
         responseType: 'blob', // Esto asegura que la respuesta sea tratada como un archivo
       });
   

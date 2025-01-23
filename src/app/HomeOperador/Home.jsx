@@ -71,7 +71,7 @@ const Home = () => {
 
     const obtenerUsuarioInfo = async () => {
       try {
-          const response = await axios.get('https://serverapivote.co.control360.co/get-user-info', {
+          const response = await axios.get('http://localhost:8000/get-user-info', {
               withCredentials: true, // Asegura que las cookies se envíen con la solicitud
           });
   

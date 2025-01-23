@@ -1,7 +1,7 @@
 
 
 
-export const  URI = 'http://localhost:8000/card/'
+ export const  URI = 'http://localhost:8000/card/'
 export const  URI2 = 'http://localhost:8000/questions/'; 
 export const  URI3 = 'http://localhost:8000/options/';
 export const  URI4 = 'http://localhost:8000/login';
@@ -35,10 +35,10 @@ export const URI31 = 'http://localhost:8000/UsersDefinitive/CreateUser/Apoderado
 export const URI32 = 'http://localhost:8000/UsersDefinitive/ShareUserOne/';
 export const URI33 = 'http://localhost:8000/Usuarios/GetuserOne/oneuser/';
 export const URI34 = 'http://localhost:8000/usuarios/update/';
-export const URI35 = 'http://localhost:8000/UsersDefinitive/update/';
+export const URI35 = 'http://localhost:8000/UsersDefinitive/update/'; 
 
 
-/* export const URI = 'https://serverapivote.co.control360.co/card/';
+/*  export const URI = 'https://serverapivote.co.control360.co/card/';
 export const URI2 = 'https://serverapivote.co.control360.co/questions/';
 export const URI3 = 'https://serverapivote.co.control360.co/options/';
 export const URI4 = 'https://serverapivote.co.control360.co/login';
@@ -67,4 +67,10 @@ export const URI26 = 'https://serverapivote.co.control360.co/UsersDefinitive/pdf
 export const URI27 = 'https://serverapivote.co.control360.co/UsersDefinitive/Excel/';
 export const URI28 = 'https://serverapivote.co.control360.co/UsersDefinitive/OPE/getAll/';
 export const URI29 = 'https://serverapivote.co.control360.co/UsersDefinitive/Quorum/setquorum/';
-export const URI30 = 'https://serverapivote.co.control360.co/Votes/Votes/'; */
+export const URI30 = 'https://serverapivote.co.control360.co/Votes/Votes/'; 
+export const URI31 = 'https://serverapivote.co.control360.co/UsersDefinitive/CreateUser/Apoderado/';
+export const URI32 = 'https://serverapivote.co.control360.co/UsersDefinitive/ShareUserOne/';
+export const URI33 = 'https://serverapivote.co.control360.co/Usuarios/GetuserOne/oneuser/';
+export const URI34 = 'https://serverapivote.co.control360.co/usuarios/update/';
+export const URI35 = 'https://serverapivote.co.control360.co/UsersDefinitive/update/';
+ */
