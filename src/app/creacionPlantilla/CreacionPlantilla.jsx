@@ -10,7 +10,12 @@ import { jwtDecode } from "jwt-decode"
 /* import { nanoid } from 'nanoid'; */
 /* import Hme from './Header'; */
 
-const URI = 'http://localhost:8000/card/';
+  
+/* const URI = 'https://serverapivote.co.control360.co/card/';
+const URI2 = 'https://serverapivote.co.control360.co/questions/'; 
+const URI3 = 'https://serverapivote.co.control360.co/options/'; 
+ */
+ const URI = 'http://localhost:8000/card/';
 const URI2 = 'http://localhost:8000/questions/'; 
 const URI3 = 'http://localhost:8000/options/';
 
@@ -26,8 +31,7 @@ const CreacionPlantilla = () => {
   const [font, setFont] = useState('Arial');
   const [miId, setMiId] = useState(null);  // Almacena tu propio ID
   const [destinatarioId, setDestinatarioId] = useState(''); 
-/* const shortId = nanoid(10); 
-console.log("id corto: ",shortId); */
+
   const navigate = useNavigate();
 
   
@@ -44,7 +48,7 @@ console.log("id corto: ",shortId); */
   
     try {
       // Crear el título y la pregunta
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${'localhost:5174'}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'http://localhost:8000'}/c/${codificadoID}`});
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 
 
@@ -64,7 +68,7 @@ console.log("id corto: ",shortId); */
     try {
       // Crear el título y la pregunta
       /* el puerto se tiene que cambiar cuando se vaya a desplegar  */
-      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`http://${'localhost:5174'}/c/${codificadoID}`});
+      await axios.post(URI, {id: uniqueID, Title: title, Color: color ,UserId:Cedula,link:`${'http://localhost:8000'}/c/${codificadoID}`});
 
       await axios.post(URI2, {id: uniqueIDPregunta, id_card: uniqueID, Pregunta: Question });
 

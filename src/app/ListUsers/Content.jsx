@@ -18,7 +18,7 @@ export default function ListUsers() {
     getUser();
      
   }, []);
-  console.log(usuarios)
+
 
   const getUser = async () => { 
     const response = await axios.get(URI5);    
@@ -34,7 +34,7 @@ export default function ListUsers() {
    }
 
 const filter = usuarios.filter ((user) =>user.id_cargo === 2 );  
-console.log("usuarios filtrado s : ",filter)
+
    useEffect(() => {
     const value = searchValue.trim().toLowerCase();
   
@@ -64,6 +64,7 @@ console.log("usuarios filtrado s : ",filter)
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onFileUpload={''}
+          id={id}
         />
     <div className="ContenedorUsers">
       <div className="share_Listuser">

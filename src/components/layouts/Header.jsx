@@ -2,25 +2,30 @@
 import { useEffect, useState } from 'react';
 import '/src/App.css';
 import {  Link } from 'react-router-dom';
-
+import LogouModal from '../../components/Modal/logautMdal';
 import { jwtDecode } from "jwt-decode"
 import logo from '/src/assets/img/Control-360.png'; 
+
+import axios from 'axios';
 const Header= ({Component})=>{
   const [State, Setstate] = useState(true);
-
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const setvisible = () => {
     Setstate(!State);
   }
   
-  const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token);
-  let nombre = decoded.Nombre
-
+  const logout = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/Logout', {}, { withCredentials: true });
+      window.location.reload(); // Confirmación de cierre de sesión
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  }
   
 return(
-  
-       <div className='h-screen'>
-      <header className='cabezera'>
+       <div className='min-h-screen'>
+      <header className='cabezera sticky top-0 z-[999]'>
         <div className='div_header'>
           {/* <button className='bottun_Aside' onClick={setvisible} >
             <svg xmlns="http://www.w3.org/2000/svg" width={34} height={34} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-menu-2">
@@ -31,29 +36,21 @@ return(
             </svg>
           </button> */}
 
-          <Link to="/H"> 
+          <div   > 
             <img src={logo} alt="Control 360 Logo" className="header-logo" />
-          </Link>
-          <Link className='link_Aside' to='/H'>
-               Home
-         </Link>
-         <Link className='link_Aside' to="/listUsers">
-         Usuarios registrados
-        </Link>
-        <Link className='link_Aside' to='/listUsers/Create'>
-                 Crear Cuentas
-        </Link>
+          </div>
+         
 
 
         </div>
         <div className='div_header_2'>
-          <h4>{nombre}</h4>
-          <button className='bottun_Profile'>
-            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-user">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-            </svg>
+          <h4>{'Control 360'}</h4>
+          <button onClick={() => setIsLogoutModalOpen(true)} className='flex  items-center justify-center rounded-full bg-white p-2 text-black'>
+          <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-user">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
           </button>
           
         </div>
@@ -99,9 +96,15 @@ return(
 
 
       </header>
-       <main className='flex justify-center items-center  h-full bg-[#E6E6E6] '>
+    
        { Component }
-       </main>
+
+
+       <LogouModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={logout}
+      />
        </div>
     
    
